@@ -1,6 +1,6 @@
 from datetime import datetime
 start = datetime.now()
-import board_and_pieces_test as bd_pc
+import board_and_pieces as bd_pc
 import pygame as p
 from sys import exit
 
