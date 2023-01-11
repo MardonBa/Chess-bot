@@ -213,15 +213,15 @@ def draw_pieces():
     black_pawn6_group.add(black_pawn6)
     black_pawn6_group.draw(screen)
 
-    black_pawn7 = bd_pc.Black_Pawn(square_placement_dict["G7"][0], square_placement_dict["G7"][1], "G7")
-    black_pawn7_group = p.sprite.GroupSingle()
-    black_pawn7_group.add(black_pawn7)
-    black_pawn7_group.draw(screen)
-
-    black_pawn8 = bd_pc.Black_Pawn(square_placement_dict["H7"][0], square_placement_dict["H7"][1], "H7")
-    black_pawn8_group = p.sprite.GroupSingle()
-    black_pawn8_group.add(black_pawn8)
-    black_pawn8_group.draw(screen)
+#    black_pawn7 = bd_pc.Black_Pawn(square_placement_dict["G7"][0], square_placement_dict["G7"][1], "G7")
+ #   black_pawn7_group = p.sprite.GroupSingle()
+ #   black_pawn7_group.add(black_pawn7)
+ #   black_pawn7_group.draw(screen)
+#
+ #   black_pawn8 = bd_pc.Black_Pawn(square_placement_dict["H7"][0], square_placement_dict["H7"][1], "H7")
+ #  black_pawn8_group = p.sprite.GroupSingle()
+  #  black_pawn8_group.add(black_pawn8)
+  #  black_pawn8_group.draw(screen)
 draw_pieces()
 
 
