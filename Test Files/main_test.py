@@ -60,11 +60,11 @@ def draw_board():
 draw_board()
 
 
-
-white_rook1 = bd_pc.White_Rook(square_placement_dict["A1"][0], square_placement_dict["A1"][1], "A1")
-white_rook1_group= p.sprite.GroupSingle()       # When a piece gets taken, can the group get changed to None, and the piece goes away?
-white_rook1_group.add(white_rook1)
-white_rook1_group.draw(screen)
+def draw_pieces():
+    white_rook1 = bd_pc.White_Rook(square_placement_dict["A1"][0], square_placement_dict["A1"][1], "A1")
+    white_rook1_group= p.sprite.GroupSingle()       # When a piece gets taken, can the group get changed to None, and the piece goes away?
+    white_rook1_group.add(white_rook1)
+    white_rook1_group.draw(screen)
 
 white_knight1 = bd_pc.White_Knight(square_placement_dict["B1"][0], square_placement_dict["B1"][1], "B1")
 white_knight1_group = p.sprite.GroupSingle()

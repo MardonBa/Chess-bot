@@ -62,6 +62,9 @@ class Board(p.sprite.Sprite):
         self.rect.topleft = (self.x_pos, self.y_pos)
 
 
+    def select_square(self):
+        pass        # code here for clicking a square
+
         # no need for an update() right now, possibly in the future
         # for moving the pieces, be sure to change board status in the Gamestate() class, either here or in main.py
 
@@ -97,9 +100,8 @@ class Pieces(p.sprite.Sprite):
         self.square_current_group.add(Board(square_current, x_pos, y_pos))
 
     # This class is incomplete. For now, there is only the constructor, but methods for moving pieces, etc need to be added in the future
-    def move(self, x_pos, y_pos):
-        self.rect.topleft = (x_pos, y_pos)
-        self.square_current_group.select_square()
+    def move_pieces(self, square_to_move_to):
+        pass
         # add code later for moving pieces
 
 
