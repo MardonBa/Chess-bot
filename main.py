@@ -226,12 +226,12 @@ draw_pieces()
 
 
 print(datetime.now() - start)
-#place_pieces()
+
 while True:
 
     for event in p.event.get():
         if event.type == p.QUIT:
-            p.quit()
+            p.quit() 
             exit()
 
 

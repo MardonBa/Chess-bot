@@ -43,7 +43,7 @@ class GameState:
         return pieces_and_squares
 
 
-# Board class. Used for drawing the pieces in main.py, as well as for moving the pieces using collision detection
+# Board class. Used for drawing the pieces in main.py, as well as for moving the pieces
 class Board(p.sprite.Sprite):
 
     # constructor for loading the image file of the square for drawing in the future, determining x and y position, create rect over the image for collision detection. Input of (self, square, x_pos, y_pos)
@@ -61,15 +61,29 @@ class Board(p.sprite.Sprite):
         self.rect = self.image.get_rect()
         self.rect.topleft = (self.x_pos, self.y_pos)
 
+
         # no need for an update() right now, possibly in the future
         # for moving the pieces, be sure to change board status in the Gamestate() class, either here or in main.py
+
+    def select_square(self):
+        mouse_position = (0,0)
+        for event in p.event.get():
+            if event.type == p.MOUSEBUTTONDOWN:
+                p.mouse.set_cursor(p.SYSTEM_CURSOR_HAND)
+                mouse_position = p.mouse.get_pos()
+                if self.rect.collide_point(mouse_position):
+                    return mouse_position
+                else:
+                    break
+
+                
 
 
 # Pieces superclass. Used as a superclass to store methods and variables to be used in all the individual piece classes
 # Movement logic will most likely be in the subclasses
 class Pieces(p.sprite.Sprite):
 
-    # constructor for getting the x and y positions, piece name, point value, square the piece is on. This class should never be created, only the subclasses, so only a constructor is necessary. Do not load image in this class, do it in the other classes
+    # constructor for getting the x and y positions, piece name, point value, square the piece is on. This class should never be created, only the subclasses. Do not load image in this class, do it in the other classes
     def __init__(self, piece, x_pos, y_pos, square_current, point_value):
         super().__init__()
 
@@ -79,9 +93,13 @@ class Pieces(p.sprite.Sprite):
         self.square_current = square_current
         self.point_value = point_value
 
+        self.square_current_group = p.sprite.GroupSingle()
+        self.square_current_group.add(Board(square_current, x_pos, y_pos))
+
     # This class is incomplete. For now, there is only the constructor, but methods for moving pieces, etc need to be added in the future
-    def move_pieces(self, square_to_move_to):
-        pass
+    def move(self, x_pos, y_pos):
+        self.rect.topleft = (x_pos, y_pos)
+        self.square_current_group.select_square()
         # add code later for moving pieces
 
 
