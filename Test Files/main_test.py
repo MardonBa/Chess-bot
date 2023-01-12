@@ -1,6 +1,6 @@
 from datetime import datetime
 start = datetime.now()
-import board_and_pieces as bd_pc
+import board_and_pieces_test as bd_pc
 import pygame as p
 from sys import exit
 
@@ -61,6 +61,7 @@ draw_board()
 
 
 def draw_pieces():
+
     white_rook1 = bd_pc.White_Rook(square_placement_dict["A1"][0], square_placement_dict["A1"][1], "A1")
     white_rook1_group= p.sprite.GroupSingle()       # When a piece gets taken, can the group get changed to None, and the piece goes away?
     white_rook1_group.add(white_rook1)
