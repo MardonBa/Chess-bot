@@ -63,8 +63,10 @@ class Board(p.sprite.Sprite):
 
 
     def select_square(self):
-        pass        # code here for clicking a square
-
+        for event in p.event.get():
+            if event.type == p.MOUSEBUTTONUP:
+                x, y = p.mouse.get_pos()
+                clicked_square = None ## here
         # no need for an update() right now, possibly in the future
         # for moving the pieces, be sure to change board status in the Gamestate() class, either here or in main.py
 
