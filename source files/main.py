@@ -13,7 +13,7 @@ screen_height = 800
 board_width = 73
 board_height = 73
 max_fps = 30
-images_dict = {}
+images_dict = {} 
 images_list = []
 
 
@@ -49,7 +49,7 @@ for x in range(len(board_squares)):
 
 
 # function that draws the board (squares). Uses the Board() class and object.draw(surface) to draw each square on the board, with Board() taking inputs of which square to draw(for image files), and the x and y position of each square
-def draw_board():
+def board_init():
     square_group = p.sprite.Group()
     for i in range(len(board_squares)):
         square = board_squares[i]
@@ -57,10 +57,11 @@ def draw_board():
         square_group.add(new_square)
     square_group.draw(screen)
 
-draw_board()
+board_init()
 
 
-def draw_pieces():
+def pieces_init():
+
     white_rook1 = bd_pc.White_Rook(square_placement_dict["A1"][0], square_placement_dict["A1"][1], "A1")
     white_rook1_group= p.sprite.GroupSingle()       # When a piece gets taken, can the group get changed to None, and the piece goes away?
     white_rook1_group.add(white_rook1)
@@ -222,16 +223,16 @@ def draw_pieces():
     black_pawn8_group = p.sprite.GroupSingle()
     black_pawn8_group.add(black_pawn8)
     black_pawn8_group.draw(screen)
-draw_pieces()
+pieces_init()
 
 
 print(datetime.now() - start)
-
+#place_pieces()
 while True:
 
     for event in p.event.get():
         if event.type == p.QUIT:
-            p.quit() 
+            p.quit()
             exit()
 
 

@@ -61,23 +61,8 @@ class Board(p.sprite.Sprite):
         self.rect = self.image.get_rect()
         self.rect.topleft = (self.x_pos, self.y_pos)
 
-
-    def select_square(self):
-        pass        # code here for clicking a square
-
         # no need for an update() right now, possibly in the future
         # for moving the pieces, be sure to change board status in the Gamestate() class, either here or in main.py
-
-    def select_square(self):
-        mouse_position = (0,0)
-        for event in p.event.get():
-            if event.type == p.MOUSEBUTTONDOWN:
-                p.mouse.set_cursor(p.SYSTEM_CURSOR_HAND)
-                mouse_position = p.mouse.get_pos()
-                if self.rect.collide_point(mouse_position):
-                    return mouse_position
-                else:
-                    break
 
                 
 
