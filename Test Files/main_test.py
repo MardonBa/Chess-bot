@@ -50,6 +50,15 @@ for x in range(len(board_squares)):
 
 # function that draws the board (squares). Uses the Board() class and object.draw(surface) to draw each square on the board, with Board() taking inputs of which square to draw(for image files), and the x and y position of each square
 def board_init():
+    square_groups = ["A1_group", "B1_group", "C1_group", "D1_group", "E1_group", "F1_group", "G1_group", "H1_group", \
+                    "A2_group", "B2_group", "C2_group", "D2_group", "E2_group", "F2_gruop", "G2_group", "H2_group", \
+                    "A3_group", "B3_group", "C3_group", "D3_group", "E3_group", "F3_group", "G3_group", "H3_group", \
+                    "A4_group", "B4_group", "C4_group", "D4_group", "E4_group", "F4_group", "G4_group", "H4_group", \ 
+                    "A5_group", "B5_group", "C5_group", "D5_group", "E5_group", "F5_group", "G5_group", "H5_group", \
+                    "A6_group", "B6_group", "C6_group", "D6_group", "E6_group", "F6_group, G6_group", "H6_group", \
+                    "A7_group", "B7_group", "C7_group", "D7_group", "E7_group", "F7_group, G7_group", "H7_group", \
+                    "A8_group", "B8_group", "C8_group", "D8_group", "E8_group", "F8_group, G8_group", "H8_group", \ ]
+
     square_group = p.sprite.Group()
     for i in range(len(board_squares)):
         square = board_squares[i]
