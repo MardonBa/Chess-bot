@@ -43,33 +43,34 @@ class GameState:
         return pieces_and_squares
 
 
-# Board class. Used for drawing the pieces in main.py, as well as for moving the pieces using collision detection
+# Board class. Used for drawing the pieces in main.py, as well as for moving the pieces
 class Board(p.sprite.Sprite):
 
     # constructor for loading the image file of the square for drawing in the future, determining x and y position, create rect over the image for collision detection. Input of (self, square, x_pos, y_pos)
-    def __init__(self, square, x_pos, y_pos):
+    def __init__(self, square, x_y_pos):
         super().__init__()
 
         self.square = square        # square should be in format FILErank (example: A1)
-        self.x_pos = x_pos
-        self.y_pos = y_pos
+        self.x_y_pos = x_y_pos
 
         # load image of the square
         self.image = p.image.load(f"images/board/{square}.png")
 
         # create rect, align it
         self.rect = self.image.get_rect()
-        self.rect.topleft = (self.x_pos, self.y_pos)
+        self.rect.topleft = (self.x_y_pos)
 
         # no need for an update() right now, possibly in the future
         # for moving the pieces, be sure to change board status in the Gamestate() class, either here or in main.py
+
+                
 
 
 # Pieces superclass. Used as a superclass to store methods and variables to be used in all the individual piece classes
 # Movement logic will most likely be in the subclasses
 class Pieces(p.sprite.Sprite):
 
-    # constructor for getting the x and y positions, piece name, point value, square the piece is on. This class should never be created, only the subclasses, so only a constructor is necessary. Do not load image in this class, do it in the other classes
+    # constructor for getting the x and y positions, piece name, point value, square the piece is on. This class should never be created, only the subclasses. Do not load image in this class, do it in the other classes
     def __init__(self, piece, x_pos, y_pos, square_current, point_value):
         super().__init__()
 
@@ -78,6 +79,7 @@ class Pieces(p.sprite.Sprite):
         self.y_pos = y_pos
         self.square_current = square_current
         self.point_value = point_value
+
 
     # This class is incomplete. For now, there is only the constructor, but methods for moving pieces, etc need to be added in the future
     def move_pieces(self, square_to_move_to):
