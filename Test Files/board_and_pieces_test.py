@@ -47,19 +47,18 @@ class GameState:
 class Board(p.sprite.Sprite):
 
     # constructor for loading the image file of the square for drawing in the future, determining x and y position, create rect over the image for collision detection. Input of (self, square, x_pos, y_pos)
-    def __init__(self, square, x_pos, y_pos):
+    def __init__(self, square, x_y_pos):
         super().__init__()
 
         self.square = square        # square should be in format FILErank (example: A1)
-        self.x_pos = x_pos
-        self.y_pos = y_pos
+        self.x_y_pos = x_y_pos
 
         # load image of the square
         self.image = p.image.load(f"images/board/{square}.png")
 
         # create rect, align it
         self.rect = self.image.get_rect()
-        self.rect.topleft = (self.x_pos, self.y_pos)
+        self.rect.topleft = (self.x_y_pos)
 
         # no need for an update() right now, possibly in the future
         # for moving the pieces, be sure to change board status in the Gamestate() class, either here or in main.py
@@ -81,8 +80,6 @@ class Pieces(p.sprite.Sprite):
         self.square_current = square_current
         self.point_value = point_value
 
-        self.square_current_group = p.sprite.GroupSingle()
-        self.square_current_group.add(Board(square_current, x_pos, y_pos))
 
     # This class is incomplete. For now, there is only the constructor, but methods for moving pieces, etc need to be added in the future
     def move_pieces(self, square_to_move_to):
