@@ -237,19 +237,27 @@ black_pawn8_group.add(black_pawn8)
 black_pawn8_group.draw(screen)
 
 
+class Mouse_point(p.sprite.Sprite):
+    def __init__(self, x, y):
+        super().__init__()
+        self.rect = p.Rect(x, y, x, y)
+
+
 print(datetime.now() - start)
-#place_pieces()
 while True:
+    x, y = p.mouse.get_pos()
+    mouse_point = Mouse_point(x, y)
+    mouse_point_group = p.sprite.GroupSingle()
+    mouse_point_group.add(mouse_point)
 
     for event in p.event.get():
         if event.type == p.QUIT:
             p.quit()
             exit()
-        if event.type == p.MOUSEBUTTONUP:
+        if event.type == p.MOUSEBUTTONDOWN:
             mouse_pos = p.mouse.get_pos()
-            for key, val in squares_dict.items():       # val is 1??
-                print(val)
-                if val.collidepoint:
+            for key, val in squares_dict.items():
+                if p.sprite.groupcollide(mouse_point_group, val, False, False):
                     print(mouse_pos)
                 else:
                     print("Not clicking a square")
