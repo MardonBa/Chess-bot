@@ -40,7 +40,7 @@ def square_placement():
     return x_y_square_placement
 
 square_placement = square_placement()
-print(square_placement)
+
 
 
 square_placement_dict = {}   
@@ -71,7 +71,7 @@ def squares_init():
     return squares_dict
 
 squares_dict = squares_init()
-print(squares_dict)
+
 
 
 # The following lines initalize and draw the pieces in their starting squares
