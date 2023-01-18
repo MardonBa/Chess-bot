@@ -73,10 +73,9 @@ def squares_init():
 squares_dict = squares_init()
 
 
-
 # The following lines initalize and draw the pieces in their starting squares
 white_rook1 = bd_pc.White_Rook(square_placement_dict["A1"][0], square_placement_dict["A1"][1], "A1")
-white_rook1_group= p.sprite.GroupSingle()       # When a piece gets taken, can the group get changed to None, and the piece goes away?
+white_rook1_group = p.sprite.GroupSingle()       # When a piece gets taken, can the group get changed to None, and the piece goes away?
 white_rook1_group.add(white_rook1)
 white_rook1_group.draw(screen)
 
@@ -248,7 +247,7 @@ while True:
             exit()
         if event.type == p.MOUSEBUTTONUP:
             mouse_pos = p.mouse.get_pos()
-            for key, val in squares_dict:       # val is 1??
+            for key, val in squares_dict.items():       # val is 1??
                 print(val)
                 if val.collidepoint:
                     print(mouse_pos)
