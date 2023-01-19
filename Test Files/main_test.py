@@ -256,10 +256,9 @@ while True:
             p.quit()
             exit()
         elif event.type == p.MOUSEBUTTONDOWN:
-            #mp.select_square(squares_dict)
-            pass
+            mp.select_square(squares_dict)
         
-    mp.select_square(squares_dict)
+
 
     p.display.update()
 

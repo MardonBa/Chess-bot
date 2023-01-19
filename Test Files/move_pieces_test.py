@@ -26,10 +26,8 @@ def select_square(squares_dict):
     mouse_point_group = p.sprite.GroupSingle()
     mouse_point_group.add(mouse_point)
     mouse_pos = p.mouse.get_pos()
-    for event in p.event.get():
-        if event.type == p.MOUSEBUTTONDOWN:
-            for key, val in squares_dict.items():
-                if p.sprite.groupcollide(mouse_point_group, val, False, False):
-                    print(mouse_pos)
-                else:
-                    print("Not clicking a square")
+    for key, val in squares_dict.items():
+        if p.sprite.groupcollide(mouse_point_group, val, False, False):
+            print(mouse_pos)
+        else:
+            print("Not clicking a square")
