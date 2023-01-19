@@ -256,7 +256,10 @@ while True:
             p.quit()
             exit()
         elif event.type == p.MOUSEBUTTONDOWN:
-            mp.select_square(squares_dict)
+            print(mp.select_square(squares_dict))
+            ## 1st rank is like 4 squares high, others above shrink, A8 is above the board
+        elif event.type == p.MOUSEBUTTONUP:
+            print("mouse button up")
         
 
 

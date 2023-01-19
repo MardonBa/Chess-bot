@@ -82,9 +82,6 @@ class Pieces(p.sprite.Sprite):
 
 
     # This class is incomplete. For now, there is only the constructor, but methods for moving pieces, etc need to be added in the future
-    def move_pieces(self, square_to_move_to):
-        pass
-        # add code later for moving pieces
 
 
 # White pieces subclasses
