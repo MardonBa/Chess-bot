@@ -1,6 +1,7 @@
 from datetime import datetime
 start = datetime.now()
 import board_and_pieces as bd_pc
+import move_pieces as mp
 import pygame as p
 from sys import exit
 
@@ -254,13 +255,9 @@ while True:
         if event.type == p.QUIT:
             p.quit()
             exit()
-        if event.type == p.MOUSEBUTTONDOWN:
-            mouse_pos = p.mouse.get_pos()
-            for key, val in squares_dict.items():
-                if p.sprite.groupcollide(mouse_point_group, val, False, False):
-                    print(mouse_pos)
-                else:
-                    print("Not clicking a square")
+        elif event.type == p.MOUSEBUTTONDOWN:
+            mp.select_square(squares_dict)
+        
 
 
     p.display.update()
