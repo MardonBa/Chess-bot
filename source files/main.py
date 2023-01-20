@@ -1,7 +1,7 @@
 from datetime import datetime
 start = datetime.now()
-import board_and_pieces_test as bd_pc
-import move_pieces_test as mp
+import board_and_pieces as bd_pc
+import move_pieces as mp
 import pygame as p
 from sys import exit
 
