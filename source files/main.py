@@ -261,7 +261,8 @@ black_pawn8_group.add(black_pawn8)
 black_pawn8_group.draw(screen)
 pieces_dict["H7"] = black_pawn8_group
 
-
+selected_piece = None
+selected_square = None
 print(datetime.now() - start)
 while True:
 
@@ -270,7 +271,16 @@ while True:
             p.quit()
             exit()
         elif event.type == p.MOUSEBUTTONDOWN:
-            print(mp.select_piece(pieces_dict))
+
+            if selected_piece == None:
+                selected_piece = mp.select_piece(pieces_dict)
+                
+            else:
+                selected_square = mp.select_square(squares_dict)
+                selected_square.draw(screen)
+                selected_square = None
+                selected_piece = None
+
         elif event.type == p.MOUSEBUTTONUP:
             print("mouse button up")
         
