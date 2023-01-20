@@ -13,10 +13,6 @@ class Mouse_point(p.sprite.Sprite):
         super().__init__()
         self.rect = p.Rect(x, y, 1, 1)
 
-x, y = p.mouse.get_pos()
-mouse_point = Mouse_point(x, y)
-mouse_point_group = p.sprite.GroupSingle()
-mouse_point_group.add(mouse_point)
 
 
 def select_square(squares_dict):
