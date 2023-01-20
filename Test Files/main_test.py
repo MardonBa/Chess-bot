@@ -270,7 +270,7 @@ while True:
             p.quit()
             exit()
         elif event.type == p.MOUSEBUTTONDOWN:
-            print(mp.select_square(squares_dict))
+            print(mp.select_piece(pieces_dict))
         elif event.type == p.MOUSEBUTTONUP:
             print("mouse button up")
         
