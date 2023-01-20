@@ -274,10 +274,12 @@ while True:
 
             if selected_piece == None:
                 selected_piece = mp.select_piece(pieces_dict)
+                print("You selected a piece")
                 
             else:
                 selected_square = mp.select_square(squares_dict)
-                selected_square.draw(screen)
+                print("You selected a square")
+                selected_piece.draw(screen)
                 selected_square = None
                 selected_piece = None
 
