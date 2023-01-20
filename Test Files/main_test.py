@@ -73,7 +73,6 @@ def squares_init():
 
 squares_dict = squares_init()
 
-
 # The following lines initalize and draw the pieces in their starting squares
 white_rook1 = bd_pc.White_Rook(square_placement_dict["A1"][0], square_placement_dict["A1"][1], "A1")
 white_rook1_group = p.sprite.GroupSingle()       # When a piece gets taken, can the group get changed to None, and the piece goes away?
@@ -257,7 +256,6 @@ while True:
             exit()
         elif event.type == p.MOUSEBUTTONDOWN:
             print(mp.select_square(squares_dict))
-            ## 1st rank is like 4 squares high, others above shrink, A8 is above the board
         elif event.type == p.MOUSEBUTTONUP:
             print("mouse button up")
         

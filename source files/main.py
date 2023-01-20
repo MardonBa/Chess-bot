@@ -1,7 +1,7 @@
 from datetime import datetime
 start = datetime.now()
-import board_and_pieces as bd_pc
-import move_pieces as mp
+import board_and_pieces_test as bd_pc
+import move_pieces_test as mp
 import pygame as p
 from sys import exit
 
@@ -72,7 +72,6 @@ def squares_init():
     return squares_dict
 
 squares_dict = squares_init()
-
 
 # The following lines initalize and draw the pieces in their starting squares
 white_rook1 = bd_pc.White_Rook(square_placement_dict["A1"][0], square_placement_dict["A1"][1], "A1")
@@ -256,7 +255,9 @@ while True:
             p.quit()
             exit()
         elif event.type == p.MOUSEBUTTONDOWN:
-            mp.select_square(squares_dict)
+            print(mp.select_square(squares_dict))
+        elif event.type == p.MOUSEBUTTONUP:
+            print("mouse button up")
         
 
 

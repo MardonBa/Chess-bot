@@ -11,7 +11,7 @@ clock = p.time.Clock()
 class Mouse_point(p.sprite.Sprite):
     def __init__(self, x, y):
         super().__init__()
-        self.rect = p.Rect(x, y, x, y)
+        self.rect = p.Rect(x, y, 1, 1)
 
 x, y = p.mouse.get_pos()
 mouse_point = Mouse_point(x, y)
@@ -30,5 +30,7 @@ def select_square(squares_dict):
         if p.sprite.groupcollide(mouse_point_group, val, False, False):
             print(mouse_pos)
             return key
-        else:
-            print("Not clicking a square")
+        
+
+def select_piece():
+    pass
