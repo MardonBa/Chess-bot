@@ -81,6 +81,13 @@ class Pieces(p.sprite.Sprite):
         self.point_value = point_value
 
 
+    def change_piece_coordinates(self, new_x, new_y):
+        self.x_pos = new_x
+        self.y_pos = new_y
+
+        self.rect.topleft = (self.x_pos + 3, self.y_pos + 5)
+
+
     # This class is incomplete. For now, there is only the constructor, but methods for moving pieces, etc need to be added in the future
 
 
