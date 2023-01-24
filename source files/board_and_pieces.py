@@ -2,6 +2,15 @@
 import pygame as p
 
 
+class ExtendedGroupSingle(p.sprite.GroupSingle):
+
+    def change_piece_coordinates(self, arg1, arg2):       # allows the method to be called on a Group
+        for spr in self.sprites():
+
+            if hasattr(spr, "change_piece_coordinates"):
+               spr.change_piece_coordinates(arg1, arg2)
+
+
 class GameState:
 
     # constructor used for creating the board later
@@ -81,10 +90,14 @@ class Pieces(p.sprite.Sprite):
         self.point_value = point_value
 
 
+    def change_piece_coordinates(self, new_x, new_y):
+        self.x_pos = new_x
+        self.y_pos = new_y
+
+        self.rect.topleft = (self.x_pos + 3, self.y_pos + 5)
+
+
     # This class is incomplete. For now, there is only the constructor, but methods for moving pieces, etc need to be added in the future
-    def move_pieces(self, square_to_move_to):
-        pass
-        # add code later for moving pieces
 
 
 # White pieces subclasses

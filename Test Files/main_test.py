@@ -296,7 +296,8 @@ while True:
             print("mouse button up")
         
 
-
+    #squares_init()     uncomment later
+    #pieces_init()       # change pieces_init() to take in input for what piece, group, etc...       should have default args so that the first call is the starting position, then it can be recalled in the game loop drawing pieces in new spots if needed
     p.display.update()
 
     clock.tick(max_fps)

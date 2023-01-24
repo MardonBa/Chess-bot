@@ -24,6 +24,7 @@ def select_square(squares_dict):
     mouse_pos = p.mouse.get_pos()
     for key, val in squares_dict.items():
         if p.sprite.groupcollide(mouse_point_group, val, False, False):
+            print(mouse_pos)
             return key
         
 
@@ -35,4 +36,5 @@ def select_piece(pieces_dict):
     mouse_pos = p.mouse.get_pos()
     for key, val in pieces_dict.items():
         if p.sprite.groupcollide(mouse_point_group, val, False, False):
-            return key
+            print(mouse_pos)
+            return val
