@@ -263,7 +263,8 @@ while True:
             else:
                 selected_square = mp.select_square(squares_dict)
                 print(f"You selected {selected_square}")
-                selected_piece.change_piece_coordinates(square_placement_dict[selected_square][0], square_placement_dict[selected_square][1])
+                if selected_square != None:
+                    selected_piece.change_piece_coordinates(square_placement_dict[selected_square][0], square_placement_dict[selected_square][1])
                 squares_init()
                 pieces_draw(pieces_dict)
                 selected_square = None
