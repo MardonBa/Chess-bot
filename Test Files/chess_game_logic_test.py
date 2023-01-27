@@ -94,7 +94,7 @@ def move_pawn(color, initial_square, squares_list, first_move=False, can_capture
         
 
 
-def move_rook(initial_square, squares_list):
+def move_rook(initial_square, squares_list, first_move=True):
     possible_moves = []
 
     square_index = squares_list.index(initial_square)
@@ -129,19 +129,181 @@ def move_rook(initial_square, squares_list):
         moves_left -= 1
 
 
+    # add code for castling
 
     return possible_moves
 
 
 
-def move_knight():
+def move_knight(initial_square, squares_list):
     pass
 
-def move_bishop():
-    pass
+def move_bishop(initial_square, squares_list):
+    possible_moves = []
 
-def move_king():
-    pass
+    square_index = squares_list.index(initial_square)
+    moves_up_right = squares_to_edge(squares_list, initial_square, "up", "right")
+    while moves_up_right > 0:
+        square_index += 9
+        possible_moves.append(squares_list[square_index])
+        moves_up_right -= 1
 
-def move_queen():
-    pass
+    
+    square_index = squares_list.index(initial_square)
+    moves_up_left = squares_to_edge(squares_list, initial_square, "up", "left")
+    while moves_up_left > 0:
+        square_index += 7
+        possible_moves.append(squares_list[square_index])
+        move_up_left -= 1
+
+
+    square_index = squares_list.index(initial_square)
+    moves_down_right = squares_to_edge(squares_list, initial_square, "down", "right")
+    while moves_down_right > 0:
+        square_index -= 7
+        possible_moves.append(squares_list, initial_square, "down", "right")
+        moves_down_right -= 1
+
+
+    square_index = squares_list.index(initial_square)
+    moves_down_left = squares_to_edge(squares_list, initial_square, "down", "left")
+    while moves_down_left > 0:
+        square_index -= 9
+        possible_moves.append(squares_list[square_index])
+        moves_down_left -= 1
+
+
+    return possible_moves
+
+def move_king(initial_square, squares_list, first_move=True):
+    possible_moves = []
+
+    # horizontal and vertical king moves
+    square_index = squares_list.index(initial_square)
+    moves_up = squares_to_edge(squares_list, initial_square, "top")
+    if moves_up != 0:
+        square_index += 8
+        possible_moves.append(squares_list[square_index])
+
+
+    square_index = squares_list.index(initial_square)
+    moves_down = squares_to_edge(squares_list, initial_square, "down")
+    if moves_down != 0:
+        square_index -= 8
+        possible_moves.append(squares_list[square_index])
+
+
+    square_index = squares_list.index(initial_square)
+    moves_right = squares_to_edge(squares_list, initial_square, "right")
+    if moves_right != 0:
+        square_index += 1
+        possible_moves.append(squares_list[square_index])
+
+
+    square_index = squares_list.index(initial_square)
+    moves_left = squares_list(squares_list, initial_square, "left")
+    if moves_left != 0:   
+        square_index -= 1
+        possible_moves.append(squares_list[square_index])
+
+
+    # diagonal king moves
+    square_index = squares_list.index(initial_square)
+    moves_up_right = squares_to_edge(squares_list, initial_square, "up", "right")
+    if moves_up_right != 0:
+        square_index += 9
+        possible_moves.append(squares_list[square_index])
+
+    
+    square_index = squares_list.index(initial_square)
+    moves_up_left = squares_to_edge(squares_list, initial_square, "up", "left")
+    if moves_up_left != 0:
+        square_index += 7
+        possible_moves.append(squares_list[square_index])
+
+
+    square_index = squares_list.index(initial_square)
+    moves_down_right = squares_to_edge(squares_list, initial_square, "down", "right")
+    if moves_down_right != 0:
+        square_index -= 7
+        possible_moves.append(squares_list, initial_square, "down", "right")
+
+
+    square_index = squares_list.index(initial_square)
+    moves_down_left = squares_to_edge(squares_list, initial_square, "down", "left")
+    if moves_down_left != 0:
+        square_index -= 9
+        possible_moves.append(squares_list[square_index])
+
+
+    return possible_moves
+
+def move_queen(initial_square, squares_list):
+    possible_moves = []
+
+    # horizontal and vertical queen moves
+    square_index = squares_list.index(initial_square)
+    moves_up = squares_to_edge(squares_list, initial_square, "top")
+    while moves_up > 0:
+        square_index += 8
+        possible_moves.append(squares_list[square_index])
+        moves_up -= 1
+
+
+    square_index = squares_list.index(initial_square)
+    moves_down = squares_to_edge(squares_list, initial_square, "down")
+    while moves_down > 0:
+        square_index -= 8
+        possible_moves.append(squares_list[square_index])
+        moves_down -= 1
+
+
+    square_index = squares_list.index(initial_square)
+    moves_right = squares_to_edge(squares_list, initial_square, "right")
+    while moves_right > 0:
+        square_index += 1
+        possible_moves.append(squares_list[square_index])
+        moves_right -= 1
+
+
+    square_index = squares_list.index(initial_square)
+    moves_left = squares_list(squares_list, initial_square, "left")
+    while moves_left > 0:   
+        square_index -= 1
+        possible_moves.append(squares_list[square_index])
+        moves_left -= 1
+
+    # diagonal queen moves
+    square_index = squares_list.index(initial_square)
+    moves_up_right = squares_to_edge(squares_list, initial_square, "up", "right")
+    while moves_up_right > 0:
+        square_index += 9
+        possible_moves.append(squares_list[square_index])
+        moves_up_right -= 1
+
+    
+    square_index = squares_list.index(initial_square)
+    moves_up_left = squares_to_edge(squares_list, initial_square, "up", "left")
+    while moves_up_left > 0:
+        square_index += 7
+        possible_moves.append(squares_list[square_index])
+        move_up_left -= 1
+
+
+    square_index = squares_list.index(initial_square)
+    moves_down_right = squares_to_edge(squares_list, initial_square, "down", "right")
+    while moves_down_right > 0:
+        square_index -= 7
+        possible_moves.append(squares_list, initial_square, "down", "right")
+        moves_down_right -= 1
+
+
+    square_index = squares_list.index(initial_square)
+    moves_down_left = squares_to_edge(squares_list, initial_square, "down", "left")
+    while moves_down_left > 0:
+        square_index -= 9
+        possible_moves.append(squares_list[square_index])
+        moves_down_left -= 1
+
+
+    return possible_moves
