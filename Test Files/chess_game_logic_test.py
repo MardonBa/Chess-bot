@@ -59,39 +59,49 @@ def move_pawn(color, initial_square, squares_list, first_move=False, can_capture
     initial_square_index = squares_list.index(initial_square)
     possible_moves = []
 
-    if color == "white":
+    if color == "white" & squares_to_edge("up") != 0:
         possible_moves.append(initial_square_index + 8)
-        if can_capture_right == True:
+
+        if can_capture_right == True & squares_to_edge("right") != 0:
             possible_moves.append(initial_square_index + 9)
-        elif can_capture_left == True:
+
+        elif can_capture_left == True & squares_to_edge("left") != 0:
             possible_moves.append(initial_square_index + 7)
+
         elif first_move == True:
             possible_moves.append(initial_square_index + 16)
 
-    else:
+
+    elif color == "black" & squares_to_edge("down") != 0:
         possible_moves.append(initial_square_index - 8)
-        if can_capture_right == True:
+
+        if can_capture_right == True & squares_to_edge("right") != 0:
             possible_moves.append(initial_square_index - 7)
-        elif can_capture_left == True:
+
+        elif can_capture_left == True & squares_to_edge("left") != 0:
             possible_moves.append(initial_square_index - 9)
+
         elif first_move == True:
             possible_moves.append(initial_square_index - 16)
+
 
     promote = False         # add code for determining if promotion is true.        squares_to_edge(top) = 1
     if promote == True:
         pass
-        
-    squares_to_move_to = []
-    for move in possible_moves:
-        squares_to_move_to.append(squares_list[move])
 
 
-    return squares_to_move_to
+    return possible_moves
         
 
 
-def move_rook():
-    pass
+def move_rook(initial_square, squares_list):
+    possible_moves = []
+    squares_index = squares_list.index(initial_square)
+
+    moves_up = squares_to_edge("top")
+
+    while moves_up != 0:
+        possible_moves.append()     # start here
 
 def move_knight():
     pass
