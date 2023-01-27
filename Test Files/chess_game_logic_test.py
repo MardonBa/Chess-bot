@@ -236,7 +236,7 @@ def move_king(initial_square, squares_list, first_move=True):
         possible_moves.append(squares_list[square_index])
 
     # add code for castling
-
+    # add code for check/checkmate (after all code for move restrictions, call each function for all pieces on the possible_moves list, and remove any squares returned by the other functions from possible_moves. If none remain, checkmate = True)
 
     return possible_moves
 
