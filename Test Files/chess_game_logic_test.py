@@ -235,6 +235,8 @@ def move_king(initial_square, squares_list, first_move=True):
         square_index -= 9
         possible_moves.append(squares_list[square_index])
 
+    # add code for castling
+
 
     return possible_moves
 
