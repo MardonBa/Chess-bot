@@ -136,7 +136,51 @@ def move_rook(initial_square, squares_list, first_move=True):
 
 
 def move_knight(initial_square, squares_list):
-    pass
+    possible_moves = []
+
+    square_index = squares_list.index(initial_square)
+    new_square_index = 0
+    squares_up = squares_to_edge("up")
+    squares_right = squares_to_edge("right")
+    squares_down = squares_to_edge("down")
+    squares_left = squares_to_edge("left")
+
+    if squares_up >= 2 and squares_right >= 1:
+        new_square_index = square_index + 17
+        possible_moves.append(squares_list[new_square_index])
+
+    elif squares_right >= 2 and squares_up >= 1:
+        new_square_index = square_index + 10
+        possible_moves.append(squares_list[new_square_index])
+
+    elif squares_right >= 2 and squares_down >= 1:
+        new_square_index = square_index - 6
+        possible_moves.append(squares_list[new_square_index])
+
+    elif squares_down >= 2 and squares_right >= 1:
+        new_square_index = square_index - 15
+        possible_moves.append(squares_list[new_square_index])
+
+    elif squares_down >= 2 and squares_left >= 1:
+        new_square_index = square_index - 17
+        possible_moves.append(squares_list[new_square_index])
+    
+    elif squares_left >= 2 and squares_down >= 1:
+        new_square_index = square_index - 10
+        possible_moves.append(squares_list[new_square_index])
+
+    elif squares_left >= 2 and squares_up >= 1:
+        new_square_index = square_index + 6
+        possible_moves.append(squares_list[new_square_index])
+
+    elif squares_up >= 2 and squares_left >= 1:
+        new_square_index = square_index + 15
+        possible_moves.append(squares_list[new_square_index])
+
+    
+    return possible_moves
+    
+        
 
 def move_bishop(initial_square, squares_list):
     possible_moves = []
@@ -174,6 +218,7 @@ def move_bishop(initial_square, squares_list):
 
 
     return possible_moves
+
 
 def move_king(initial_square, squares_list, first_move=True):
     possible_moves = []
