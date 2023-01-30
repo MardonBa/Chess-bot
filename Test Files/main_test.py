@@ -242,6 +242,10 @@ def pieces_draw(pieces_dict):
 
 pieces_draw(pieces_dict)
 
+
+def draw_highlight(squares_to_highlight):
+    pass        # add code for highlighting squares
+
 selected_piece = None
 selected_square = None
 print(datetime.now() - start)

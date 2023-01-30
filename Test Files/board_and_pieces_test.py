@@ -273,5 +273,7 @@ class Black_Pawn(Pieces):
 
 class Hightlighted_Square:
 
-    def __init__(self):
-        pass
+    def __init__(self, x_pos, y_pos):
+        self.image = p.image.load("images/highlighted_square.png")
+        self.rect = self.image.get_rect()
+        self.rect.top_left = (x_pos + 3, y_pos + 5)

@@ -242,6 +242,10 @@ def pieces_draw(pieces_dict):
 
 pieces_draw(pieces_dict)
 
+
+
+    
+
 selected_piece = None
 selected_square = None
 print(datetime.now() - start)
