@@ -284,8 +284,7 @@ while True:
                 selected_piece = None
 
         elif event.type == p.MOUSEBUTTONUP:
-            print("mouse button up")
-        
+            pass
 
 
     p.display.update()
@@ -294,3 +293,13 @@ while True:
 
 
 # Current goals: be able to click a piece and move it. Possibly make the pieces sprites, learn about sprite class. might need to move the existing code for pieces to that class
+
+
+# board_status is squares:piece
+# pieces_dict is square:ExtendedGroupSingle
+# check what square is from the Group, then find what piece it corresponds with in board_status
+# iterate through all the movement logic functions to see which function to use
+# call that function, save the return value to a variable (legal_squares)
+# call draw_highlight(legal_squares, board_squares)
+
+# make sure highlight gets drawn after board but before pieces

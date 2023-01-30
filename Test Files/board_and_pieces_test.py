@@ -48,7 +48,7 @@ class GameState:
         for square in range(board_list_len):
             pieces_and_squares[board[square]] = pieces[square]
 
-        #print(pieces_and_squares)
+        print(pieces_and_squares)
         return pieces_and_squares
 
 
