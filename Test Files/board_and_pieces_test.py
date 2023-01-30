@@ -4,7 +4,7 @@ import pygame as p
 
 class ExtendedGroupSingle(p.sprite.GroupSingle):
 
-    def change_piece_coordinates(self, arg1, arg2):       # allows the method to be called on a Group
+    def change_piece_coordinates(self, arg1, arg2):       # allows the method to be called on a GroupSingle
         for spr in self.sprites():
 
             if hasattr(spr, "change_piece_coordinates"):
@@ -269,3 +269,9 @@ class Black_Pawn(Pieces):
         self.rect.topleft = (x_pos + 3, y_pos + 5)
 
     # This class is incomplete. For now, there is only the constructor, but methods for finding legal moves, etc need to be added in the future
+
+
+class Hightlighted_Square:
+
+    def __init__(self):
+        pass
