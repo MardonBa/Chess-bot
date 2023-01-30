@@ -51,6 +51,7 @@ for x in range(len(board_squares)):
 
 # function that draws the board (squares). Uses the Board() class and object.draw(surface) to draw each square on the board, with Board() taking inputs of which square to draw(for image files), and the x and y position of each square
 def squares_init():
+    
     squares_dict = {}
     for i in range(64):     # board_squares[i] and square_placement[i]
         square_name = board_squares[i]
@@ -241,10 +242,6 @@ def pieces_draw(pieces_dict):
         val.draw(screen)
 
 pieces_draw(pieces_dict)
-
-
-def draw_highlight(squares_to_highlight):
-    pass        # add code for highlighting squares
 
 selected_piece = None
 selected_square = None
