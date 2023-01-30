@@ -51,11 +51,10 @@ for x in range(len(board_squares)):
 
 # function that draws the board (squares). Uses the Board() class and object.draw(surface) to draw each square on the board, with Board() taking inputs of which square to draw(for image files), and the x and y position of each square
 def squares_init():
-    
     squares_dict = {}
     for i in range(64):     # board_squares[i] and square_placement[i]
         square_name = board_squares[i]
-        square = bd_pc.Board(board_squares[i], square_placement[i])
+        square = bd_pc.Board(square_name, square_placement[i])
         squares_dict[square_name] = p.sprite.GroupSingle()
         squares_dict[square_name].add(square)
         squares_dict[square_name].draw(screen)
@@ -242,6 +241,19 @@ def pieces_draw(pieces_dict):
         val.draw(screen)
 
 pieces_draw(pieces_dict)
+
+def draw_highlight(squares_to_highlight, squares_list):       # squares_to_highlight should be a list
+    square_group = p.sprite.Group()
+
+    for i in range(len(squares_to_highlight)):
+        square = squares_to_highlight[i]
+        square_index = squares_list.index(square)
+        square_to_highlight = bd_pc.Hightlighted_Square(square_placement[square_index][0], square_placement[square_index][1])
+        square_group.add(square_to_highlight)
+        square_group.draw(screen)
+
+
+
 
 selected_piece = None
 selected_square = None
