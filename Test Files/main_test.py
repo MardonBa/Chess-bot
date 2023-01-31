@@ -2,6 +2,7 @@ from datetime import datetime
 start = datetime.now()
 import board_and_pieces_test as bd_pc
 import move_pieces_test as mp
+import chess_game_logic_test as cgl
 import pygame as p
 from sys import exit
 
@@ -242,6 +243,13 @@ def pieces_draw(pieces_dict):
 
 pieces_draw(pieces_dict)
 
+def get_key(val, dict):
+    for key, value in dict.items():
+        if val == value:
+            return key
+ 
+    return "key doesn't exist"
+
 def draw_highlight(squares_to_highlight, squares_list):       # squares_to_highlight should be a list
     square_group = p.sprite.Group()
 
@@ -272,7 +280,65 @@ while True:
                     print("Please select a piece")
                 else: 
                     print(f"You selected {selected_piece}")
-                
+
+                    square = get_key(selected_piece, pieces_dict)
+                    piece = board_status[square]
+
+                    if piece == "White_Rook":
+                        white_rook_squares = cgl.move_rook(square, board_squares)
+                        draw_highlight(white_rook_squares, board_squares)
+
+                    elif piece == "White_Knight":
+                        white_knight_squares = cgl.move_knight(square, board_squares)
+                        draw_highlight(white_knight_squares, board_squares)
+
+                    elif piece == "White_Bishop":
+                        white_bishop_squares = cgl.move_bishop(square, board_squares)
+                        draw_highlight(white_bishop_squares, board_squares)
+
+                    elif piece == "White_Queen":
+                        white_queen_squares = cgl.move_queen(square, board_squares)
+                        draw_highlight(white_queen_squares, board_squares)
+
+                    elif piece == "White_King":
+                        white_king_squares = cgl.move_king(square, board_squares)
+                        draw_highlight(white_king_squares, board_squares)
+
+                    elif piece == "White_Pawn":
+                        white_pawn_squares = cgl.move_pawn("white", square, board_squares)      # make sure to add code for determining if captures are possible
+                        draw_highlight(white_pawn_squares, board_squares)
+
+                    
+
+                    elif piece == "Black_Rook":
+                        black_rook_squares = cgl.move_king(square, board_squares)
+                        draw_highlight(black_rook_squares, board_squares)
+
+                    elif piece == "Black_Knight":
+                        black_knight_squares = cgl.move_knight(square, board_squares)
+                        draw_highlight(black_knight_squares, board_squares)
+
+                    elif piece == "Black_Bishop":
+                        black_bishop_squares = cgl.move_bishop(square, board_squares)
+                        draw_highlight(black_bishop_squares, board_squares)
+
+                    elif piece == "Black_Queen":
+                        black_queen_squares = cgl.move_queen(square, board_squares)
+                        draw_highlight(black_queen_squares, board_squares)
+
+                    elif piece == "Black_King":
+                        black_king_squares = cgl.move_king(square, board_squares)
+                        draw_highlight(black_king_squares, board_squares)
+
+                    elif piece == "Black_Pawn":
+                        black_pawn_squares = cgl.move_pawn("black", square, board_squares)     # make sure to add code for determining if captures are possible
+                        draw_highlight(black_pawn_squares, board_squares)
+
+                    else:
+                        print("you done fucked up somewhere")
+
+                    
+
             else:
                 selected_square = mp.select_square(squares_dict)
                 print(f"You selected {selected_square}")

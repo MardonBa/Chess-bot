@@ -271,9 +271,10 @@ class Black_Pawn(Pieces):
     # This class is incomplete. For now, there is only the constructor, but methods for finding legal moves, etc need to be added in the future
 
 
-class Hightlighted_Square:
+class Hightlighted_Square(p.sprite.Sprite):
 
     def __init__(self, x_pos, y_pos):
+        super().__init__()
         self.image = p.image.load("images/highlighted_square.png")
         self.rect = self.image.get_rect()
-        self.rect.top_left = (x_pos + 3, y_pos + 5)
+        self.rect.topleft = (x_pos + 3, y_pos + 5)

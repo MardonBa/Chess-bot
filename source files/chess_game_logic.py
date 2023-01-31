@@ -59,30 +59,32 @@ def move_pawn(color, initial_square, squares_list, first_move=False, can_capture
     initial_square_index = squares_list.index(initial_square)
     possible_moves = []
 
-    if color == "white" & squares_to_edge(squares_list, initial_square, "up") != 0:
-        possible_moves.append(squares_list[initial_square_index + 8])
+    if color == "white":
+        if squares_to_edge(squares_list, initial_square, "up") != 0:
+            possible_moves.append(squares_list[initial_square_index + 8])
 
-        if can_capture_right == True & squares_to_edge(squares_list, initial_square, "right") != 0:
-            possible_moves.append(squares_list[initial_square_index + 9])
+            if can_capture_right == True & squares_to_edge(squares_list, initial_square, "right") != 0:
+                possible_moves.append(squares_list[initial_square_index + 9])
 
-        elif can_capture_left == True & squares_to_edge(squares_list, initial_square, "left") != 0:
-            possible_moves.append(squares_list[initial_square_index + 7])
+            elif can_capture_left == True & squares_to_edge(squares_list, initial_square, "left") != 0:
+                possible_moves.append(squares_list[initial_square_index + 7])
 
-        elif first_move == True:
-            possible_moves.append(squares_list[initial_square_index + 16])
+            elif first_move == True:
+                possible_moves.append(squares_list[initial_square_index + 16])
 
 
-    elif color == "black" & squares_to_edge(squares_list, initial_square, "down") != 0:
-        possible_moves.append(squares_list[initial_square_index - 8])
+    elif color == "black":
+        if squares_to_edge(squares_list, initial_square, "down") != 0:
+            possible_moves.append(squares_list[initial_square_index - 8])
 
-        if can_capture_right == True & squares_to_edge(squares_list, initial_square, "right") != 0:
-            possible_moves.append(squares_list[initial_square_index - 7])
+            if can_capture_right == True & squares_to_edge(squares_list, initial_square, "right") != 0:
+                possible_moves.append(squares_list[initial_square_index - 7])
 
-        elif can_capture_left == True & squares_to_edge(squares_list, initial_square, "left") != 0:
-            possible_moves.append(squares_list[initial_square_index - 9])
+            elif can_capture_left == True & squares_to_edge(squares_list, initial_square, "left") != 0:
+                possible_moves.append(squares_list[initial_square_index - 9])
 
-        elif first_move == True:
-            possible_moves.append(squares_list[initial_square_index - 16])
+            elif first_move == True:
+                possible_moves.append(squares_list[initial_square_index - 16])
 
 
     promote = False         # add code for determining if promotion is true.        squares_to_edge(top) = 1
