@@ -130,7 +130,7 @@ def move_rook(initial_square, squares_list, first_move=True):
 
 
     square_index = squares_list.index(initial_square)
-    moves_left = squares_list(squares_list, initial_square, "left")
+    moves_left = squares_to_edge(squares_list, initial_square, "left")
     while moves_left > 0:   
         square_index -= 1
         possible_moves.append(squares_list[square_index])
@@ -148,24 +148,24 @@ def move_knight(initial_square, squares_list):
 
     square_index = squares_list.index(initial_square)
     new_square_index = 0
-    squares_up = squares_to_edge("up")
-    squares_right = squares_to_edge("right")
-    squares_down = squares_to_edge("down")
-    squares_left = squares_to_edge("left")
+    squares_up = squares_to_edge(squares_list, initial_square, "up")
+    squares_right = squares_to_edge(squares_list, initial_square, "right")
+    squares_down = squares_to_edge(squares_list, initial_square, "down")
+    squares_left = squares_to_edge(squares_list, initial_square, "left")
 
     if squares_up >= 2 and squares_right >= 1:
         new_square_index = square_index + 17
         possible_moves.append(squares_list[new_square_index])
 
-    elif squares_right >= 2 and squares_up >= 1:
+    if squares_right >= 2 and squares_up >= 1:
         new_square_index = square_index + 10
         possible_moves.append(squares_list[new_square_index])
 
-    elif squares_right >= 2 and squares_down >= 1:
+    if squares_right >= 2 and squares_down >= 1:
         new_square_index = square_index - 6
         possible_moves.append(squares_list[new_square_index])
 
-    elif squares_down >= 2 and squares_right >= 1:
+    if squares_down >= 2 and squares_right >= 1:
         new_square_index = square_index - 15
         possible_moves.append(squares_list[new_square_index])
 
@@ -173,15 +173,15 @@ def move_knight(initial_square, squares_list):
         new_square_index = square_index - 17
         possible_moves.append(squares_list[new_square_index])
     
-    elif squares_left >= 2 and squares_down >= 1:
+    if squares_left >= 2 and squares_down >= 1:
         new_square_index = square_index - 10
         possible_moves.append(squares_list[new_square_index])
 
-    elif squares_left >= 2 and squares_up >= 1:
+    if squares_left >= 2 and squares_up >= 1:
         new_square_index = square_index + 6
         possible_moves.append(squares_list[new_square_index])
 
-    elif squares_up >= 2 and squares_left >= 1:
+    if squares_up >= 2 and squares_left >= 1:
         new_square_index = square_index + 15
         possible_moves.append(squares_list[new_square_index])
 
@@ -254,7 +254,7 @@ def move_king(initial_square, squares_list, first_move=True):
 
 
     square_index = squares_list.index(initial_square)
-    moves_left = squares_list(squares_list, initial_square, "left")
+    moves_left = squares_to_edge(squares_list, initial_square, "left")
     if moves_left != 0:   
         square_index -= 1
         possible_moves.append(squares_list[square_index])
@@ -322,7 +322,7 @@ def move_queen(initial_square, squares_list):
 
 
     square_index = squares_list.index(initial_square)
-    moves_left = squares_list(squares_list, initial_square, "left")
+    moves_left = squares_to_edge(squares_list, initial_square, "left")
     while moves_left > 0:   
         square_index -= 1
         possible_moves.append(squares_list[square_index])
