@@ -277,4 +277,4 @@ class Hightlighted_Square(p.sprite.Sprite):
         super().__init__()
         self.image = p.image.load("images/highlighted_square.png")
         self.rect = self.image.get_rect()
-        self.rect.topleft = (x_pos + 3, y_pos + 5)
+        self.rect.topleft = (x_pos, y_pos)
