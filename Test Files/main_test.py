@@ -361,11 +361,10 @@ while True:
 # Current goals: be able to click a piece and move it. Possibly make the pieces sprites, learn about sprite class. might need to move the existing code for pieces to that class
 
 
-# board_status is squares:piece
-# pieces_dict is square:ExtendedGroupSingle
-# check what square is from the Group, then find what piece it corresponds with in board_status
-# iterate through all the movement logic functions to see which function to use
-# call that function, save the return value to a variable (legal_squares)
-# call draw_highlight(legal_squares, board_squares)
-
-# make sure highlight gets drawn after board but before pieces
+# Check and resolve any syntax errors left
+# Black H-pawn doesn't highlight
+# Any diagonal movement causes it to crash, maybe an infite loop?
+# Make sure if a square is clicked that the piece can't move, to, don't allow the move.
+# Knights can move wherever, fix that code
+# Black knights cause a syntax error list index out of range
+# Rook an A1 doesn't highlight squares properly, rook on A8 causes a syntax error list index out of range, rook on H8 causes crash
