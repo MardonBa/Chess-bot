@@ -155,6 +155,10 @@ def move_knight(initial_square, squares_list):
 
     if squares_up >= 2 and squares_right >= 1:
         new_square_index = square_index + 17
+        print(squares_up)
+        print(squares_right)
+        print(new_square_index)
+        print(square_index)
         possible_moves.append(squares_list[new_square_index])
 
     if squares_right >= 2 and squares_up >= 1:
