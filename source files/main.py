@@ -264,7 +264,9 @@ def draw_highlight(squares_to_highlight, squares_list):       # squares_to_highl
 
 selected_piece = None
 selected_square = None
+original_piece = "empty"
 print(datetime.now() - start)
+
 while True:
 
     for event in p.event.get():
@@ -281,7 +283,9 @@ while True:
                     print(f"You selected {selected_piece}")
 
                     square = get_key(selected_piece, pieces_dict)
+                    print(square)
                     piece = board_status[square]
+                    print(piece)
 
                     if piece == "White_Rook":
                         white_rook_squares = cgl.move_rook(square, board_squares)
@@ -345,8 +349,13 @@ while True:
                     selected_piece.change_piece_coordinates(square_placement_dict[selected_square][0], square_placement_dict[selected_square][1])
                 squares_init()
                 pieces_draw(pieces_dict)
+                board_status[square] = "empty"
+                board_status[selected_square] = piece
+                del pieces_dict[square]
+                pieces_dict[selected_square] = selected_piece
                 selected_square = None
                 selected_piece = None
+            
 
         elif event.type == p.MOUSEBUTTONUP:
             pass
@@ -360,5 +369,5 @@ while True:
 # Current goals: be able to click a piece and move it. Possibly make the pieces sprites, learn about sprite class. might need to move the existing code for pieces to that class
 
 
-# Check and resolve any syntax errors left
 # Make sure if a square is clicked that the piece can't move, to, don't allow the move.
+# Find a way to see if individual pawns have been moved. Possibly do this by keeping track of moves in the game, would be easy for first move tracking for castling, en passant, etc
