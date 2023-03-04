@@ -362,9 +362,4 @@ while True:
 
 
 # Check and resolve any syntax errors left
-# Black A-pawn doesn't highlight
-# Any diagonal movement causes it to crash, maybe an infite loop?
 # Make sure if a square is clicked that the piece can't move, to, don't allow the move.
-# Knights can move wherever, fix that code
-# Black knights cause a syntax error list index out of range
-# Rook an A1 and A8 doesn't highlight squares properly, rook on A8 causes a syntax error list index out of range, rook on H8 causes crash
