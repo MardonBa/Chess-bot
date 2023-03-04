@@ -5,7 +5,6 @@ def squares_to_edge(squares_list, initial_square, direction, diagonal=None):    
     to_edge = 0
 
     square_index = squares_list.index(initial_square)
-    print(square_index)
     if diagonal == None:
         if direction == "up":
             while square_index <= 55:
@@ -21,9 +20,7 @@ def squares_to_edge(squares_list, initial_square, direction, diagonal=None):    
 
         elif direction == "right":
             if ((square_index + 1) % 8) != 0:
-                print((square_index + 1) % 8, "hi")
                 to_edge = 8 - ((square_index + 1) % 8)
-                print(to_edge, "hello")
             else:
                 to_edge = 0       # accounts for edge cases
 
@@ -160,10 +157,6 @@ def move_knight(initial_square, squares_list):
 
     if squares_up >= 2 and squares_right >= 1:
         new_square_index = square_index + 17
-        print(squares_up)
-        print(squares_right)
-        print(new_square_index)
-        print(square_index)
         possible_moves.append(squares_list[new_square_index])
 
     if squares_right >= 2 and squares_up >= 1:
@@ -203,9 +196,7 @@ def move_bishop(initial_square, squares_list):
     possible_moves = []
 
     square_index = squares_list.index(initial_square)
-    print(square_index)
     moves_up_right = squares_to_edge(squares_list, initial_square, "up", "right")
-    print(moves_up_right)
     while moves_up_right > 0:
         square_index += 9
         possible_moves.append(squares_list[square_index])

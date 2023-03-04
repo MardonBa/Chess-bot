@@ -11,17 +11,18 @@ def squares_to_edge(squares_list, initial_square, direction, diagonal=None):    
                 square_index += 8
                 to_edge += 1
                     
-            to_edge = square_index
 
         elif direction == "down":
             while square_index >= 8:
                 square_index -= 8
                 to_edge += 1
                 
-            to_edge = square_index
 
         elif direction == "right":
-            to_edge = (square_index + 1) % 8
+            if ((square_index + 1) % 8) != 0:
+                to_edge = 8 - ((square_index + 1) % 8)
+            else:
+                to_edge = 0       # accounts for edge cases
 
         elif direction == "left":
             to_edge = square_index % 8
@@ -30,32 +31,34 @@ def squares_to_edge(squares_list, initial_square, direction, diagonal=None):    
 
     elif diagonal == "right":
         if direction == "up":
-            while square_index % 8 <= 6 & square_index <= 55:        # checks is the input square is on the right edge or top edge, then it can't move up right
+            while square_index % 8 <= 6 and square_index <= 55:        # checks is the input square is on the right edge or top edge, then it can't move up right
                 square_index += 9
                 to_edge += 1
 
 
         elif direction == "down":
-            while square_index % 8 <= 6 & square_index >= 7:        # checks is the input square is on the right edge or bottom edge, then it can't move down right
+            while square_index % 8 <= 6 and square_index >= 7:        # checks is the input square is on the right edge or bottom edge, then it can't move down right
                 square_index -= 7
                 to_edge += 1
 
     
     elif diagonal == "left":
         if direction == "up":
-            while square_index % 8 >= 1 & square_index <= 55:
+            while square_index % 8 >= 1 and square_index <= 55:
                 square_index += 7
                 to_edge += 1
 
         elif direction == "down":
-            while square_index % 8 >= 1 & square_index >= 7:
+            while square_index % 8 >= 1 and square_index >= 7:
                 square_index -= 9
                 to_edge += 1
+
+    return to_edge
 
 
     
 
-def move_pawn(color, initial_square, squares_list, first_move=False, can_capture_right=False, can_capture_left=False, en_passant=False):
+def move_pawn(color, initial_square, squares_list, first_move=True, can_capture_right=False, can_capture_left=False, en_passant=False):
     initial_square_index = squares_list.index(initial_square)
     possible_moves = []
 
@@ -63,11 +66,13 @@ def move_pawn(color, initial_square, squares_list, first_move=False, can_capture
         if squares_to_edge(squares_list, initial_square, "up") != 0:
             possible_moves.append(squares_list[initial_square_index + 8])
 
-            if can_capture_right == True & squares_to_edge(squares_list, initial_square, "right") != 0:
-                possible_moves.append(squares_list[initial_square_index + 9])
+            if can_capture_right == True:
+                if squares_to_edge(squares_list, initial_square, "right") != 0:
+                    possible_moves.append(squares_list[initial_square_index + 9])
 
-            elif can_capture_left == True & squares_to_edge(squares_list, initial_square, "left") != 0:
-                possible_moves.append(squares_list[initial_square_index + 7])
+            elif can_capture_left == True:
+                if squares_to_edge(squares_list, initial_square, "left") != 0:
+                    possible_moves.append(squares_list[initial_square_index + 7])
 
             elif first_move == True:
                 possible_moves.append(squares_list[initial_square_index + 16])
@@ -77,11 +82,13 @@ def move_pawn(color, initial_square, squares_list, first_move=False, can_capture
         if squares_to_edge(squares_list, initial_square, "down") != 0:
             possible_moves.append(squares_list[initial_square_index - 8])
 
-            if can_capture_right == True & squares_to_edge(squares_list, initial_square, "right") != 0:
-                possible_moves.append(squares_list[initial_square_index - 7])
+            if can_capture_right == True:
+                if squares_to_edge(squares_list, initial_square, "right") != 0:
+                    possible_moves.append(squares_list[initial_square_index - 7])
 
-            elif can_capture_left == True & squares_to_edge(squares_list, initial_square, "left") != 0:
-                possible_moves.append(squares_list[initial_square_index - 9])
+            elif can_capture_left == True:
+                if squares_to_edge(squares_list, initial_square, "left") != 0:
+                    possible_moves.append(squares_list[initial_square_index - 9])
 
             elif first_move == True:
                 possible_moves.append(squares_list[initial_square_index - 16])
@@ -100,7 +107,7 @@ def move_rook(initial_square, squares_list, first_move=True):
     possible_moves = []
 
     square_index = squares_list.index(initial_square)
-    moves_up = squares_to_edge(squares_list, initial_square, "top")
+    moves_up = squares_to_edge(squares_list, initial_square, "up")
     while moves_up > 0:
         square_index += 8
         possible_moves.append(squares_list[square_index])
@@ -123,8 +130,9 @@ def move_rook(initial_square, squares_list, first_move=True):
         moves_right -= 1
 
 
+
     square_index = squares_list.index(initial_square)
-    moves_left = squares_list(squares_list, initial_square, "left")
+    moves_left = squares_to_edge(squares_list, initial_square, "left")
     while moves_left > 0:   
         square_index -= 1
         possible_moves.append(squares_list[square_index])
@@ -142,40 +150,40 @@ def move_knight(initial_square, squares_list):
 
     square_index = squares_list.index(initial_square)
     new_square_index = 0
-    squares_up = squares_to_edge("up")
-    squares_right = squares_to_edge("right")
-    squares_down = squares_to_edge("down")
-    squares_left = squares_to_edge("left")
+    squares_up = squares_to_edge(squares_list, initial_square, "up")
+    squares_right = squares_to_edge(squares_list, initial_square, "right")
+    squares_down = squares_to_edge(squares_list, initial_square, "down")
+    squares_left = squares_to_edge(squares_list, initial_square, "left")
 
     if squares_up >= 2 and squares_right >= 1:
         new_square_index = square_index + 17
         possible_moves.append(squares_list[new_square_index])
 
-    elif squares_right >= 2 and squares_up >= 1:
+    if squares_right >= 2 and squares_up >= 1:
         new_square_index = square_index + 10
         possible_moves.append(squares_list[new_square_index])
 
-    elif squares_right >= 2 and squares_down >= 1:
+    if squares_right >= 2 and squares_down >= 1:
         new_square_index = square_index - 6
         possible_moves.append(squares_list[new_square_index])
 
-    elif squares_down >= 2 and squares_right >= 1:
+    if squares_down >= 2 and squares_right >= 1:
         new_square_index = square_index - 15
         possible_moves.append(squares_list[new_square_index])
 
-    elif squares_down >= 2 and squares_left >= 1:
+    if squares_down >= 2 and squares_left >= 1:
         new_square_index = square_index - 17
         possible_moves.append(squares_list[new_square_index])
     
-    elif squares_left >= 2 and squares_down >= 1:
+    if squares_left >= 2 and squares_down >= 1:
         new_square_index = square_index - 10
         possible_moves.append(squares_list[new_square_index])
 
-    elif squares_left >= 2 and squares_up >= 1:
+    if squares_left >= 2 and squares_up >= 1:
         new_square_index = square_index + 6
         possible_moves.append(squares_list[new_square_index])
 
-    elif squares_up >= 2 and squares_left >= 1:
+    if squares_up >= 2 and squares_left >= 1:
         new_square_index = square_index + 15
         possible_moves.append(squares_list[new_square_index])
 
@@ -200,14 +208,14 @@ def move_bishop(initial_square, squares_list):
     while moves_up_left > 0:
         square_index += 7
         possible_moves.append(squares_list[square_index])
-        move_up_left -= 1
+        moves_up_left -= 1
 
 
     square_index = squares_list.index(initial_square)
     moves_down_right = squares_to_edge(squares_list, initial_square, "down", "right")
     while moves_down_right > 0:
         square_index -= 7
-        possible_moves.append(squares_list, initial_square, "down", "right")
+        possible_moves.append(squares_list[square_index])
         moves_down_right -= 1
 
 
@@ -227,7 +235,7 @@ def move_king(initial_square, squares_list, first_move=True):
 
     # horizontal and vertical king moves
     square_index = squares_list.index(initial_square)
-    moves_up = squares_to_edge(squares_list, initial_square, "top")
+    moves_up = squares_to_edge(squares_list, initial_square, "up")
     if moves_up != 0:
         square_index += 8
         possible_moves.append(squares_list[square_index])
@@ -248,7 +256,7 @@ def move_king(initial_square, squares_list, first_move=True):
 
 
     square_index = squares_list.index(initial_square)
-    moves_left = squares_list(squares_list, initial_square, "left")
+    moves_left = squares_to_edge(squares_list, initial_square, "left")
     if moves_left != 0:   
         square_index -= 1
         possible_moves.append(squares_list[square_index])
@@ -273,7 +281,7 @@ def move_king(initial_square, squares_list, first_move=True):
     moves_down_right = squares_to_edge(squares_list, initial_square, "down", "right")
     if moves_down_right != 0:
         square_index -= 7
-        possible_moves.append(squares_list, initial_square, "down", "right")
+        possible_moves.append(squares_list[square_index])
 
 
     square_index = squares_list.index(initial_square)
@@ -316,7 +324,7 @@ def move_queen(initial_square, squares_list):
 
 
     square_index = squares_list.index(initial_square)
-    moves_left = squares_list(squares_list, initial_square, "left")
+    moves_left = squares_to_edge(squares_list, initial_square, "left")
     while moves_left > 0:   
         square_index -= 1
         possible_moves.append(squares_list[square_index])
@@ -336,14 +344,14 @@ def move_queen(initial_square, squares_list):
     while moves_up_left > 0:
         square_index += 7
         possible_moves.append(squares_list[square_index])
-        move_up_left -= 1
+        moves_up_left -= 1
 
 
     square_index = squares_list.index(initial_square)
     moves_down_right = squares_to_edge(squares_list, initial_square, "down", "right")
     while moves_down_right > 0:
         square_index -= 7
-        possible_moves.append(squares_list, initial_square, "down", "right")
+        possible_moves.append(squares_list[square_index])
         moves_down_right -= 1
 
 
