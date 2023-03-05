@@ -4,11 +4,19 @@ import pygame as p
 
 class ExtendedGroupSingle(p.sprite.GroupSingle):
 
+    def __init__(self, color):
+        super().__init__()
+        self.color = color
+
     def change_piece_coordinates(self, arg1, arg2):       # allows the method to be called on a GroupSingle
         for spr in self.sprites():
 
             if hasattr(spr, "change_piece_coordinates"):
                spr.change_piece_coordinates(arg1, arg2)
+
+    def color(self):
+       return self.color
+
 
 
 class GameState:
@@ -111,7 +119,6 @@ class White_Rook(Pieces):
         self.rect = self.image.get_rect()
         self.rect.topleft = (x_pos + 3, y_pos + 5)
 
-    # This class is incomplete. For now, there is only the constructor, but methods for finding legal moves, etc need to be added in the future
 
 
 # White Knight class. Inherits from the Pieces class
@@ -125,7 +132,6 @@ class White_Knight(Pieces):
         self.rect = self.image.get_rect()
         self.rect.topleft = (x_pos + 3, y_pos + 5)
 
-    # This class is incomplete. For now, there is only the constructor, but methods for finding legal moves, etc need to be added in the future
 
 
 # White Bishop class. Inherits from the Pieces class
@@ -139,7 +145,6 @@ class White_Bishop(Pieces):
         self.rect = self.image.get_rect()
         self.rect.topleft = (x_pos + 3, y_pos + 5)
 
-    # This class is incomplete. For now, there is only the constructor, but methods for finding legal moves, etc need to be added in the future
 
 
 # White Queen class. Inherits from the Pieces class
@@ -153,7 +158,6 @@ class White_Queen(Pieces):
         self.rect = self.image.get_rect()
         self.rect.topleft = (x_pos + 3, y_pos + 5)
 
-    # This class is incomplete. For now, there is only the constructor, but methods for finding legal moves, etc need to be added in the future
 
 
 # White King class. Inherits from the Pieces class
@@ -167,7 +171,6 @@ class White_King(Pieces):
         self.rect = self.image.get_rect()
         self.rect.topleft = (x_pos + 3, y_pos + 5)
 
-    # This class is incomplete. For now, there is only the constructor, but methods for finding legal moves, etc need to be added in the future
 
 
 # White Pawn class. Inherits from the Pieces class
@@ -180,8 +183,8 @@ class White_Pawn(Pieces):
         self.image = p.image.load(f"images/White_Pawn.png")
         self.rect = self.image.get_rect()
         self.rect.topleft = (x_pos + 3, y_pos + 5)
+        
 
-    # This class is incomplete. For now, there is only the constructor, but methods for finding legal moves, etc need to be added in the future
 
 
 
@@ -197,7 +200,6 @@ class Black_Rook(Pieces):
         self.rect = self.image.get_rect()
         self.rect.topleft = (x_pos + 3, y_pos + 5)
 
-    # This class is incomplete. For now, there is only the constructor, but methods for finding legal moves, etc need to be added in the future
 
 
 # Black Knight class. Inherits from the Pieces class
@@ -211,7 +213,6 @@ class Black_Knight(Pieces):
         self.rect = self.image.get_rect()
         self.rect.topleft = (x_pos + 3, y_pos + 5)
 
-    # This class is incomplete. For now, there is only the constructor, but methods for finding legal moves, etc need to be added in the future
 
 
 # Black Bishop class. Inherits from the Pieces class
@@ -225,7 +226,6 @@ class Black_Bishop(Pieces):
         self.rect = self.image.get_rect()
         self.rect.topleft = (x_pos + 3, y_pos + 5)
 
-    # This class is incomplete. For now, there is only the constructor, but methods for finding legal moves, etc need to be added in the future
 
 
 # Black Queen class. Inherits from the Pieces class
@@ -239,7 +239,6 @@ class Black_Queen(Pieces):
         self.rect = self.image.get_rect()
         self.rect.topleft = (x_pos + 3, y_pos + 5)
 
-    # This class is incomplete. For now, there is only the constructor, but methods for finding legal moves, etc need to be added in the future
 
 
 # Black King class. Inherits from the Pieces class
@@ -253,7 +252,6 @@ class Black_King(Pieces):
         self.rect = self.image.get_rect()
         self.rect.topleft = (x_pos + 3, y_pos + 5)
 
-    # This class is incomplete. For now, there is only the constructor, but methods for finding legal moves, etc need to be added in the future
 
 
 # Black Pawn class. Inherits from the Pieces class
@@ -267,7 +265,6 @@ class Black_Pawn(Pieces):
         self.rect = self.image.get_rect()
         self.rect.topleft = (x_pos + 3, y_pos + 5)
 
-    # This class is incomplete. For now, there is only the constructor, but methods for finding legal moves, etc need to be added in the future
 
 
 class Hightlighted_Square(p.sprite.Sprite):
