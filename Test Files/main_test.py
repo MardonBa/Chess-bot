@@ -297,54 +297,54 @@ while True:
                     if to_move == piece_color:      # maybe estract
 
                         if piece == "White_Rook":
-                            white_rook_squares = cgl.move_rook(square, board_squares)
-                            draw_highlight(white_rook_squares, board_squares)
+                            possible_moves = cgl.move_rook(square, board_squares)
+                            draw_highlight(possible_moves, board_squares)
 
                         elif piece == "White_Knight":
-                            white_knight_squares = cgl.move_knight(square, board_squares)
-                            draw_highlight(white_knight_squares, board_squares)
+                            possible_moves = cgl.move_knight(square, board_squares)
+                            draw_highlight(possible_moves, board_squares)
 
                         elif piece == "White_Bishop":
-                            white_bishop_squares = cgl.move_bishop(square, board_squares)
-                            draw_highlight(white_bishop_squares, board_squares)
+                            possible_moves = cgl.move_bishop(square, board_squares)
+                            draw_highlight(possible_moves, board_squares)
 
                         elif piece == "White_Queen":
-                            white_queen_squares = cgl.move_queen(square, board_squares)
-                            draw_highlight(white_queen_squares, board_squares)
+                            possible_moves = cgl.move_queen(square, board_squares)
+                            draw_highlight(possible_moves, board_squares)
 
                         elif piece == "White_King":
-                            white_king_squares = cgl.move_king(square, board_squares)
-                            draw_highlight(white_king_squares, board_squares)
+                            possible_moves = cgl.move_king(square, board_squares)
+                            draw_highlight(possible_moves, board_squares)
 
                         elif piece == "White_Pawn":
-                            white_pawn_squares = cgl.move_pawn("white", square, board_squares)      # make sure to add code for determining if captures are possible
-                            draw_highlight(white_pawn_squares, board_squares)
+                            possible_moves = cgl.move_pawn("white", square, board_squares)      # make sure to add code for determining if captures are possible
+                            draw_highlight(possible_moves, board_squares)
 
  
 
                         elif piece == "Black_Rook":
-                            black_rook_squares = cgl.move_rook(square, board_squares)
-                            draw_highlight(black_rook_squares, board_squares)
+                            possible_moves = cgl.move_rook(square, board_squares)
+                            draw_highlight(possible_moves, board_squares)
 
                         elif piece == "Black_Knight":
-                            black_knight_squares = cgl.move_knight(square, board_squares)
-                            draw_highlight(black_knight_squares, board_squares)
+                            possible_moves = cgl.move_knight(square, board_squares)
+                            draw_highlight(possible_moves, board_squares)
 
                         elif piece == "Black_Bishop":
-                            black_bishop_squares = cgl.move_bishop(square, board_squares)
-                            draw_highlight(black_bishop_squares, board_squares)
+                            possible_moves = cgl.move_bishop(square, board_squares)
+                            draw_highlight(possible_moves, board_squares)
 
                         elif piece == "Black_Queen":
-                            black_queen_squares = cgl.move_queen(square, board_squares)
-                            draw_highlight(black_queen_squares, board_squares)
+                            possible_moves = cgl.move_queen(square, board_squares)
+                            draw_highlight(possible_moves, board_squares)
 
                         elif piece == "Black_King":
-                            black_king_squares = cgl.move_king(square, board_squares)
-                            draw_highlight(black_king_squares, board_squares)
+                            possible_moves = cgl.move_king(square, board_squares)
+                            draw_highlight(possible_moves, board_squares)
 
                         elif piece == "Black_Pawn":
-                            black_pawn_squares = cgl.move_pawn("black", square, board_squares)     # make sure to add code for determining if captures are possible
-                            draw_highlight(black_pawn_squares, board_squares)
+                            possible_moves = cgl.move_pawn("black", square, board_squares)     # make sure to add code for determining if captures are possible
+                            draw_highlight(possible_moves, board_squares)
 
                         else:
                             print("you done fucked up somewhere")
@@ -362,15 +362,20 @@ while True:
             else:
                 if right_color == True:
                     selected_square = mp.select_square(squares_dict)
-                    print(f"You selected {selected_square}")
-                    if selected_square != None:
-                        selected_piece.change_piece_coordinates(square_placement_dict[selected_square][0], square_placement_dict[selected_square][1])
-                    squares_init()
-                    board_status[square] = "empty"
-                    board_status[selected_square] = piece
-                    del pieces_dict[square]
-                    pieces_dict[selected_square] = selected_piece
-                    pieces_draw(pieces_dict)
+                    move_is_allowed = True if selected_square in possible_moves else False
+                    if move_is_allowed:
+                        print(f"You selected {selected_square}")
+                        if selected_square != None:
+                            selected_piece.change_piece_coordinates(square_placement_dict[selected_square][0], square_placement_dict[selected_square][1])
+                        squares_init()
+                        board_status[square] = "empty"
+                        board_status[selected_square] = piece
+                        del pieces_dict[square]
+                        pieces_dict[selected_square] = selected_piece
+                        pieces_draw(pieces_dict)
+
+                    else:
+                        print("Please click a highlighted square")
                 selected_square = None
                 selected_piece = None
 
