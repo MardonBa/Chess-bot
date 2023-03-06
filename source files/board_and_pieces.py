@@ -14,8 +14,6 @@ class ExtendedGroupSingle(p.sprite.GroupSingle):
             if hasattr(spr, "change_piece_coordinates"):
                spr.change_piece_coordinates(arg1, arg2)
 
-    def color(self):
-       return self.color
 
 
 
