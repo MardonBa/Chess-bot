@@ -4,10 +4,6 @@ import pygame as p
 
 class ExtendedGroupSingle(p.sprite.GroupSingle):
 
-    def __init__(self, color):
-        super().__init__()
-        self.color = color
-
     def change_piece_coordinates(self, arg1, arg2):       # allows the method to be called on a GroupSingle
         for spr in self.sprites():
 
