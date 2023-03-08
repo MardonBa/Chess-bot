@@ -300,7 +300,7 @@ def move_queen(initial_square, squares_list):
 
     # horizontal and vertical queen moves
     square_index = squares_list.index(initial_square)
-    moves_up = squares_to_edge(squares_list, initial_square, "top")
+    moves_up = squares_to_edge(squares_list, initial_square, "up")
     while moves_up > 0:
         square_index += 8
         possible_moves.append(squares_list[square_index])
