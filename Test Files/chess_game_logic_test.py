@@ -295,7 +295,7 @@ def move_bishop(color, initial_square, squares_list, board_status):
     return possible_moves
 
 
-def move_king(initial_square, squares_list, first_move=True):
+def move_king(color, initial_square, squares_list, board_status, first_move=True):
     possible_moves = []
 
     # horizontal and vertical king moves
