@@ -295,160 +295,65 @@ def move_bishop(color, initial_square, squares_list, board_status):
     return possible_moves
 
 
-def move_king(color, initial_square, squares_list, board_status, first_move=True):
+def move_king(initial_square, squares_list, first_move=True):
     possible_moves = []
 
     # horizontal and vertical king moves
     square_index = squares_list.index(initial_square)
     moves_up = squares_to_edge(squares_list, initial_square, "up")
-    while True:
-        if moves_up > 0:
-            square_index += 8
-            new_square = squares_list[square_index]
-            if board_status[new_square] == "empty":
-                possible_moves.append(new_square)
-            elif board_status[new_square] != "empty":
-                if color in board_status[new_square]:
-                    break
-                else:
-                    possible_moves.append(new_square)
-                    break
-        else: break
+    if moves_up != 0:
+        square_index += 8
+        possible_moves.append(squares_list[square_index])
 
 
     square_index = squares_list.index(initial_square)
     moves_down = squares_to_edge(squares_list, initial_square, "down")
-    while True:
-        if moves_down > 0:
-            square_index -= 8
-            new_square = squares_list[square_index]
-            if board_status[new_square] == "empty":
-                possible_moves.append(new_square)
-            elif board_status[new_square] != "empty":
-                if color in board_status[new_square]:
-                    break
-                else:
-                    possible_moves.append(new_square)
-                    break
-        else: break
+    if moves_down != 0:
+        square_index -= 8
+        possible_moves.append(squares_list[square_index])
 
 
     square_index = squares_list.index(initial_square)
     moves_right = squares_to_edge(squares_list, initial_square, "right")
-    while True:
-        if moves_right > 0:
-            square_index += 1
-            new_square = squares_list[square_index]
-            if board_status[new_square] == "empty":
-                possible_moves.append(new_square)
-            elif board_status[new_square] != "empty":
-                if color in board_status[new_square]:
-                    break
-                else:
-                    possible_moves.append(new_square)
-                    break
-        else: break
+    if moves_right != 0:
+        square_index += 1
+        possible_moves.append(squares_list[square_index])
 
 
     square_index = squares_list.index(initial_square)
     moves_left = squares_to_edge(squares_list, initial_square, "left")
-    while True:
-        if moves_left > 0:   
-            square_index -= 1
-            new_square = squares_list[square_index]
-            if board_status[new_square] == "empty":
-                possible_moves.append(new_square)
-            elif board_status[new_square] != "empty":
-                if color in board_status[new_square]:
-                    break
-                else:
-                    possible_moves.append(new_square)
-                    break
-        else: break
+    if moves_left != 0:   
+        square_index -= 1
+        possible_moves.append(squares_list[square_index])
 
 
     # diagonal king moves
     square_index = squares_list.index(initial_square)
     moves_up_right = squares_to_edge(squares_list, initial_square, "up", "right")
-    while True:
-        if moves_up_right > 0:
-            square_index += 9
-            new_square = squares_list[square_index]
-            if board_status[new_square] == "empty":
-                possible_moves.append(new_square)
-            elif board_status[new_square] != "empty":
-                if color in board_status[new_square]:
-                    break
-                else:
-                    possible_moves.append(new_square)
-                    break
-        else: break
+    if moves_up_right != 0:
+        square_index += 9
+        possible_moves.append(squares_list[square_index])
 
     
     square_index = squares_list.index(initial_square)
     moves_up_left = squares_to_edge(squares_list, initial_square, "up", "left")
-    while True:
-        if moves_up_left > 0:
-            square_index += 7
-            new_square = squares_list[square_index]
-            if board_status[new_square] == "empty":
-                possible_moves.append(new_square)
-            elif board_status[new_square] != "empty":
-                if color in board_status[new_square]:
-                    break
-                else:
-                    possible_moves.append(new_square)
-                    break
-        else: break
+    if moves_up_left != 0:
+        square_index += 7
+        possible_moves.append(squares_list[square_index])
 
 
     square_index = squares_list.index(initial_square)
     moves_down_right = squares_to_edge(squares_list, initial_square, "down", "right")
-    while True:
-        if moves_down_right > 0:
-            square_index -= 7
-            new_square = squares_list[square_index]
-            if board_status[new_square] == "empty":
-                possible_moves.append(new_square)
-            elif board_status[new_square] != "empty":
-                if color in board_status[new_square]:
-                    break
-                else:
-                    possible_moves.append(new_square)
-                    break
-        else: break
+    if moves_down_right != 0:
+        square_index -= 7
+        possible_moves.append(squares_list[square_index])
 
 
     square_index = squares_list.index(initial_square)
     moves_down_left = squares_to_edge(squares_list, initial_square, "down", "left")
-    while True:
-        if moves_down_left > 0:
-            square_index -= 9
-            new_square = squares_list[square_index]
-            if board_status[new_square] == "empty":
-                possible_moves.append(new_square)
-            elif board_status[new_square] != "empty":
-                if color in board_status[new_square]:
-                    break
-                else:
-                    possible_moves.append(new_square)
-                    break
-        else: break
-
-    while True:
-        if moves_down_left > 0:
-            square_index -= 9
-            new_square = squares_list[square_index]
-            if board_status[new_square] == "empty":
-                possible_moves.append(new_square)
-                moves_down_left -= 1
-            elif board_status[new_square] != "empty":
-                if color in board_status[new_square]:
-                    break
-                else:
-                    possible_moves.append(new_square)
-                    break
-        else: break
+    if moves_down_left != 0:
+        square_index -= 9
+        possible_moves.append(squares_list[square_index])
 
     # add code for castling
     # add code for check/checkmate (after all code for move restrictions, call each function for all pieces on the possible_moves list, and remove any squares returned by the other functions from possible_moves. If none remain, checkmate = True)

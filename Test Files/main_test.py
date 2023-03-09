@@ -314,7 +314,7 @@ while True:
                             draw_highlight(possible_moves, board_squares)
 
                         elif piece == "White_King":
-                            possible_moves = cgl.move_king("White", square, board_squares, board_status)
+                            possible_moves = cgl.move_king("White", square, board_squares)
                             draw_highlight(possible_moves, board_squares)
 
                         elif piece == "White_Pawn":
@@ -340,7 +340,7 @@ while True:
                             draw_highlight(possible_moves, board_squares)
 
                         elif piece == "Black_King":
-                            possible_moves = cgl.move_king("Black", square, board_squares, board_status)
+                            possible_moves = cgl.move_king("Black", square, board_squares)
                             draw_highlight(possible_moves, board_squares)
 
                         elif piece == "Black_Pawn":
