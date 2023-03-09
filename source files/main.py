@@ -318,7 +318,7 @@ while True:
                             draw_highlight(possible_moves, board_squares)
 
                         elif piece == "White_Pawn":
-                            possible_moves = cgl.move_pawn("White", square, board_squares)      # make sure to add code for determining if captures are possible
+                            possible_moves = cgl.move_pawn("White", square, board_squares, board_status)      # make sure to add code for determining if captures are possible
                             draw_highlight(possible_moves, board_squares)
 
  
@@ -344,7 +344,7 @@ while True:
                             draw_highlight(possible_moves, board_squares)
 
                         elif piece == "Black_Pawn":
-                            possible_moves = cgl.move_pawn("Black", square, board_squares)     # make sure to add code for determining if captures are possible
+                            possible_moves = cgl.move_pawn("Black", square, board_squares, board_status)     # make sure to add code for determining if captures are possible
                             draw_highlight(possible_moves, board_squares)
 
                         else:
