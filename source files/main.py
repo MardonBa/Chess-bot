@@ -11,6 +11,7 @@ print(type(board))
 board_squares = board.create_board()
 print(type(board_squares))
 board_status = board.piece_position(board=board_squares, pieces=board.square_status)
+print(board_status)
 screen_width = 1400
 screen_height = 800
 board_width = 73
@@ -297,53 +298,53 @@ while True:
                     if to_move == piece_color:
 
                         if piece == "White_Rook":
-                            possible_moves = cgl.move_rook(square, board_squares)
+                            possible_moves = cgl.move_rook("White", square, board_squares, board_status)
                             draw_highlight(possible_moves, board_squares)
 
                         elif piece == "White_Knight":
-                            possible_moves = cgl.move_knight(square, board_squares)
+                            possible_moves = cgl.move_knight("White", square, board_squares, board_status)
                             draw_highlight(possible_moves, board_squares)
 
                         elif piece == "White_Bishop":
-                            possible_moves = cgl.move_bishop(square, board_squares)
+                            possible_moves = cgl.move_bishop("White", square, board_squares, board_status)
                             draw_highlight(possible_moves, board_squares)
 
                         elif piece == "White_Queen":
-                            possible_moves = cgl.move_queen(square, board_squares)
+                            possible_moves = cgl.move_queen("White", square, board_squares, board_status)
                             draw_highlight(possible_moves, board_squares)
 
                         elif piece == "White_King":
-                            possible_moves = cgl.move_king(square, board_squares)
+                            possible_moves = cgl.move_king("White", square, board_squares, board_status)
                             draw_highlight(possible_moves, board_squares)
 
                         elif piece == "White_Pawn":
-                            possible_moves = cgl.move_pawn("white", square, board_squares)      # make sure to add code for determining if captures are possible
+                            possible_moves = cgl.move_pawn("White", square, board_squares)      # make sure to add code for determining if captures are possible
                             draw_highlight(possible_moves, board_squares)
 
  
 
                         elif piece == "Black_Rook":
-                            possible_moves = cgl.move_rook(square, board_squares)
+                            possible_moves = cgl.move_rook("Black", square, board_squares, board_status)
                             draw_highlight(possible_moves, board_squares)
 
                         elif piece == "Black_Knight":
-                            possible_moves = cgl.move_knight(square, board_squares)
+                            possible_moves = cgl.move_knight("Black", square, board_squares, board_status)
                             draw_highlight(possible_moves, board_squares)
 
                         elif piece == "Black_Bishop":
-                            possible_moves = cgl.move_bishop(square, board_squares)
+                            possible_moves = cgl.move_bishop("Black", square, board_squares, board_status)
                             draw_highlight(possible_moves, board_squares)
 
                         elif piece == "Black_Queen":
-                            possible_moves = cgl.move_queen(square, board_squares)
+                            possible_moves = cgl.move_queen("Black", square, board_squares, board_status)
                             draw_highlight(possible_moves, board_squares)
 
                         elif piece == "Black_King":
-                            possible_moves = cgl.move_king(square, board_squares)
+                            possible_moves = cgl.move_king("Black", square, board_squares, board_status)
                             draw_highlight(possible_moves, board_squares)
 
                         elif piece == "Black_Pawn":
-                            possible_moves = cgl.move_pawn("black", square, board_squares)     # make sure to add code for determining if captures are possible
+                            possible_moves = cgl.move_pawn("Black", square, board_squares)     # make sure to add code for determining if captures are possible
                             draw_highlight(possible_moves, board_squares)
 
                         else:
