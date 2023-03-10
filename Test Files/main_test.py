@@ -342,6 +342,7 @@ while True:
                                     white_can_castle_right = True
 
                             possible_moves = cgl.move_king("White", square, board_squares, board_status, can_castle_right = white_can_castle_right)
+                            print(possible_moves)
                             draw_highlight(possible_moves, board_squares)
                             white_king_moving = True if white_king_moving == False else None
 
@@ -390,6 +391,7 @@ while True:
                         right_color = False
                         selected_piece = None
 
+                    
                     
 
             else:
@@ -478,6 +480,7 @@ while True:
                     pieces_draw(pieces_dict) 
                 selected_square = None
                 selected_piece = None
+                print(board_squares)
 
 
     p.display.update()
