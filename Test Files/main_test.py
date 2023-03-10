@@ -430,7 +430,7 @@ while True:
                             black_king_moving = None
 
                     squares_init()
-                    pieces_draw(pieces_dict)
+                    pieces_draw(pieces_dict) 
                 selected_square = None
                 selected_piece = None
 
