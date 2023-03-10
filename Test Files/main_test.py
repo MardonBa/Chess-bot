@@ -369,7 +369,7 @@ while True:
                         elif piece == "Black_King":
                             possible_moves = cgl.move_king("Black", square, board_squares, board_status)
                             draw_highlight(possible_moves, board_squares)
-                            black_king_moving == True if black_king_moving == False else None
+                            black_king_moving = True if black_king_moving == False else None
 
                         elif piece == "Black_Pawn":
                             possible_moves = cgl.move_pawn("Black", square, board_squares, board_status, first_move=True if "7" in square else False)     # make sure to add code for determining if captures are possible
@@ -405,36 +405,66 @@ while True:
                             print(white_a1_rook_has_moved, "testing")
                             white_a1_rook_moving = None
                         
-                        elif white_h1_rook_moving == True:
+                        if white_h1_rook_moving == True:
                             white_h1_rook_has_moved = True
                             print(white_h1_rook_has_moved, "testing")
                             white_h1_rook_moving = None
 
-                        elif black_a8_rook_moving == True:
+                        if black_a8_rook_moving == True:
                             black_a8_rook_has_moved = True
                             print(black_a8_rook_has_moved, "testing")
                             black_a8_rook_moving = None
 
-                        elif black_h8_rook_moving == True:
+                        if black_h8_rook_moving == True:
                             black_a8_rook_has_moved = True
                             print(black_a8_rook_has_moved, "testing")
                             black_a8_rook_moving = None
                         
-                        elif white_king_moving == True:
+                        if white_king_moving == True:
                             white_king_has_moved = True
                             print(white_king_has_moved, "testing")
                             white_king_moving = None
 
-                        elif black_king_moving == True:
+                        if black_king_moving == True:
                             black_king_has_moved = True
                             print(black_king_has_moved, "testing")
-                            black_king_moving = None
+                            black_king_moving = True
+
+                    else: 
+                        if white_a1_rook_moving == True:
+                            white_a1_rook_has_moved = False
+                            print(white_a1_rook_has_moved, "reset")
+                            white_a1_rook_moving = False
+                        
+                        if white_h1_rook_moving == True:
+                            white_h1_rook_has_moved = False
+                            print(white_h1_rook_has_moved, "reset")
+                            white_h1_rook_moving = False
+
+                        if black_a8_rook_moving == True:
+                            black_a8_rook_has_moved = False
+                            print(black_a8_rook_has_moved, "reset")
+                            black_a8_rook_moving = False
+
+                        if black_h8_rook_moving == True:
+                            black_a8_rook_has_moved = False
+                            print(black_a8_rook_has_moved, "reset")
+                            black_a8_rook_moving = False
+                        
+                        if white_king_moving == True:
+                            white_king_has_moved = False
+                            print(white_king_has_moved, "reset")
+                            white_king_moving = False
+
+                        if black_king_moving == True:
+                            black_king_has_moved = False
+                            print(black_king_has_moved, "reset")
+                            black_king_moving = False
 
                     squares_init()
                     pieces_draw(pieces_dict) 
                 selected_square = None
                 selected_piece = None
-
 
 
     p.display.update()
