@@ -289,6 +289,7 @@ white_h1_rook_moving = False
 black_a8_rook_moving = False
 black_h8_rook_moving = False
 
+white_can_castle_right = False
 
 while True:
 
@@ -336,6 +337,7 @@ while True:
                             draw_highlight(possible_moves, board_squares)
 
                         elif piece == "White_King":
+
                             possible_moves = cgl.move_king("White", square, board_squares, board_status)
                             draw_highlight(possible_moves, board_squares)
                             white_king_moving = True if white_king_moving == False else None
