@@ -512,6 +512,9 @@ def move_king(color, initial_square, squares_list, board_status, can_castle_righ
     square_index = squares_list.index(initial_square)
     if can_castle_right == True:
         possible_moves.append(squares_list[square_index + 2])
+    if can_castle_left == True:
+        possible_moves.append(squares_list[square_index - 2])
+    
             
     return possible_moves
 

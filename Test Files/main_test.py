@@ -290,6 +290,9 @@ black_a8_rook_moving = False
 black_h8_rook_moving = False
 
 white_can_castle_right = False
+white_can_castle_left = False
+black_can_castle_right = False
+black_can_castle_left = False
 
 while True:
 
@@ -340,8 +343,11 @@ while True:
                             if white_king_has_moved == False and white_h1_rook_has_moved == False:
                                 if board_status["F1"] == "empty" and board_status["G1"] == "empty":
                                     white_can_castle_right = True
+                            if white_king_has_moved == False and white_a1_rook_has_moved == False:
+                                if board_status["D1"] == "empty" and board_status["C1"] == "empty" and board_status["B1"] == "empty":
+                                    white_can_castle_left = True
 
-                            possible_moves = cgl.move_king("White", square, board_squares, board_status, can_castle_right = white_can_castle_right)
+                            possible_moves = cgl.move_king("White", square, board_squares, board_status, can_castle_right=white_can_castle_right, can_castle_left=white_can_castle_left)
                             print(possible_moves)
                             draw_highlight(possible_moves, board_squares)
                             white_king_moving = True if white_king_moving == False else None
@@ -413,6 +419,19 @@ while True:
                             board_status["F1"] = "White_Rook"
                             pieces_dict["F1"] = pieces_dict["H1"]
                             del pieces_dict["H1"]
+                            white_can_castle_right = False
+                            white_king_has_moved = True
+                            white_h1_rook_has_moved = True
+                        
+                        if white_can_castle_left == True and selected_square == "C1":
+                            pieces_dict["A1"].change_piece_coordinates(square_placement_dict["D1"][0], square_placement_dict["D1"][1])
+                            board_status["A1"] = "empty"
+                            board_status["D1"] = "White_Rook"
+                            pieces_dict["D1"] = pieces_dict["A1"]
+                            del pieces_dict["A1"]
+                            white_can_castle_left = False
+                            white_king_has_moved = True
+                            white_a1_rook_has_moved = True
 
 
                         if white_a1_rook_moving == True:
