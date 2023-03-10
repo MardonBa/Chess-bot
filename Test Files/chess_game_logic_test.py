@@ -145,7 +145,7 @@ def move_pawn(color, initial_square, squares_list, board_status, first_move=True
         
 
 
-def move_rook(color, initial_square, squares_list, board_status, first_move=True):
+def move_rook(color, initial_square, squares_list, board_status):
     possible_moves = []
 
     square_index = squares_list.index(initial_square)
@@ -393,7 +393,7 @@ def move_bishop(color, initial_square, squares_list, board_status):
     return possible_moves
 
 
-def move_king(color, initial_square, squares_list, board_status, first_move=True):
+def move_king(color, initial_square, squares_list, board_status, can_castle_right=False, can_castle_left=False):
     possible_moves = []
 
     # horizontal and vertical king moves
