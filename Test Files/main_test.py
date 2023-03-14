@@ -340,12 +340,17 @@ while True:
                             draw_highlight(possible_moves, board_squares)
 
                         elif piece == "White_King":
-                            if white_king_has_moved == False and white_h1_rook_has_moved == False:
+                            if white_king_has_moved == False & white_h1_rook_has_moved == False:
                                 if board_status["F1"] == "empty" and board_status["G1"] == "empty":
                                     white_can_castle_right = True
+                            else:
+                                white_can_castle_right = False
+
                             if white_king_has_moved == False and white_a1_rook_has_moved == False:
                                 if board_status["D1"] == "empty" and board_status["C1"] == "empty" and board_status["B1"] == "empty":
                                     white_can_castle_left = True
+                            else: 
+                                white_can_castle_left = False
 
                             possible_moves = cgl.move_king("White", square, board_squares, board_status, can_castle_right=white_can_castle_right, can_castle_left=white_can_castle_left)
                             print(possible_moves)
@@ -379,7 +384,20 @@ while True:
                             draw_highlight(possible_moves, board_squares)
 
                         elif piece == "Black_King":
-                            possible_moves = cgl.move_king("Black", square, board_squares, board_status)
+                            if black_king_has_moved == False and black_h8_rook_has_moved == False:
+                                if board_status["F8"] == "empty" and board_status["G8"] == "empty":
+                                    black_can_castle_right = True
+                            else:
+                                black_can_castle_right = False
+
+                            if black_king_has_moved == False and black_a8_rook_has_moved == False:
+                                if board_status["D8"] == "empty" and board_status["C8"] == "empty" and board_status["B8"] == "empty":
+                                    black_can_castle_left = True
+                            else:
+                                black_can_castle_left = False
+
+
+                            possible_moves = cgl.move_king("Black", square, board_squares, board_status, can_castle_right=black_can_castle_right, can_castle_left=black_can_castle_left)
                             draw_highlight(possible_moves, board_squares)
                             black_king_moving = True if black_king_moving == False else None
 
@@ -404,7 +422,7 @@ while True:
                 if right_color == True:
                     selected_square = mp.select_square(squares_dict)
                     print(f"You selected {selected_square}")
-                    if selected_square != None and selected_square in possible_moves:
+                    if selected_square in possible_moves:
                         selected_piece.change_piece_coordinates(square_placement_dict[selected_square][0], square_placement_dict[selected_square][1])
                         to_move = "Black" if to_move == "White" else "White"
                         print("to_move = ", to_move)
@@ -421,6 +439,7 @@ while True:
                             del pieces_dict["H1"]
                             white_can_castle_right = False
                             white_king_has_moved = True
+                            print(white_king_has_moved, "white_king_has_moved")
                             white_h1_rook_has_moved = True
                         
                         if white_can_castle_left == True and selected_square == "C1":
@@ -432,6 +451,26 @@ while True:
                             white_can_castle_left = False
                             white_king_has_moved = True
                             white_a1_rook_has_moved = True
+
+                        if black_can_castle_right == True and selected_square == "G8":
+                            pieces_dict["H8"].change_piece_coordinates(square_placement_dict["F8"][0], square_placement_dict["F8"][1])
+                            board_status["H8"] = "empty"
+                            board_status["F8"] = "Black_Rook"
+                            pieces_dict["F8"] = pieces_dict["H8"]
+                            del pieces_dict["H8"]
+                            black_can_castle_right = False
+                            black_king_has_moved = True
+                            black_h8_rook_has_moved = True
+
+                        if white_can_castle_left == True and selected_square == "C8":
+                            pieces_dict["A8"].change_piece_coordinates(square_placement_dict["D8"][0], square_placement_dict["D8"][1])
+                            board_status["A8"] = "empty"
+                            board_status["D8"] = "Black_Rook"
+                            pieces_dict["D8"] = pieces_dict["A8"]
+                            del pieces_dict["A8"]
+                            black_can_castle_left = False
+                            black_king_has_moved = True
+                            black_a1_rook_has_moved = True
 
 
                         if white_a1_rook_moving == True:
@@ -456,6 +495,7 @@ while True:
                         
                         if white_king_moving == True:
                             white_king_has_moved = True
+                            print(white_king_has_moved, "white_king_has_moved")
                             print(white_king_has_moved, "testing")
                             white_king_moving = None
 
