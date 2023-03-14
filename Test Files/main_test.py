@@ -311,9 +311,7 @@ while True:
                     print(f"You selected {selected_piece}")
 
                     square = get_key(selected_piece, pieces_dict)
-                    print(square)
                     piece = board_status[square]
-                    print(piece)
                     piece_color = "White" if "White" in piece else "Black"
                     print("piece_color = ", piece_color)
 
@@ -353,7 +351,6 @@ while True:
                                 white_can_castle_left = False
 
                             possible_moves = cgl.move_king("White", square, board_squares, board_status, can_castle_right=white_can_castle_right, can_castle_left=white_can_castle_left)
-                            print(possible_moves)
                             draw_highlight(possible_moves, board_squares)
                             white_king_moving = True if white_king_moving == False else None
 
@@ -439,7 +436,6 @@ while True:
                             del pieces_dict["H1"]
                             white_can_castle_right = False
                             white_king_has_moved = True
-                            print(white_king_has_moved, "white_king_has_moved")
                             white_h1_rook_has_moved = True
                         
                         if white_can_castle_left == True and selected_square == "C1":
@@ -475,71 +471,57 @@ while True:
 
                         if white_a1_rook_moving == True:
                             white_a1_rook_has_moved = True
-                            print(white_a1_rook_has_moved, "testing")
                             white_a1_rook_moving = None
                         
                         if white_h1_rook_moving == True:
                             white_h1_rook_has_moved = True
-                            print(white_h1_rook_has_moved, "testing")
                             white_h1_rook_moving = None
 
                         if black_a8_rook_moving == True:
                             black_a8_rook_has_moved = True
-                            print(black_a8_rook_has_moved, "testing")
                             black_a8_rook_moving = None
 
                         if black_h8_rook_moving == True:
                             black_a8_rook_has_moved = True
-                            print(black_a8_rook_has_moved, "testing")
                             black_a8_rook_moving = None
                         
                         if white_king_moving == True:
                             white_king_has_moved = True
-                            print(white_king_has_moved, "white_king_has_moved")
-                            print(white_king_has_moved, "testing")
                             white_king_moving = None
 
                         if black_king_moving == True:
                             black_king_has_moved = True
-                            print(black_king_has_moved, "testing")
                             black_king_moving = True
 
                     else: 
                         if white_a1_rook_moving == True:
                             white_a1_rook_has_moved = False
-                            print(white_a1_rook_has_moved, "reset")
                             white_a1_rook_moving = False
                         
                         if white_h1_rook_moving == True:
                             white_h1_rook_has_moved = False
-                            print(white_h1_rook_has_moved, "reset")
                             white_h1_rook_moving = False
 
                         if black_a8_rook_moving == True:
                             black_a8_rook_has_moved = False
-                            print(black_a8_rook_has_moved, "reset")
                             black_a8_rook_moving = False
 
                         if black_h8_rook_moving == True:
                             black_a8_rook_has_moved = False
-                            print(black_a8_rook_has_moved, "reset")
                             black_a8_rook_moving = False
                         
                         if white_king_moving == True:
                             white_king_has_moved = False
-                            print(white_king_has_moved, "reset")
                             white_king_moving = False
 
                         if black_king_moving == True:
                             black_king_has_moved = False
-                            print(black_king_has_moved, "reset")
                             black_king_moving = False
 
                     squares_init()
                     pieces_draw(pieces_dict) 
                 selected_square = None
                 selected_piece = None
-                print(board_squares)
 
 
     p.display.update()

@@ -1,3 +1,4 @@
+
 from datetime import datetime
 start = datetime.now()
 import board_and_pieces as bd_pc
@@ -272,6 +273,27 @@ print(datetime.now() - start)
 to_move = "White"
 right_color = True
 
+white_king_has_moved = False
+white_a1_rook_has_moved = False
+white_h1_rook_has_moved = False
+
+black_king_has_moved = False
+black_a8_rook_has_moved = False
+black_h8_rook_has_moved = False
+
+
+white_king_moving = False
+black_king_moving = False
+white_a1_rook_moving = False
+white_h1_rook_moving = False
+black_a8_rook_moving = False
+black_h8_rook_moving = False
+
+white_can_castle_right = False
+white_can_castle_left = False
+black_can_castle_right = False
+black_can_castle_left = False
+
 while True:
 
     for event in p.event.get():
@@ -289,9 +311,7 @@ while True:
                     print(f"You selected {selected_piece}")
 
                     square = get_key(selected_piece, pieces_dict)
-                    print(square)
                     piece = board_status[square]
-                    print(piece)
                     piece_color = "White" if "White" in piece else "Black"
                     print("piece_color = ", piece_color)
 
@@ -300,6 +320,10 @@ while True:
                         if piece == "White_Rook":
                             possible_moves = cgl.move_rook("White", square, board_squares, board_status)
                             draw_highlight(possible_moves, board_squares)
+                            if "A" in square:
+                                white_a1_rook_moving = True if white_a1_rook_moving == False else None
+                            elif "H" in square:
+                                white_h1_rook_moving = True if white_h1_rook_moving == False else None
 
                         elif piece == "White_Knight":
                             possible_moves = cgl.move_knight("White", square, board_squares, board_status)
@@ -314,11 +338,24 @@ while True:
                             draw_highlight(possible_moves, board_squares)
 
                         elif piece == "White_King":
-                            possible_moves = cgl.move_king("White", square, board_squares, board_status)
+                            if white_king_has_moved == False & white_h1_rook_has_moved == False:
+                                if board_status["F1"] == "empty" and board_status["G1"] == "empty":
+                                    white_can_castle_right = True
+                            else:
+                                white_can_castle_right = False
+
+                            if white_king_has_moved == False and white_a1_rook_has_moved == False:
+                                if board_status["D1"] == "empty" and board_status["C1"] == "empty" and board_status["B1"] == "empty":
+                                    white_can_castle_left = True
+                            else: 
+                                white_can_castle_left = False
+
+                            possible_moves = cgl.move_king("White", square, board_squares, board_status, can_castle_right=white_can_castle_right, can_castle_left=white_can_castle_left)
                             draw_highlight(possible_moves, board_squares)
+                            white_king_moving = True if white_king_moving == False else None
 
                         elif piece == "White_Pawn":
-                            possible_moves = cgl.move_pawn("White", square, board_squares, board_status)      # make sure to add code for determining if captures are possible
+                            possible_moves = cgl.move_pawn("White", square, board_squares, board_status, first_move=True if "2" in square else False)      # make sure to add code for determining if captures are possible
                             draw_highlight(possible_moves, board_squares)
 
  
@@ -326,6 +363,10 @@ while True:
                         elif piece == "Black_Rook":
                             possible_moves = cgl.move_rook("Black", square, board_squares, board_status)
                             draw_highlight(possible_moves, board_squares)
+                            if "A" in square:
+                                black_a8_rook_moving = True if black_a8_rook_moving == False else None
+                            elif "H" in square:
+                                black_h8_rook_moving = True if black_h8_rook_moving == False else None
 
                         elif piece == "Black_Knight":
                             possible_moves = cgl.move_knight("Black", square, board_squares, board_status)
@@ -340,11 +381,25 @@ while True:
                             draw_highlight(possible_moves, board_squares)
 
                         elif piece == "Black_King":
-                            possible_moves = cgl.move_king("Black", square, board_squares, board_status)
+                            if black_king_has_moved == False and black_h8_rook_has_moved == False:
+                                if board_status["F8"] == "empty" and board_status["G8"] == "empty":
+                                    black_can_castle_right = True
+                            else:
+                                black_can_castle_right = False
+
+                            if black_king_has_moved == False and black_a8_rook_has_moved == False:
+                                if board_status["D8"] == "empty" and board_status["C8"] == "empty" and board_status["B8"] == "empty":
+                                    black_can_castle_left = True
+                            else:
+                                black_can_castle_left = False
+
+
+                            possible_moves = cgl.move_king("Black", square, board_squares, board_status, can_castle_right=black_can_castle_right, can_castle_left=black_can_castle_left)
                             draw_highlight(possible_moves, board_squares)
+                            black_king_moving = True if black_king_moving == False else None
 
                         elif piece == "Black_Pawn":
-                            possible_moves = cgl.move_pawn("Black", square, board_squares, board_status)     # make sure to add code for determining if captures are possible
+                            possible_moves = cgl.move_pawn("Black", square, board_squares, board_status, first_move=True if "7" in square else False)     # make sure to add code for determining if captures are possible
                             draw_highlight(possible_moves, board_squares)
 
                         else:
@@ -358,24 +413,115 @@ while True:
                         selected_piece = None
 
                     
+                    
 
             else:
                 if right_color == True:
                     selected_square = mp.select_square(squares_dict)
                     print(f"You selected {selected_square}")
-                    if selected_square != None and selected_square in possible_moves:
+                    if selected_square in possible_moves:
                         selected_piece.change_piece_coordinates(square_placement_dict[selected_square][0], square_placement_dict[selected_square][1])
                         to_move = "Black" if to_move == "White" else "White"
                         print("to_move = ", to_move)
                         board_status[square] = "empty"
                         board_status[selected_square] = piece
-                        del pieces_dict[square]
                         pieces_dict[selected_square] = selected_piece
+                        del pieces_dict[square]
+
+                        if white_can_castle_right == True and selected_square == "G1":
+                            pieces_dict["H1"].change_piece_coordinates(square_placement_dict["F1"][0], square_placement_dict["F1"][1])
+                            board_status["H1"] = "empty"
+                            board_status["F1"] = "White_Rook"
+                            pieces_dict["F1"] = pieces_dict["H1"]
+                            del pieces_dict["H1"]
+                            white_can_castle_right = False
+                            white_king_has_moved = True
+                            white_h1_rook_has_moved = True
+                        
+                        if white_can_castle_left == True and selected_square == "C1":
+                            pieces_dict["A1"].change_piece_coordinates(square_placement_dict["D1"][0], square_placement_dict["D1"][1])
+                            board_status["A1"] = "empty"
+                            board_status["D1"] = "White_Rook"
+                            pieces_dict["D1"] = pieces_dict["A1"]
+                            del pieces_dict["A1"]
+                            white_can_castle_left = False
+                            white_king_has_moved = True
+                            white_a1_rook_has_moved = True
+
+                        if black_can_castle_right == True and selected_square == "G8":
+                            pieces_dict["H8"].change_piece_coordinates(square_placement_dict["F8"][0], square_placement_dict["F8"][1])
+                            board_status["H8"] = "empty"
+                            board_status["F8"] = "Black_Rook"
+                            pieces_dict["F8"] = pieces_dict["H8"]
+                            del pieces_dict["H8"]
+                            black_can_castle_right = False
+                            black_king_has_moved = True
+                            black_h8_rook_has_moved = True
+
+                        if white_can_castle_left == True and selected_square == "C8":
+                            pieces_dict["A8"].change_piece_coordinates(square_placement_dict["D8"][0], square_placement_dict["D8"][1])
+                            board_status["A8"] = "empty"
+                            board_status["D8"] = "Black_Rook"
+                            pieces_dict["D8"] = pieces_dict["A8"]
+                            del pieces_dict["A8"]
+                            black_can_castle_left = False
+                            black_king_has_moved = True
+                            black_a1_rook_has_moved = True
+
+
+                        if white_a1_rook_moving == True:
+                            white_a1_rook_has_moved = True
+                            white_a1_rook_moving = None
+                        
+                        if white_h1_rook_moving == True:
+                            white_h1_rook_has_moved = True
+                            white_h1_rook_moving = None
+
+                        if black_a8_rook_moving == True:
+                            black_a8_rook_has_moved = True
+                            black_a8_rook_moving = None
+
+                        if black_h8_rook_moving == True:
+                            black_a8_rook_has_moved = True
+                            black_a8_rook_moving = None
+                        
+                        if white_king_moving == True:
+                            white_king_has_moved = True
+                            white_king_moving = None
+
+                        if black_king_moving == True:
+                            black_king_has_moved = True
+                            black_king_moving = True
+
+                    else: 
+                        if white_a1_rook_moving == True:
+                            white_a1_rook_has_moved = False
+                            white_a1_rook_moving = False
+                        
+                        if white_h1_rook_moving == True:
+                            white_h1_rook_has_moved = False
+                            white_h1_rook_moving = False
+
+                        if black_a8_rook_moving == True:
+                            black_a8_rook_has_moved = False
+                            black_a8_rook_moving = False
+
+                        if black_h8_rook_moving == True:
+                            black_a8_rook_has_moved = False
+                            black_a8_rook_moving = False
+                        
+                        if white_king_moving == True:
+                            white_king_has_moved = False
+                            white_king_moving = False
+
+                        if black_king_moving == True:
+                            black_king_has_moved = False
+                            black_king_moving = False
+
                     squares_init()
-                    pieces_draw(pieces_dict)
+                    pieces_draw(pieces_dict) 
                 selected_square = None
                 selected_piece = None
-
 
 
     p.display.update()

@@ -145,7 +145,7 @@ def move_pawn(color, initial_square, squares_list, board_status, first_move=True
         
 
 
-def move_rook(color, initial_square, squares_list, board_status, first_move=True):
+def move_rook(color, initial_square, squares_list, board_status):
     possible_moves = []
 
     square_index = squares_list.index(initial_square)
@@ -393,7 +393,7 @@ def move_bishop(color, initial_square, squares_list, board_status):
     return possible_moves
 
 
-def move_king(color, initial_square, squares_list, board_status, first_move=True):
+def move_king(color, initial_square, squares_list, board_status, can_castle_right=False, can_castle_left=False):
     possible_moves = []
 
     # horizontal and vertical king moves
@@ -509,10 +509,18 @@ def move_king(color, initial_square, squares_list, board_status, first_move=True
                 break
         else: break
 
-    # add code for castling
+    square_index = squares_list.index(initial_square)
+    if can_castle_right == True:
+        possible_moves.append(squares_list[square_index + 2])
+    if can_castle_left == True:
+        possible_moves.append(squares_list[square_index - 2])
+    
+            
+    return possible_moves
+
     # add code for check/checkmate (after all code for move restrictions, call each function for all pieces on the possible_moves list, and remove any squares returned by the other functions from possible_moves. If none remain, checkmate = True)
 
-    return possible_moves
+
 
 def move_queen(color, initial_square, squares_list, board_status):
     possible_moves = []
