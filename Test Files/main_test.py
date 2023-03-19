@@ -352,6 +352,7 @@ while True:
 
                         elif piece == "White_Pawn":
                             possible_moves = cgl.move_pawn("White", square, board_squares, board_status, first_move=True if "2" in square else False)      # make sure to add code for determining if captures are possible
+                            print(possible_moves)
                             draw_highlight(possible_moves, board_squares)
 
  

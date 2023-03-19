@@ -63,8 +63,12 @@ def move_pawn(color, initial_square, squares_list, board_status, first_move=True
     possible_moves = []
 
     if color == "White":
-        if squares_to_edge(squares_list, initial_square, "up") != 0:
-            possible_moves.append(squares_list[initial_square_index + 8])
+        while True:
+            if squares_to_edge(squares_list, initial_square, "up") != 0:
+                if board_status[squares_list[initial_square_index + 8]] == "empty":
+                    possible_moves.append(squares_list[initial_square_index + 8])
+                    break
+                else: break
 
         square_index = squares_list.index(initial_square)
         moves_up_right = squares_to_edge(squares_list, initial_square, "up", "right")
@@ -100,8 +104,12 @@ def move_pawn(color, initial_square, squares_list, board_status, first_move=True
 
 
     elif color == "Black":
-        if squares_to_edge(squares_list, initial_square, "down") != 0:
-            possible_moves.append(squares_list[initial_square_index - 8])
+        while True:
+            if squares_to_edge(squares_list, initial_square, "up") != 0:
+                if board_status[squares_list[initial_square_index - 8]] == "empty":
+                    possible_moves.append(squares_list[initial_square_index - 8])
+                    break
+                else: break
 
         square_index = squares_list.index(initial_square)
         moves_down_right = squares_to_edge(squares_list, initial_square, "up", "right")
