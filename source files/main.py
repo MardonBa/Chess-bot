@@ -4,13 +4,13 @@ start = datetime.now()
 import board_and_pieces as bd_pc
 import move_pieces as mp
 import chess_game_logic as cgl
-import pygame as p
+import pygame as p 
 from sys import exit
+from copy import deepcopy
 
 board = bd_pc.GameState()
-print(type(board))
 board_squares = board.create_board()
-print(type(board_squares))
+print(board_squares)
 board_status = board.piece_position(board=board_squares, pieces=board.square_status)
 print(board_status)
 screen_width = 1400
@@ -294,6 +294,9 @@ white_can_castle_left = False
 black_can_castle_right = False
 black_can_castle_left = False
 
+previous_board_status = deepcopy(board_status)
+white_en_passant = None
+black_en_passant = None
 while True:
 
     for event in p.event.get():
@@ -304,7 +307,6 @@ while True:
 
             if selected_piece == None:
                 selected_piece = mp.select_piece(pieces_dict)
-                print(type(selected_piece))
                 if selected_piece == None:
                     print("Please select a piece")
                 else: 
@@ -355,7 +357,8 @@ while True:
                             white_king_moving = True if white_king_moving == False else None
 
                         elif piece == "White_Pawn":
-                            possible_moves = cgl.move_pawn("White", square, board_squares, board_status, first_move=True if "2" in square else False)      # make sure to add code for determining if captures are possible
+                            possible_moves, white_en_passant = cgl.move_pawn("White", square, board_squares, board_status, previous_board_status, first_move=True if "2" in square else False)      # make sure to add code for determining if captures are possible
+                            print(possible_moves)
                             draw_highlight(possible_moves, board_squares)
 
  
@@ -399,7 +402,7 @@ while True:
                             black_king_moving = True if black_king_moving == False else None
 
                         elif piece == "Black_Pawn":
-                            possible_moves = cgl.move_pawn("Black", square, board_squares, board_status, first_move=True if "7" in square else False)     # make sure to add code for determining if captures are possible
+                            possible_moves, black_en_passant = cgl.move_pawn("Black", square, board_squares, board_status, previous_board_status, first_move=True if "7" in square else False)     # make sure to add code for determining if captures are possible
                             draw_highlight(possible_moves, board_squares)
 
                         else:
@@ -415,7 +418,8 @@ while True:
                     
                     
 
-            else:
+            else:      
+                previous_board_status = deepcopy(board_status)
                 if right_color == True:
                     selected_square = mp.select_square(squares_dict)
                     print(f"You selected {selected_square}")
@@ -427,6 +431,23 @@ while True:
                         board_status[selected_square] = piece
                         pieces_dict[selected_square] = selected_piece
                         del pieces_dict[square]
+
+                        if white_en_passant == "right":
+                            en_passant_square_index = board_squares.index(square) + 1
+                            en_passant_square = board_squares[en_passant_square_index]
+                            del pieces_dict[en_passant_square]
+                        elif white_en_passant == "left":
+                            en_passant_square_index = board_squares.index(square) - 1
+                            en_passant_square = board_squares[en_passant_square_index]
+                            del pieces_dict[en_passant_square]
+                        elif black_en_passant == "right":
+                            en_passant_square_index = board_squares.index(square) + 1
+                            en_passant_square = board_squares[en_passant_square_index]
+                            del pieces_dict[en_passant_square]
+                        elif black_en_passant == "left":
+                            en_passant_square_index = board_squares.index(square) - 1
+                            en_passant_square = board_squares[en_passant_square_index]
+                            del pieces_dict[en_passant_square]
 
                         if white_can_castle_right == True and selected_square == "G1":
                             pieces_dict["H1"].change_piece_coordinates(square_placement_dict["F1"][0], square_placement_dict["F1"][1])
