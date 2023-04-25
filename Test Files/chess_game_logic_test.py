@@ -58,9 +58,10 @@ def squares_to_edge(squares_list, initial_square, direction, diagonal=None):    
 
     
 
-def move_pawn(color, initial_square, squares_list, board_status, first_move=True, en_passant=False):
+def move_pawn(color, initial_square, squares_list, board_status, previous_board_status, first_move=True):
     initial_square_index = squares_list.index(initial_square)
     possible_moves = []
+    en_passant = None
 
     if color == "White":
         while True:
@@ -84,6 +85,16 @@ def move_pawn(color, initial_square, squares_list, board_status, first_move=True
                     else:
                         possible_moves.append(new_square)
                         break
+
+            if "5" in initial_square:
+                if board_status[squares_list[square_index - 8]] == "Black_Pawn":
+                    if previous_board_status[squares_list[square_index + 8]] == "Black_Pawn":
+                        if board_status[squares_list[square_index + 8]] == "empty":
+                            possible_moves.append(new_square)
+                            en_passant = "right"
+                            
+                            
+
         square_index = squares_list.index(initial_square)
         moves_up_left = squares_to_edge(squares_list, initial_square, "up", "left")
         if moves_up_left > 0:
@@ -98,6 +109,14 @@ def move_pawn(color, initial_square, squares_list, board_status, first_move=True
                     else:
                         possible_moves.append(new_square)
                         break
+
+            if "5" in initial_square:
+                if board_status[squares_list[square_index - 8]] == "Black_Pawn":
+                    if previous_board_status[squares_list[square_index + 8]] == "Black_Pawn":
+                        if board_status[squares_list[square_index + 8]] == "empty":
+                            possible_moves.append(new_square)
+                            en_passant = "left"
+                
 
         if first_move == True:
             possible_moves.append(squares_list[initial_square_index + 16])
@@ -125,6 +144,13 @@ def move_pawn(color, initial_square, squares_list, board_status, first_move=True
                     else:
                         possible_moves.append(new_square)
                         break
+            if "4" in initial_square:
+                if board_status[squares_list[square_index + 8]] == "White_Pawn":
+                    if previous_board_status[squares_list[square_index - 8]] == "White_Pawn":
+                        if board_status[squares_list[square_index - 8]] == "empty":
+                            possible_moves.append(new_square)
+                            en_passant = "right"
+
         square_index = squares_list.index(initial_square)
         moves_down_left = squares_to_edge(squares_list, initial_square, "up", "left")
         if moves_down_left > 0:
@@ -139,6 +165,13 @@ def move_pawn(color, initial_square, squares_list, board_status, first_move=True
                     else:
                         possible_moves.append(new_square)
                         break
+            
+            if "4" in initial_square:
+                if board_status[squares_list[square_index + 8]] == "White_Pawn":
+                    if previous_board_status[squares_list[square_index - 8]] == "White_Pawn":
+                        if board_status[squares_list[square_index - 8]] == "empty":
+                            possible_moves.append(new_square)
+                            en_passant = "left"
 
         if first_move == True:
             possible_moves.append(squares_list[initial_square_index - 16])
@@ -147,9 +180,8 @@ def move_pawn(color, initial_square, squares_list, board_status, first_move=True
     promote = False         # add code for determining if promotion is true.        squares_to_edge(top) = 1
     if promote == True:
         pass
-
-
-    return possible_moves
+    
+    return possible_moves, en_passant
         
 
 
