@@ -27,7 +27,7 @@ screen = p.display.set_mode((screen_width, screen_height))
 screen.fill("gray34")
 p.display.set_caption("Chess Bot")
 clock = p.time.Clock()
-# gamestate was initialized lines 6-16
+# gamestate was initialized lines 11-22
 
 
 def square_placement():
@@ -398,7 +398,22 @@ while True:
                 if right_color == True:
                     selected_square = mp.select_square(squares_dict)
                     print(f"You selected {selected_square}")
+
                     if selected_square in possible_moves:
+                        if piece == "White_Pawn" and "8" in selected_square:
+                            print("Please choose a piece to promote to")
+                            new_piece = input()
+                            if new_piece.lower == "queen":
+                                print("Promoted to a white queen")
+                                piece = "White_Queen"
+                            elif new_piece.lower == "rook":
+                                piece = "White_Rook"
+                            elif new_piece.lower == "bishop":
+                                piece = "White_Bishop"
+                            elif new_piece == "knight":
+                                piece = "White_Knight"
+                        
+
                         selected_piece.change_piece_coordinates(square_placement_dict[selected_square][0], square_placement_dict[selected_square][1])
                         to_move = "Black" if to_move == "White" else "White"
                         print("to_move = ", to_move)
@@ -424,7 +439,7 @@ while True:
                             en_passant_square = board_squares[en_passant_square_index]
                             del pieces_dict[en_passant_square]
 
-                        if selected_square == "G1":
+                        if selected_square == "G1" and selected_piece == "White_King":
                             pieces_dict["H1"].change_piece_coordinates(square_placement_dict["F1"][0], square_placement_dict["F1"][1])
                             board_status["H1"] = "empty"
                             board_status["F1"] = "White_Rook"
@@ -434,7 +449,7 @@ while True:
                             white_king_has_moved = True
                             white_h1_rook_has_moved = True
                         
-                        if selected_square == "C1":
+                        if selected_square == "C1" and selected_piece == "White_King":
                             pieces_dict["A1"].change_piece_coordinates(square_placement_dict["D1"][0], square_placement_dict["D1"][1])
                             board_status["A1"] = "empty"
                             board_status["D1"] = "White_Rook"
@@ -444,7 +459,7 @@ while True:
                             white_king_has_moved = True
                             white_a1_rook_has_moved = True
 
-                        if selected_square == "G8":
+                        if selected_square == "G8" and selected_piece == "Black_King":
                             pieces_dict["H8"].change_piece_coordinates(square_placement_dict["F8"][0], square_placement_dict["F8"][1])
                             board_status["H8"] = "empty"
                             board_status["F8"] = "Black_Rook"
@@ -454,7 +469,7 @@ while True:
                             black_king_has_moved = True
                             black_h8_rook_has_moved = True
 
-                        if selected_square == "C8":
+                        if selected_square == "C8" and selected_piece == "Black_King":
                             pieces_dict["A8"].change_piece_coordinates(square_placement_dict["D8"][0], square_placement_dict["D8"][1])
                             board_status["A8"] = "empty"
                             board_status["D8"] = "Black_Rook"
