@@ -433,7 +433,7 @@ def move_bishop(color, initial_square, squares_list, board_status):
     return possible_moves
 
 
-def move_king(color, initial_square, squares_list, board_status, can_castle_right=False, can_castle_left=False):
+def move_king(color, initial_square, squares_list, board_status, king_has_moved, h_file_rook_has_moved, a_file_rook_has_moved):
     possible_moves = []
 
     # horizontal and vertical king moves
@@ -550,9 +550,38 @@ def move_king(color, initial_square, squares_list, board_status, can_castle_righ
         else: break
 
     square_index = squares_list.index(initial_square)
-    if can_castle_right == True:
+    
+    white_can_castle_right = False
+    white_can_castle_left = False
+    black_can_castle_right = False
+    black_can_castle_left = False
+
+    if color == "White":
+        if king_has_moved == False & h_file_rook_has_moved == False:
+            if board_status["F1"] == "empty" and board_status["G1"] == "empty":
+                    white_can_castle_right = True
+
+            if king_has_moved == False and a_file_rook_has_moved == False:
+                if board_status["D1"] == "empty" and board_status["C1"] == "empty" and board_status["B1"] == "empty":
+                    white_can_castle_left = True
+
+    elif color == "Black":
+        if king_has_moved == False & h_file_rook_has_moved == False:
+            if board_status["F8"] == "empty" and board_status["G8"] == "empty":
+                    black_can_castle_right = True
+
+            if king_has_moved == False and a_file_rook_has_moved == False:
+                if board_status["D8"] == "empty" and board_status["C8"] == "empty" and board_status["B8"] == "empty":
+                    black_can_castle_left = True
+
+
+    if white_can_castle_right == True:
         possible_moves.append(squares_list[square_index + 2])
-    if can_castle_left == True:
+    if white_can_castle_left == True:
+        possible_moves.append(squares_list[square_index - 2])
+    if black_can_castle_right == True:
+        possible_moves.append(squares_list[square_index + 2])
+    if black_can_castle_left == True:
         possible_moves.append(squares_list[square_index - 2])
     
             
