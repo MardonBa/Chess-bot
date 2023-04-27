@@ -318,6 +318,8 @@ while True:
                     print("piece_color = ", piece_color)
 
                     if to_move == piece_color:
+                        white_en_passant = None
+                        black_en_passant = None
 
                         if piece == "White_Rook":
                             possible_moves = cgl.move_rook("White", square, board_squares, board_status)
@@ -379,6 +381,7 @@ while True:
                         elif piece == "Black_Pawn":
                             possible_moves, black_en_passant = cgl.move_pawn("Black", square, board_squares, board_status, previous_board_status, first_move=True if "7" in square else False)     # make sure to add code for determining if captures are possible
                             draw_highlight(possible_moves, board_squares)
+                            print(possible_moves)
 
                         else:
                             print("you done fucked up somewhere")
@@ -484,18 +487,22 @@ while True:
                         if white_en_passant == "right":
                             en_passant_square_index = board_squares.index(square) + 1
                             en_passant_square = board_squares[en_passant_square_index]
+                            board_status[en_passant_square] = "empty"
                             del pieces_dict[en_passant_square]
                         elif white_en_passant == "left":
                             en_passant_square_index = board_squares.index(square) - 1
                             en_passant_square = board_squares[en_passant_square_index]
+                            board_status[en_passant_square] = "empty"
                             del pieces_dict[en_passant_square]
                         elif black_en_passant == "right":
                             en_passant_square_index = board_squares.index(square) + 1
                             en_passant_square = board_squares[en_passant_square_index]
+                            board_status[en_passant_square] = "empty"
                             del pieces_dict[en_passant_square]
                         elif black_en_passant == "left":
                             en_passant_square_index = board_squares.index(square) - 1
                             en_passant_square = board_squares[en_passant_square_index]
+                            board_status[en_passant_square] = "empty"
                             del pieces_dict[en_passant_square]
 
                         if selected_square == "G1" and selected_piece == "White_King":
@@ -592,7 +599,7 @@ while True:
                     pieces_draw(pieces_dict) 
                 selected_square = None
                 selected_piece = None
-
+            
 
     p.display.update()
 
