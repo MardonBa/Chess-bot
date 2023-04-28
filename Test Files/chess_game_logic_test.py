@@ -441,6 +441,7 @@ def move_king(color, initial_square, squares_list, board_status, king_has_moved,
     moves_up = squares_to_edge(squares_list, initial_square, "up")
     while True:
         if moves_up != 0:
+            print("moves_up: ", moves_up)
             square_index += 8
             new_square = squares_list[square_index]
             if color in board_status[new_square]:
