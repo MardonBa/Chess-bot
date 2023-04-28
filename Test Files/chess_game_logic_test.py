@@ -31,13 +31,13 @@ def squares_to_edge(squares_list, initial_square, direction, diagonal=None):    
 
     elif diagonal == "right":
         if direction == "up":
-            while square_index % 8 <= 6 and square_index <= 55:        # checks is the input square is on the right edge or top edge, then it can't move up right
+            while square_index % 8 <= 6 and square_index < 55:        # checks is the input square is on the right edge or top edge, then it can't move up right
                 square_index += 9
                 to_edge += 1
 
 
         elif direction == "down":
-            while square_index % 8 <= 6 and square_index >= 7:        # checks is the input square is on the right edge or bottom edge, then it can't move down right
+            while square_index % 8 <= 6 and square_index > 7:        # checks is the input square is on the right edge or bottom edge, then it can't move down right
                 square_index -= 7
                 to_edge += 1
 
@@ -49,7 +49,7 @@ def squares_to_edge(squares_list, initial_square, direction, diagonal=None):    
                 to_edge += 1
 
         elif direction == "down":
-            while square_index % 8 >= 1 and square_index >= 7:
+            while square_index % 8 >= 1 and square_index > 7:
                 square_index -= 9
                 to_edge += 1
 
@@ -448,6 +448,7 @@ def move_king(color, initial_square, squares_list, board_status, king_has_moved,
                 break
             else:
                 possible_moves.append(new_square)
+                print(0)
                 break
         else: break
 
@@ -462,6 +463,7 @@ def move_king(color, initial_square, squares_list, board_status, king_has_moved,
                 break
             else:
                 possible_moves.append(new_square)
+                print(1)
                 break
         else: break
 
@@ -476,6 +478,7 @@ def move_king(color, initial_square, squares_list, board_status, king_has_moved,
                 break
             else:
                 possible_moves.append(new_square)
+                print(2)
                 break
         else: break
 
@@ -490,6 +493,7 @@ def move_king(color, initial_square, squares_list, board_status, king_has_moved,
                 break
             else:
                 possible_moves.append(new_square)
+                print(3)
                 break
         else: break
 
@@ -505,6 +509,7 @@ def move_king(color, initial_square, squares_list, board_status, king_has_moved,
                 break
             else:
                 possible_moves.append(new_square)
+                print(4)
                 break
         else: break
 
@@ -519,12 +524,14 @@ def move_king(color, initial_square, squares_list, board_status, king_has_moved,
                 break
             else:
                 possible_moves.append(new_square)
+                print(5)
                 break
         else: break
 
 
     square_index = squares_list.index(initial_square)
     moves_down_right = squares_to_edge(squares_list, initial_square, "down", "right")
+    print(moves_down_right, "down_right")
     while True:
         if moves_down_right != 0:
             square_index -= 7
@@ -533,6 +540,7 @@ def move_king(color, initial_square, squares_list, board_status, king_has_moved,
                 break
             else:
                 possible_moves.append(new_square)
+                print(6)
                 break
         else: break
 
@@ -547,6 +555,7 @@ def move_king(color, initial_square, squares_list, board_status, king_has_moved,
                 break
             else:
                 possible_moves.append(new_square)
+                print(7)
                 break
         else: break
 
