@@ -264,40 +264,37 @@ def draw_highlight(squares_to_highlight, squares_list):       # squares_to_highl
         square_group.draw(screen)
 
 def check_for_check(color, squares_list, board_status, previous_board_status):
-    opposite_color_king = "White_King" if color == "Black" else "Black_King"
-    print(type(opposite_color_king))
-    print(opposite_color_king)
+    king_to_check = "White_King" if color == "White" else "Black_King"
+    print(type(king_to_check))
+    print(king_to_check)
     for square, piece in board_status.items():
+        print(f"{piece}: {square}")
         if color in piece:
+            print(piece)
             if "Queen" in piece:
                 available_moves = cgl.move_queen(color, square, squares_list, board_status)
                 for move in available_moves:
-                    if board_status[move] == opposite_color_king:
+                    if board_status[move] == king_to_check:
                         return True
             if "Rook" in piece:
                 available_moves = cgl.move_rook(color, square, squares_list, board_status)
                 for move in available_moves:
-                    if board_status[move] == opposite_color_king:
+                    if board_status[move] == king_to_check:
                         return True
             if "Bishop" in piece:
                 available_moves = cgl.move_bishop(color, square, squares_list, board_status)
                 for move in available_moves:
-                    if board_status[move] == opposite_color_king:
+                    if board_status[move] == king_to_check:
                         return True
             if "Knight" in piece:
                 available_moves = cgl.move_knight(color, square, squares_list, board_status)
                 for move in available_moves:
-                    if board_status[move] == opposite_color_king:
+                    if board_status[move] == king_to_check:
                         return True
             if "Pawn" in piece:
-                available_moves = cgl.move_pawn(color, square, squares_list, board_status, previous_board_status,  first_move=True if "2" in square else False)
-                for return_value in available_moves:          
-                    move = return_value[0]
-                    print(available_moves)
-                    print(type(available_moves))
-                    print(move)
-                    print(type(move))
-                    if board_status[move] == opposite_color_king:
+                available_moves, en_passant = cgl.move_pawn(color, square, squares_list, board_status, previous_board_status,  first_move=True if "2" in square else False)
+                for move in available_moves:    
+                    if board_status[move] == king_to_check:
                         return True
                     
             return False    ## This line should only run if there is no check
@@ -607,7 +604,7 @@ while True:
                             black_king_moving = True
 
                         is_in_check = check_for_check(to_move, board_squares, board_status, previous_board_status)
-                        print(to_move, " is in check = ", is_in_check)
+                        print(to_move, "is in check = ", is_in_check)
 
                     else: 
                         if white_a1_rook_moving == True:
