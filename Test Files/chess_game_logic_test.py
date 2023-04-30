@@ -176,10 +176,6 @@ def move_pawn(color, initial_square, squares_list, board_status, previous_board_
         if first_move == True:
             possible_moves.append(squares_list[initial_square_index - 16])
 
-
-    promote = False         # add code for determining if promotion is true.        squares_to_edge(top) = 1
-    if promote == True:
-        pass
     
     return possible_moves, en_passant
         

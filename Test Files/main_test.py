@@ -291,9 +291,12 @@ def check_for_check(color, squares_list, board_status, previous_board_status):
                         return True
             if "Pawn" in piece:
                 available_moves = cgl.move_pawn(color, square, squares_list, board_status, previous_board_status,  first_move=True if "2" in square else False)
-                for move in available_moves:
+                for return_value in available_moves:          
+                    move = return_value[0]
                     print(available_moves)
+                    print(type(available_moves))
                     print(move)
+                    print(type(move))
                     if board_status[move] == opposite_color_king:
                         return True
                     
