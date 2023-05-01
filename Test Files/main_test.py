@@ -265,15 +265,13 @@ def draw_highlight(squares_to_highlight, squares_list):       # squares_to_highl
 
 def check_for_check(color, squares_list, board_status, previous_board_status):
     king_to_check = "White_King" if color == "White" else "Black_King"
-    print(type(king_to_check))
-    print(king_to_check)
     for square, piece in board_status.items():
-        print(f"{piece}: {square}")
         if color in piece:
-            print(piece)
             if "Queen" in piece:
                 available_moves = cgl.move_queen(color, square, squares_list, board_status)
+                print(available_moves)
                 for move in available_moves:
+                    print(board_status[move])
                     if board_status[move] == king_to_check:
                         return True
             if "Rook" in piece:
@@ -297,7 +295,7 @@ def check_for_check(color, squares_list, board_status, previous_board_status):
                     if board_status[move] == king_to_check:
                         return True
                     
-            return False    ## This line should only run if there is no check
+    return False    ## This line should only run if there is no check
 
 selected_piece = None
 selected_square = None
