@@ -273,9 +273,7 @@ def check_for_check(color, squares_list, board_status, previous_board_status, us
         if color_to_check in piece:
             if "Queen" in piece:
                 available_moves = cgl.move_queen(color_to_check, square, squares_list, board_status)
-                print(available_moves)
                 for move in available_moves:
-                    print(board_status[move])
                     if board_status[move] == king_to_check:
                         return True
             if "Rook" in piece:
@@ -311,8 +309,10 @@ def check_legal_moves(possible_moves, piece, original_square, color, squares_lis
         board_status[move] = piece
 
         causes_check = check_for_check(color, squares_list, board_status, previous_board_status, False)
+        print("move:", move)
+        print("causes_check:", causes_check)
         if causes_check == True:
-            possible_moves.pop(move)
+            possible_moves.pop(possible_moves.index(move))
         board_status = board_status_copy
     return possible_moves
 
