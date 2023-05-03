@@ -301,19 +301,19 @@ def check_for_check(color, squares_list, board_status, previous_board_status, us
                     
     return False    ## This line should only run if there is no check
 
-def check_legal_moves(possible_moves, piece, original_square, color, squares_list, board_status, previous_board_status):
+def check_legal_moves(possible_moves, piece, original_square, color, squares_list, piece_placement, previous_piece_placement):
     for move in possible_moves:
         ## check to see if the new position created by this move stops check
         ## if not, remove the move from possible_moves
-        board_status_copy = deepcopy(board_status)
+        previous_piece_placement = deepcopy(piece_placement)
 
-        board_status[original_square] = "empty"
-        board_status[move] = piece
+        piece_placement[original_square] = "empty"
+        piece_placement[move] = piece
 
-        causes_check = check_for_check(color, squares_list, board_status, previous_board_status, False)
+        causes_check = check_for_check(color, squares_list, piece_placement, previous_piece_placement, False)
         if causes_check == True:
             possible_moves.pop(move)
-        board_status = board_status_copy
+        piece_placement = previous_piece_placement
     return possible_moves
 
 selected_piece = None
