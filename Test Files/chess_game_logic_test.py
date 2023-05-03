@@ -117,8 +117,8 @@ def move_pawn(color, initial_square, squares_list, board_status, previous_board_
                             possible_moves.append(new_square)
                             en_passant = "left"
                 
-
-        if first_move == True:
+        square_index = squares_list.index(initial_square)
+        if first_move == True and board_status[squares_list[square_index + 8]] == "empty":
             possible_moves.append(squares_list[initial_square_index + 16])
 
 
@@ -173,9 +173,14 @@ def move_pawn(color, initial_square, squares_list, board_status, previous_board_
                             possible_moves.append(new_square)
                             en_passant = "left"
 
-        if first_move == True:
+        square_index = squares_list.index(initial_square)
+        if first_move == True and board_status[squares_list[square_index - 8]] == "empty":
             possible_moves.append(squares_list[initial_square_index - 16])
 
+
+    promote = False         # add code for determining if promotion is true.        squares_to_edge(top) = 1
+    if promote == True:
+        pass
     
     return possible_moves, en_passant
         
