@@ -263,7 +263,41 @@ def draw_highlight(squares_to_highlight, squares_list):       # squares_to_highl
         square_group.add(square_to_highlight)
         square_group.draw(screen)
 
-
+def check_for_check(color, squares_list, board_status, previous_board_status, use_opposite_color_to_check):
+    king_to_check = "White_King" if color == "White" else "Black_King"
+    if use_opposite_color_to_check == True:
+        color_to_check = "White" if color == "Black" else "Black"
+    else:
+        color_to_check = color
+    for square, piece in board_status.items():
+        if color_to_check in piece:
+            if "Queen" in piece:
+                available_moves = cgl.move_queen(color_to_check, square, squares_list, board_status)
+                for move in available_moves:
+                    if board_status[move] == king_to_check:
+                        return True
+            if "Rook" in piece:
+                available_moves = cgl.move_rook(color_to_check, square, squares_list, board_status)
+                for move in available_moves:
+                    if board_status[move] == king_to_check:
+                        return True
+            if "Bishop" in piece:
+                available_moves = cgl.move_bishop(color_to_check, square, squares_list, board_status)
+                for move in available_moves:
+                    if board_status[move] == king_to_check:
+                        return True
+            if "Knight" in piece:
+                available_moves = cgl.move_knight(color_to_check, square, squares_list, board_status)
+                for move in available_moves:
+                    if board_status[move] == king_to_check:
+                        return True
+            if "Pawn" in piece:
+                available_moves, en_passant = cgl.move_pawn(color_to_check, square, squares_list, board_status, previous_board_status,  first_move=True if "2" in square else False)
+                for move in available_moves:    
+                    if board_status[move] == king_to_check:
+                        return True
+                    
+    return False    ## This line should only run if there is no check
 
 
 selected_piece = None
@@ -505,7 +539,7 @@ while True:
                             board_status[en_passant_square] = "empty"
                             del pieces_dict[en_passant_square]
 
-                        if selected_square == "G1" and piece == "White_King":
+                        if selected_square == "G1" and piece == "White_King" and white_king_has_moved == False and white_h1_rook_has_moved == False:
                             pieces_dict["H1"].change_piece_coordinates(square_placement_dict["F1"][0], square_placement_dict["F1"][1])
                             board_status["H1"] = "empty"
                             board_status["F1"] = "White_Rook"
@@ -515,7 +549,7 @@ while True:
                             white_king_has_moved = True
                             white_h1_rook_has_moved = True
                         
-                        if selected_square == "C1" and piece == "White_King":
+                        if selected_square == "C1" and piece == "White_King" and white_king_has_moved == False and white_a1_rook_has_moved == False:
                             pieces_dict["A1"].change_piece_coordinates(square_placement_dict["D1"][0], square_placement_dict["D1"][1])
                             board_status["A1"] = "empty"
                             board_status["D1"] = "White_Rook"
@@ -525,7 +559,7 @@ while True:
                             white_king_has_moved = True
                             white_a1_rook_has_moved = True
 
-                        if selected_square == "G8" and piece == "Black_King":
+                        if selected_square == "G8" and piece == "Black_King" and black_king_has_moved == False and black_h8_rook_has_moved == False:
                             pieces_dict["H8"].change_piece_coordinates(square_placement_dict["F8"][0], square_placement_dict["F8"][1])
                             board_status["H8"] = "empty"
                             board_status["F8"] = "Black_Rook"
@@ -535,7 +569,7 @@ while True:
                             black_king_has_moved = True
                             black_h8_rook_has_moved = True
 
-                        if selected_square == "C8" and piece == "Black_King":
+                        if selected_square == "C8" and piece == "Black_King" and black_king_has_moved == False and black_a8_rook_has_moved == False:
                             pieces_dict["A8"].change_piece_coordinates(square_placement_dict["D8"][0], square_placement_dict["D8"][1])
                             board_status["A8"] = "empty"
                             board_status["D8"] = "Black_Rook"
@@ -569,6 +603,9 @@ while True:
                         if black_king_moving == True:
                             black_king_has_moved = True
                             black_king_moving = True
+
+                        is_in_check = check_for_check(to_move, board_squares, board_status, previous_board_status, True)
+                        print(to_move, "is in check = ", is_in_check)
 
                     else: 
                         if white_a1_rook_moving == True:
@@ -610,4 +647,3 @@ while True:
 
 
 # Make sure if a square is clicked that the piece can't move, to, don't allow the move.
-# Find a way to see if individual pawns have been moved. Possibly do this by keeping track of moves in the game, would be easy for first move tracking for castling, en passant, etc
