@@ -10,9 +10,7 @@ from copy import deepcopy
 
 board = bd_pc.GameState()
 board_squares = board.create_board()
-print(board_squares)
 board_status = board.piece_position(board=board_squares, pieces=board.square_status)
-print(board_status)
 screen_width = 1400
 screen_height = 800
 board_width = 73
@@ -263,41 +261,6 @@ def draw_highlight(squares_to_highlight, squares_list):       # squares_to_highl
         square_group.add(square_to_highlight)
         square_group.draw(screen)
 
-def check_for_check(color, squares_list, board_status, previous_board_status, use_opposite_color_to_check):
-    king_to_check = "White_King" if color == "White" else "Black_King"
-    if use_opposite_color_to_check == True:
-        color_to_check = "White" if color == "Black" else "Black"
-    else:
-        color_to_check = color
-    for square, piece in board_status.items():
-        if color_to_check in piece:
-            if "Queen" in piece:
-                available_moves = cgl.move_queen(color_to_check, square, squares_list, board_status)
-                for move in available_moves:
-                    if board_status[move] == king_to_check:
-                        return True
-            if "Rook" in piece:
-                available_moves = cgl.move_rook(color_to_check, square, squares_list, board_status)
-                for move in available_moves:
-                    if board_status[move] == king_to_check:
-                        return True
-            if "Bishop" in piece:
-                available_moves = cgl.move_bishop(color_to_check, square, squares_list, board_status)
-                for move in available_moves:
-                    if board_status[move] == king_to_check:
-                        return True
-            if "Knight" in piece:
-                available_moves = cgl.move_knight(color_to_check, square, squares_list, board_status)
-                for move in available_moves:
-                    if board_status[move] == king_to_check:
-                        return True
-            if "Pawn" in piece:
-                available_moves, en_passant = cgl.move_pawn(color_to_check, square, squares_list, board_status, previous_board_status,  first_move=True if "2" in square else False)
-                for move in available_moves:    
-                    if board_status[move] == king_to_check:
-                        return True
-                    
-    return False    ## This line should only run if there is no check
 
 
 selected_piece = None
@@ -356,7 +319,7 @@ while True:
                         black_en_passant = None
 
                         if piece == "White_Rook":
-                            possible_moves = cgl.move_rook("White", square, board_squares, board_status)
+                            possible_moves = cgl.move_rook("White", square, board_squares, board_status, previous_board_status, white_king_has_moved, white_h1_rook_has_moved, white_a1_rook_has_moved)
                             draw_highlight(possible_moves, board_squares)
                             if "A" in square:
                                 white_a1_rook_moving = True if white_a1_rook_moving == False else None
@@ -364,31 +327,30 @@ while True:
                                 white_h1_rook_moving = True if white_h1_rook_moving == False else None
 
                         elif piece == "White_Knight":
-                            possible_moves = cgl.move_knight("White", square, board_squares, board_status)
+                            possible_moves = cgl.move_knight("White", square, board_squares, board_status, previous_board_status, white_king_has_moved, white_h1_rook_has_moved, white_a1_rook_has_moved)
                             draw_highlight(possible_moves, board_squares)
 
                         elif piece == "White_Bishop":
-                            possible_moves = cgl.move_bishop("White", square, board_squares, board_status)
+                            possible_moves = cgl.move_bishop("White", square, board_squares, board_status, previous_board_status, white_king_has_moved, white_h1_rook_has_moved, white_a1_rook_has_moved)
                             draw_highlight(possible_moves, board_squares)
 
                         elif piece == "White_Queen":
-                            possible_moves = cgl.move_queen("White", square, board_squares, board_status)
+                            possible_moves = cgl.move_queen("White", square, board_squares, board_status, previous_board_status, white_king_has_moved, white_h1_rook_has_moved, white_a1_rook_has_moved)
                             draw_highlight(possible_moves, board_squares)
 
                         elif piece == "White_King":
-                            possible_moves = cgl.move_king("White", square, board_squares, board_status, white_king_has_moved, white_h1_rook_has_moved, white_a1_rook_has_moved)
+                            possible_moves = cgl.move_king("White", square, board_squares, board_status, previous_board_status, white_king_has_moved, white_h1_rook_has_moved, white_a1_rook_has_moved)
                             draw_highlight(possible_moves, board_squares)
                             white_king_moving = True if white_king_moving == False else None
 
                         elif piece == "White_Pawn":
-                            possible_moves, white_en_passant = cgl.move_pawn("White", square, board_squares, board_status, previous_board_status, first_move=True if "2" in square else False)      # make sure to add code for determining if captures are possible
-                            print(possible_moves)
+                            possible_moves, white_en_passant = cgl.move_pawn("White", square, board_squares, board_status, previous_board_status, white_king_has_moved, white_h1_rook_has_moved, white_a1_rook_has_moved, first_move=True if "2" in square else False)      # make sure to add code for determining if captures are possible
                             draw_highlight(possible_moves, board_squares)
 
  
 
                         elif piece == "Black_Rook":
-                            possible_moves = cgl.move_rook("Black", square, board_squares, board_status)
+                            possible_moves = cgl.move_rook("Black", square, board_squares, board_status, previous_board_status, black_king_has_moved, black_h8_rook_has_moved, black_a8_rook_has_moved)
                             draw_highlight(possible_moves, board_squares)
                             if "A" in square:
                                 black_a8_rook_moving = True if black_a8_rook_moving == False else None
@@ -396,24 +358,24 @@ while True:
                                 black_h8_rook_moving = True if black_h8_rook_moving == False else None
 
                         elif piece == "Black_Knight":
-                            possible_moves = cgl.move_knight("Black", square, board_squares, board_status)
+                            possible_moves = cgl.move_knight("Black", square, board_squares, board_status, previous_board_status, black_king_has_moved, black_h8_rook_has_moved, black_a8_rook_has_moved)
                             draw_highlight(possible_moves, board_squares)
 
                         elif piece == "Black_Bishop":
-                            possible_moves = cgl.move_bishop("Black", square, board_squares, board_status)
+                            possible_moves = cgl.move_bishop("Black", square, board_squares, board_status, previous_board_status, black_king_has_moved, black_h8_rook_has_moved, black_a8_rook_has_moved)
                             draw_highlight(possible_moves, board_squares)
 
                         elif piece == "Black_Queen":
-                            possible_moves = cgl.move_queen("Black", square, board_squares, board_status)
+                            possible_moves = cgl.move_queen("Black", square, board_squares, board_status, previous_board_status, black_king_has_moved, black_h8_rook_has_moved, black_a8_rook_has_moved)
                             draw_highlight(possible_moves, board_squares)
 
                         elif piece == "Black_King":
-                            possible_moves = cgl.move_king("Black", square, board_squares, board_status, black_king_has_moved, black_h8_rook_has_moved, black_a8_rook_has_moved)
+                            possible_moves = cgl.move_king("Black", square, board_squares, board_status, previous_board_status, black_king_has_moved, black_h8_rook_has_moved, black_a8_rook_has_moved)
                             draw_highlight(possible_moves, board_squares)
                             black_king_moving = True if black_king_moving == False else None
 
                         elif piece == "Black_Pawn":
-                            possible_moves, black_en_passant = cgl.move_pawn("Black", square, board_squares, board_status, previous_board_status, first_move=True if "7" in square else False)     # make sure to add code for determining if captures are possible
+                            possible_moves, black_en_passant = cgl.move_pawn("Black", square, board_squares, board_status, previous_board_status, black_king_has_moved, black_h8_rook_has_moved, black_a8_rook_has_moved, first_move=True if "7" in square else False)     # make sure to add code for determining if captures are possible
                             draw_highlight(possible_moves, board_squares)
                             print(possible_moves)
 
@@ -449,7 +411,6 @@ while True:
                             print("Please choose a piece to promote to")
                             new_piece = input()
                             if new_piece.lower() == 'queen':
-                                print(new_piece)
                                 piece = "White_Queen"
                                 white_queen = bd_pc.White_Queen(square_placement_dict[selected_square][0], square_placement_dict[selected_square][1], selected_square)
                                 white_queen_group = bd_pc.ExtendedGroupSingle()
@@ -457,7 +418,6 @@ while True:
                                 pieces_dict[selected_square] = white_queen_group
                                 board_status[selected_square] = piece
                             elif new_piece.lower() == "rook":
-                                print(new_piece)
                                 piece = "White_Rook"
                                 white_rook = bd_pc.White_Rook(square_placement_dict[selected_square][0], square_placement_dict[selected_square][1], selected_square)
                                 white_rook_group = bd_pc.ExtendedGroupSingle()
@@ -465,7 +425,6 @@ while True:
                                 pieces_dict[selected_square] = white_rook_group
                                 board_status[selected_square] = piece
                             elif new_piece.lower() == "bishop":
-                                print(new_piece)
                                 piece = "White_Bishop"
                                 white_bishop = bd_pc.White_Bishop(square_placement_dict[selected_square][0], square_placement_dict[selected_square][1], selected_square)
                                 white_bishop_group = bd_pc.ExtendedGroupSingle()
@@ -473,7 +432,6 @@ while True:
                                 pieces_dict[selected_square] = white_bishop_group
                                 board_status[selected_square] = piece
                             elif new_piece.lower() == "knight":
-                                print(new_piece)
                                 piece = "White_Knight"
                                 white_knight = bd_pc.White_Knight(square_placement_dict[selected_square][0], square_placement_dict[selected_square][1], selected_square)
                                 white_knight_group = bd_pc.ExtendedGroupSingle()
@@ -485,7 +443,6 @@ while True:
                             print("Please choose a piece to promote to")
                             new_piece = input()
                             if new_piece.lower() == 'queen':
-                                print(new_piece)
                                 piece = "Black_Queen"
                                 black_queen = bd_pc.Black_Queen(square_placement_dict[selected_square][0], square_placement_dict[selected_square][1], selected_square)
                                 black_queen_group = bd_pc.ExtendedGroupSingle()
@@ -493,7 +450,6 @@ while True:
                                 pieces_dict[selected_square] = black_queen_group
                                 board_status[selected_square] = piece
                             elif new_piece.lower() == "rook":
-                                print(new_piece)
                                 piece = "Black_Rook"
                                 black_rook = bd_pc.Black_Rook(square_placement_dict[selected_square][0], square_placement_dict[selected_square][1], selected_square)
                                 black_rook_group = bd_pc.ExtendedGroupSingle()
@@ -501,7 +457,6 @@ while True:
                                 pieces_dict[selected_square] = black_rook_group
                                 board_status[selected_square] = piece
                             elif new_piece.lower() == "bishop":
-                                print(new_piece)
                                 piece = "Black_Bishop"
                                 black_bishop = bd_pc.Black_Bishop(square_placement_dict[selected_square][0], square_placement_dict[selected_square][1], selected_square)
                                 black_bishop_group = bd_pc.ExtendedGroupSingle()
@@ -509,13 +464,14 @@ while True:
                                 pieces_dict[selected_square] = black_bishop_group
                                 board_status[selected_square] = piece
                             elif new_piece.lower() == "knight":
-                                print(new_piece)
                                 piece = "Black_Knight"
                                 black_knight = bd_pc.Black_Knight(square_placement_dict[selected_square][0], square_placement_dict[selected_square][1], selected_square)
                                 black_knight_group = bd_pc.ExtendedGroupSingle()
                                 black_knight_group.add(black_knight)
                                 pieces_dict[selected_square] = black_knight_group
                                 board_status[selected_square] = piece
+
+                        
 
 
                         if white_en_passant == "right":
@@ -604,8 +560,7 @@ while True:
                             black_king_has_moved = True
                             black_king_moving = True
 
-                        is_in_check = check_for_check(to_move, board_squares, board_status, previous_board_status, True)
-                        print(to_move, "is in check = ", is_in_check)
+            
 
                     else: 
                         if white_a1_rook_moving == True:

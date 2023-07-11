@@ -1,4 +1,5 @@
-
+from check_and_checkmate_test import look_for_check
+from copy import deepcopy
 
 def squares_to_edge(squares_list, initial_square, direction, diagonal=None):     # diagonal should be paired with up or down with direction, should be right or left
     # direction should be up, down, left, right
@@ -58,17 +59,24 @@ def squares_to_edge(squares_list, initial_square, direction, diagonal=None):    
 
     
 
-def move_pawn(color, initial_square, squares_list, board_status, previous_board_status, first_move=True):
+def move_pawn(color, initial_square, squares_list, board_status, previous_board_status,  king_has_moved, h_file_rook_has_moved, a_file_rook_has_moved, first_move=True):
     initial_square_index = squares_list.index(initial_square)
     possible_moves = []
     en_passant = None
+    potential_board_status = deepcopy(board_status)
 
     if color == "White":
         while True:
             if squares_to_edge(squares_list, initial_square, "up") != 0:
                 if board_status[squares_list[initial_square_index + 8]] == "empty":
-                    possible_moves.append(squares_list[initial_square_index + 8])
-                    break
+                    potential_board_status[initial_square] = "empty"
+                    potential_board_status[squares_list[initial_square_index + 8]] = f"{color}_Pawn"
+                    move_causes_check = look_for_check(potential_board_status, color, squares_list, previous_board_status, king_has_moved, h_file_rook_has_moved, a_file_rook_has_moved)
+                    potential_board_status = deepcopy(board_status)         ## resets it to be used again
+                    if (move_causes_check == False):
+                        possible_moves.append(squares_list[initial_square_index + 8])
+                        break
+                    else: break ## Does nothing because check is true
                 else: break
 
         square_index = squares_list.index(initial_square)
@@ -83,16 +91,29 @@ def move_pawn(color, initial_square, squares_list, board_status, previous_board_
                     if color in board_status[new_square]:
                         break
                     else:
-                        possible_moves.append(new_square)
-                        break
+                        potential_board_status[initial_square] = "empty"
+                        potential_board_status[new_square] = f"{color}_Pawn"
+                        move_causes_check = look_for_check(potential_board_status, color, squares_list, previous_board_status, king_has_moved, h_file_rook_has_moved, a_file_rook_has_moved)
+                        potential_board_status = deepcopy(board_status)
+                        if (move_causes_check == False):
+                            possible_moves.append(new_square)
+                            break
+                        else: break
+                                
 
             if "5" in initial_square:
                 if board_status[squares_list[square_index - 8]] == "Black_Pawn":
                     if previous_board_status[squares_list[square_index + 8]] == "Black_Pawn":
                         if board_status[squares_list[square_index + 8]] == "empty":
-                            possible_moves.append(new_square)
-                            en_passant = "right"
-                            
+                            potential_board_status[initial_square] = "empty"
+                            potential_board_status[squares_list[square_index + 8]] = f"{color}_Pawn"
+                            move_causes_check = look_for_check(potential_board_status, color, squares_list, previous_board_status, king_has_moved, h_file_rook_has_moved, a_file_rook_has_moved)
+                            potential_board_status = deepcopy(board_status)
+                            if (move_causes_check == False):
+                                possible_moves.append(new_square)
+                                en_passant = "right"
+                            ## no need for an else statement (no loop)
+                                    
                             
 
         square_index = squares_list.index(initial_square)
@@ -107,27 +128,52 @@ def move_pawn(color, initial_square, squares_list, board_status, previous_board_
                     if color in board_status[new_square]:
                         break
                     else:
-                        possible_moves.append(new_square)
-                        break
+                        potential_board_status[initial_square] = "empty"
+                        potential_board_status[new_square] = f"{color}_Pawn"
+                        move_causes_check = look_for_check(potential_board_status, color, squares_list, previous_board_status, king_has_moved, h_file_rook_has_moved, a_file_rook_has_moved)
+                        potential_board_status = deepcopy(board_status)
+                        if (move_causes_check == False):
+                            possible_moves.append(new_square)
+                            break
+                        else: break
 
             if "5" in initial_square:
                 if board_status[squares_list[square_index - 8]] == "Black_Pawn":
                     if previous_board_status[squares_list[square_index + 8]] == "Black_Pawn":
                         if board_status[squares_list[square_index + 8]] == "empty":
-                            possible_moves.append(new_square)
-                            en_passant = "left"
+                            potential_board_status[initial_square] = "empty"
+                            potential_board_status[squares_list[square_index + 8]] = f"{color}_Pawn"
+                            move_causes_check = look_for_check(potential_board_status, color, squares_list, previous_board_status, king_has_moved, h_file_rook_has_moved, a_file_rook_has_moved)
+                            potential_board_status = deepcopy(board_status)
+                            if (move_causes_check == False):
+                                possible_moves.append(new_square)
+                                en_passant = "left"
+                            ## no need for an else statement (no loop)
                 
-        square_index = squares_list.index(initial_square)
+
         if first_move == True and board_status[squares_list[square_index + 8]] == "empty":
-            possible_moves.append(squares_list[initial_square_index + 16])
+            if board_status[squares_list[initial_square_index + 16]] == "empty":
+                potential_board_status[initial_square] = "empty"
+                potential_board_status[squares_list[initial_square_index + 16]] = f"{color}_Pawn"
+                move_causes_check = look_for_check(potential_board_status, color, squares_list, previous_board_status, king_has_moved, h_file_rook_has_moved, a_file_rook_has_moved)
+                potential_board_status = deepcopy(board_status)
+                if (move_causes_check == False):
+                    possible_moves.append(squares_list[initial_square_index + 16])
+                ## no need for an else statement (no loop)
 
 
     elif color == "Black":
         while True:
             if squares_to_edge(squares_list, initial_square, "up") != 0:
                 if board_status[squares_list[initial_square_index - 8]] == "empty":
-                    possible_moves.append(squares_list[initial_square_index - 8])
-                    break
+                    potential_board_status[initial_square] = "empty"
+                    potential_board_status[squares_list[initial_square_index - 8]] = f"{color}_Pawn"
+                    move_causes_check = look_for_check(potential_board_status, color, squares_list, previous_board_status, king_has_moved, h_file_rook_has_moved, a_file_rook_has_moved)
+                    potential_board_status = deepcopy(board_status)
+                    if (move_causes_check == False):
+                        possible_moves.append(squares_list[initial_square_index - 8])
+                        break
+                    else: break
                 else: break
 
         square_index = squares_list.index(initial_square)
@@ -142,14 +188,27 @@ def move_pawn(color, initial_square, squares_list, board_status, previous_board_
                     if color in board_status[new_square]:
                         break
                     else:
-                        possible_moves.append(new_square)
-                        break
+                        potential_board_status[initial_square] = "empty"
+                        potential_board_status[new_square] = f"{color}_Pawn"
+                        move_causes_check = look_for_check(potential_board_status, color, squares_list, previous_board_status, king_has_moved, h_file_rook_has_moved, a_file_rook_has_moved)
+                        potential_board_status = deepcopy(board_status)
+                        if (move_causes_check == False):
+                            possible_moves.append(new_square)
+                            break
+                        else: break
+
             if "4" in initial_square:
                 if board_status[squares_list[square_index + 8]] == "White_Pawn":
                     if previous_board_status[squares_list[square_index - 8]] == "White_Pawn":
                         if board_status[squares_list[square_index - 8]] == "empty":
-                            possible_moves.append(new_square)
-                            en_passant = "right"
+                            potential_board_status = "empty"
+                            potential_board_status[squares_list[square_index - 8]] = f"{color}_Pawn"
+                            move_causes_check = look_for_check(potential_board_status, color, squares_list, previous_board_status, king_has_moved, h_file_rook_has_moved, a_file_rook_has_moved)
+                            potential_board_status = deepcopy(board_status)
+                            if (move_causes_check == False):
+                                possible_moves.append(new_square)
+                                en_passant = "right"
+                            ## no need for an else statement (no loop)
 
         square_index = squares_list.index(initial_square)
         moves_down_left = squares_to_edge(squares_list, initial_square, "up", "left")
@@ -163,31 +222,43 @@ def move_pawn(color, initial_square, squares_list, board_status, previous_board_
                     if color in board_status[new_square]:
                         break
                     else:
-                        possible_moves.append(new_square)
-                        break
+                        potential_board_status[initial_square] = "empty"
+                        potential_board_status[new_square] = f"{color}_Pawn"
+                        move_causes_check = look_for_check(potential_board_status, color, squares_list, previous_board_status, king_has_moved, h_file_rook_has_moved, a_file_rook_has_moved)
+                        potential_board_status = deepcopy(board_status)
+                        if (move_causes_check == False):
+                            possible_moves.append(new_square)
+                            break
+                        else: break
             
             if "4" in initial_square:
                 if board_status[squares_list[square_index + 8]] == "White_Pawn":
                     if previous_board_status[squares_list[square_index - 8]] == "White_Pawn":
                         if board_status[squares_list[square_index - 8]] == "empty":
-                            possible_moves.append(new_square)
-                            en_passant = "left"
+                            move_causes_check = look_for_check(board_status, color, squares_list, previous_board_status, king_has_moved, h_file_rook_has_moved, a_file_rook_has_moved)
+                            if (move_causes_check == False):
+                                possible_moves.append(new_square)
+                                en_passant = "left"
+                            
 
-        square_index = squares_list.index(initial_square)
         if first_move == True and board_status[squares_list[square_index - 8]] == "empty":
-            possible_moves.append(squares_list[initial_square_index - 16])
+            if board_status[squares_list[initial_square_index - 16]] == "empty":
+                potential_board_status[initial_square] = "empty"
+                potential_board_status[squares_list[initial_square_index - 16]] = f"{color}_Pawn"
+                move_causes_check = look_for_check(potential_board_status, color, squares_list, previous_board_status, king_has_moved, h_file_rook_has_moved, a_file_rook_has_moved)
+                potential_board_status = deepcopy(board_status)
+                if (move_causes_check == False):
+                    possible_moves.append(squares_list[initial_square_index - 16])
+                ## no need for an else statement (no loop)
 
-
-    promote = False         # add code for determining if promotion is true.        squares_to_edge(top) = 1
-    if promote == True:
-        pass
     
     return possible_moves, en_passant
         
 
 
-def move_rook(color, initial_square, squares_list, board_status):
+def move_rook(color, initial_square, squares_list, board_status, previous_board_status, king_has_moved, h_file_rook_has_moved, a_file_rook_has_moved):
     possible_moves = []
+    potential_board_status = deepcopy(board_status)
 
     square_index = squares_list.index(initial_square)
     moves_up = squares_to_edge(squares_list, initial_square, "up")
@@ -195,14 +266,25 @@ def move_rook(color, initial_square, squares_list, board_status):
         square_index += 8
         new_square = squares_list[square_index]
         if board_status[new_square] == "empty":
-            possible_moves.append(new_square)
-            moves_up -= 1
+            potential_board_status[initial_square] = "empty"
+            potential_board_status[new_square] = f"{color}_Rook"
+            move_causes_check = look_for_check(potential_board_status, color, squares_list, previous_board_status, king_has_moved, h_file_rook_has_moved, a_file_rook_has_moved)
+            potential_board_status = deepcopy(board_status)
+            if (move_causes_check == False):
+                possible_moves.append(new_square)
+                moves_up -= 1
         elif board_status[new_square] != "empty":
             if color in board_status[new_square]:
                 break
             else:
-                possible_moves.append(new_square)
-                break
+                potential_board_status[initial_square] = "empty"
+                potential_board_status[new_square] = f"{color}_Rook"
+                move_causes_check = look_for_check(potential_board_status, color, squares_list, previous_board_status, king_has_moved, h_file_rook_has_moved, a_file_rook_has_moved)
+                potential_board_status = deepcopy(board_status)
+                if (move_causes_check == False):
+                    possible_moves.append(new_square)
+                    break
+                else: break
 
 
 
@@ -212,14 +294,26 @@ def move_rook(color, initial_square, squares_list, board_status):
         square_index -= 8
         new_square = squares_list[square_index]
         if board_status[new_square] == "empty":
-            possible_moves.append(new_square)
-            moves_down -= 1
+            potential_board_status[initial_square] = "empty"
+            potential_board_status[new_square] = f"{color}_Rook"
+            move_causes_check = look_for_check(potential_board_status, color, squares_list, previous_board_status, king_has_moved, h_file_rook_has_moved, a_file_rook_has_moved)
+            potential_board_status = deepcopy(board_status)
+            if (move_causes_check == False):
+                possible_moves.append(new_square)
+                moves_down -= 1
         elif board_status[new_square] != "empty":
             if color in board_status[new_square]:
                 break
             else:
-                possible_moves.append(new_square)
-                break
+                potential_board_status[initial_square] = "empty"
+                potential_board_status[new_square] = f"{color}_Rook"
+                move_causes_check = look_for_check(potential_board_status, color, squares_list, previous_board_status, king_has_moved, h_file_rook_has_moved, a_file_rook_has_moved)
+                potential_board_status = deepcopy(board_status)
+                if (move_causes_check == False):
+                    possible_moves.append(new_square)
+                    break
+                else: break
+
 
 
     square_index = squares_list.index(initial_square)
@@ -228,14 +322,25 @@ def move_rook(color, initial_square, squares_list, board_status):
         square_index += 1
         new_square = squares_list[square_index]
         if board_status[new_square] == "empty":
-            possible_moves.append(new_square)
-            moves_right -= 1
+            potential_board_status[initial_square] = "empty"
+            potential_board_status[new_square] = f"{color}_Rook"
+            move_causes_check = look_for_check(potential_board_status, color, squares_list, previous_board_status, king_has_moved, h_file_rook_has_moved, a_file_rook_has_moved)
+            potential_board_status = deepcopy(board_status)
+            if (move_causes_check == False):
+                possible_moves.append(new_square)
+                moves_right -= 1
         elif board_status[new_square] != "empty":
             if color in board_status[new_square]:
                 break
             else:
-                possible_moves.append(new_square)
-                break
+                potential_board_status[initial_square] = "empty"
+                potential_board_status[new_square] = f"{color}_Rook"
+                move_causes_check = look_for_check(potential_board_status, color, squares_list, previous_board_status, king_has_moved, h_file_rook_has_moved, a_file_rook_has_moved)
+                potential_board_status = deepcopy(board_status)
+                if (move_causes_check == False):
+                    possible_moves.append(new_square)
+                    break
+                else: break
 
 
 
@@ -245,24 +350,35 @@ def move_rook(color, initial_square, squares_list, board_status):
         square_index -= 1
         new_square = squares_list[square_index]
         if board_status[new_square] == "empty":
-            possible_moves.append(new_square)
-            moves_left -= 1
+            potential_board_status[initial_square] = "empty"
+            potential_board_status[new_square] = f"{color}_Rook"
+            move_causes_check = look_for_check(potential_board_status, color, squares_list, previous_board_status, king_has_moved, h_file_rook_has_moved, a_file_rook_has_moved)
+            potential_board_status = deepcopy(board_status)
+            if (move_causes_check == False):
+                possible_moves.append(new_square)
+                moves_left -= 1
         elif board_status[new_square] != "empty":
             if color in board_status[new_square]:
                 break
             else:
-                possible_moves.append(new_square)
-                break
+                potential_board_status[initial_square] = "empty"
+                potential_board_status[new_square] = f"{color}_Rook"
+                move_causes_check = look_for_check(potential_board_status, color, squares_list, previous_board_status, king_has_moved, h_file_rook_has_moved, a_file_rook_has_moved)
+                potential_board_status = deepcopy(board_status)
+                if (move_causes_check == False):
+                    possible_moves.append(new_square)
+                    break
+                else: break
 
 
-    # add code for castling
 
     return possible_moves
 
 
 
-def move_knight(color, initial_square, squares_list, board_status):
+def move_knight(color, initial_square, squares_list, board_status, previous_board_status, king_has_moved, h_file_rook_has_moved, a_file_rook_has_moved):
     possible_moves = []
+    potential_board_status = deepcopy(board_status)
 
     square_index = squares_list.index(initial_square)
     new_square_index = 0
@@ -278,8 +394,14 @@ def move_knight(color, initial_square, squares_list, board_status):
             if color in board_status[new_square]:
                 break
             else:
-                possible_moves.append(new_square)
-                break
+                potential_board_status[initial_square] = "empty"
+                potential_board_status[new_square] = f"{color}_Knight"
+                move_causes_check = look_for_check(potential_board_status, color, squares_list, previous_board_status, king_has_moved, h_file_rook_has_moved, a_file_rook_has_moved)
+                potential_board_status = deepcopy(board_status)
+                if (move_causes_check == False):
+                    possible_moves.append(new_square)
+                    break
+                else: break
         else: break
 
     while True:
@@ -289,8 +411,14 @@ def move_knight(color, initial_square, squares_list, board_status):
             if color in board_status[new_square]:
                 break
             else:
-                possible_moves.append(new_square)
-                break
+                potential_board_status[initial_square] = "empty"
+                potential_board_status[new_square] = f"{color}_Knight"
+                move_causes_check = look_for_check(potential_board_status, color, squares_list, previous_board_status, king_has_moved, h_file_rook_has_moved, a_file_rook_has_moved)
+                potential_board_status = deepcopy(board_status)
+                if (move_causes_check == False):
+                    possible_moves.append(new_square)
+                    break
+                else: break
         else: break
 
     while True:
@@ -300,8 +428,14 @@ def move_knight(color, initial_square, squares_list, board_status):
             if color in board_status[new_square]:
                 break
             else:
-                possible_moves.append(new_square)
-                break
+                potential_board_status[initial_square] = "empty"
+                potential_board_status[new_square] = f"{color}_Knight"
+                move_causes_check = look_for_check(potential_board_status, color, squares_list, previous_board_status, king_has_moved, h_file_rook_has_moved, a_file_rook_has_moved)
+                potential_board_status = deepcopy(board_status)
+                if (move_causes_check == False):
+                    possible_moves.append(new_square)
+                    break
+                else: break
         else: break
 
     while True:
@@ -311,8 +445,14 @@ def move_knight(color, initial_square, squares_list, board_status):
             if color in board_status[new_square]:
                 break
             else:
-                possible_moves.append(new_square)
-                break
+                potential_board_status[initial_square] = "empty"
+                potential_board_status[new_square] = f"{color}_Knight"
+                move_causes_check = look_for_check(potential_board_status, color, squares_list, previous_board_status, king_has_moved, h_file_rook_has_moved, a_file_rook_has_moved)
+                potential_board_status = deepcopy(board_status)
+                if (move_causes_check == False):
+                    possible_moves.append(new_square)
+                    break
+                else: break
         else: break
 
     while True:
@@ -322,8 +462,14 @@ def move_knight(color, initial_square, squares_list, board_status):
             if color in board_status[new_square]:
                 break
             else:
-                possible_moves.append(new_square)
-                break
+                potential_board_status[initial_square] = "empty"
+                potential_board_status[new_square] = f"{color}_Knight"
+                move_causes_check = look_for_check(potential_board_status, color, squares_list, previous_board_status, king_has_moved, h_file_rook_has_moved, a_file_rook_has_moved)
+                potential_board_status = deepcopy(board_status)
+                if (move_causes_check == False):
+                    possible_moves.append(new_square)
+                    break
+                else: break
         else: break
 
     while True:
@@ -333,8 +479,14 @@ def move_knight(color, initial_square, squares_list, board_status):
             if color in board_status[new_square]:
                 break
             else:
-                possible_moves.append(new_square)
-                break
+                potential_board_status[initial_square] = "empty"
+                potential_board_status[new_square] = f"{color}_Knight"
+                move_causes_check = look_for_check(potential_board_status, color, squares_list, previous_board_status, king_has_moved, h_file_rook_has_moved, a_file_rook_has_moved)
+                potential_board_status = deepcopy(board_status)
+                if (move_causes_check == False):
+                    possible_moves.append(new_square)
+                    break
+                else: break
         else: break
 
     while True:
@@ -344,8 +496,14 @@ def move_knight(color, initial_square, squares_list, board_status):
             if color in board_status[new_square]:
                 break
             else:
-                possible_moves.append(new_square)
-                break
+                potential_board_status[initial_square] = "empty"
+                potential_board_status[new_square] = f"{color}_Knight"
+                move_causes_check = look_for_check(potential_board_status, color, squares_list, previous_board_status, king_has_moved, h_file_rook_has_moved, a_file_rook_has_moved)
+                potential_board_status = deepcopy(board_status)
+                if (move_causes_check == False):
+                    possible_moves.append(new_square)
+                    break
+                else: break
         else: break
 
     while True:
@@ -355,8 +513,14 @@ def move_knight(color, initial_square, squares_list, board_status):
             if color in board_status[new_square]:
                 break
             else:
-                possible_moves.append(new_square)
-                break
+                potential_board_status[initial_square] = "empty"
+                potential_board_status[new_square] = f"{color}_Knight"
+                move_causes_check = look_for_check(potential_board_status, color, squares_list, previous_board_status, king_has_moved, h_file_rook_has_moved, a_file_rook_has_moved)
+                potential_board_status = deepcopy(board_status)
+                if (move_causes_check == False):
+                    possible_moves.append(new_square)
+                    break
+                else: break
         else: break
 
     
@@ -364,8 +528,9 @@ def move_knight(color, initial_square, squares_list, board_status):
     
         
 
-def move_bishop(color, initial_square, squares_list, board_status):
+def move_bishop(color, initial_square, squares_list, board_status, previous_board_status, king_has_moved, h_file_rook_has_moved, a_file_rook_has_moved):
     possible_moves = []
+    potential_board_status = deepcopy(board_status)
 
     square_index = squares_list.index(initial_square)
     moves_up_right = squares_to_edge(squares_list, initial_square, "up", "right")
@@ -373,15 +538,25 @@ def move_bishop(color, initial_square, squares_list, board_status):
         square_index += 9
         new_square = squares_list[square_index]
         if board_status[new_square] == "empty":
-            possible_moves.append(new_square)
-            moves_up_right -= 1
+            potential_board_status[initial_square] = "empty"
+            potential_board_status[new_square] = f"{color}_Bishop"
+            move_causes_check = look_for_check(potential_board_status, color, squares_list, previous_board_status, king_has_moved, h_file_rook_has_moved, a_file_rook_has_moved)
+            potential_board_status = deepcopy(board_status)
+            if (move_causes_check == False):
+                possible_moves.append(new_square)
+                moves_up_right -= 1
         elif board_status[new_square] != "empty":
             if color in board_status[new_square]:
                 break
             else:
-                possible_moves.append(new_square)
-                break
-
+                potential_board_status[initial_square] = "empty"
+                potential_board_status[new_square] = f"{color}_Bishop"
+                move_causes_check = look_for_check(potential_board_status, color, squares_list, previous_board_status, king_has_moved, h_file_rook_has_moved, a_file_rook_has_moved)
+                potential_board_status = deepcopy(board_status)
+                if (move_causes_check == False):
+                    possible_moves.append(new_square)
+                    break
+                else: break
     
     square_index = squares_list.index(initial_square)
     moves_up_left = squares_to_edge(squares_list, initial_square, "up", "left")
@@ -389,15 +564,25 @@ def move_bishop(color, initial_square, squares_list, board_status):
         square_index += 7
         new_square = squares_list[square_index]
         if board_status[new_square] == "empty":
-            possible_moves.append(new_square)
-            moves_up_left -= 1
+            potential_board_status[initial_square] = "empty"
+            potential_board_status[new_square] = f"{color}_Bishop"
+            move_causes_check = look_for_check(potential_board_status, color, squares_list, previous_board_status, king_has_moved, h_file_rook_has_moved, a_file_rook_has_moved)
+            potential_board_status = deepcopy(board_status)
+            if (move_causes_check == False):
+                possible_moves.append(new_square)
+                moves_up_left -= 1
         elif board_status[new_square] != "empty":
             if color in board_status[new_square]:
                 break
             else:
-                possible_moves.append(new_square)
-                break
-
+                potential_board_status[initial_square] = "empty"
+                potential_board_status[new_square] = f"{color}_Bishop"
+                move_causes_check = look_for_check(potential_board_status, color, squares_list, previous_board_status, king_has_moved, h_file_rook_has_moved, a_file_rook_has_moved)
+                potential_board_status = deepcopy(board_status)
+                if (move_causes_check == False):
+                    possible_moves.append(new_square)
+                    break
+                else: break
 
     square_index = squares_list.index(initial_square)
     moves_down_right = squares_to_edge(squares_list, initial_square, "down", "right")
@@ -405,14 +590,26 @@ def move_bishop(color, initial_square, squares_list, board_status):
         square_index -= 7
         new_square = squares_list[square_index]
         if board_status[new_square] == "empty":
-            possible_moves.append(new_square)
-            moves_down_right -= 1
+            potential_board_status[initial_square] = "empty"
+            potential_board_status[new_square] = f"{color}_Bishop"
+            move_causes_check = look_for_check(potential_board_status, color, squares_list, previous_board_status, king_has_moved, h_file_rook_has_moved, a_file_rook_has_moved)
+            potential_board_status = deepcopy(board_status)
+            if (move_causes_check == False):
+                possible_moves.append(new_square)
+                moves_down_right -= 1
+
         elif board_status[new_square] != "empty":
             if color in board_status[new_square]:
                 break
             else:
-                possible_moves.append(new_square)
-                break
+                potential_board_status[initial_square] = "empty"
+                potential_board_status[new_square] = f"{color}_Bishop"
+                move_causes_check = look_for_check(potential_board_status, color, squares_list, previous_board_status, king_has_moved, h_file_rook_has_moved, a_file_rook_has_moved)
+                potential_board_status = deepcopy(board_status)
+                if (move_causes_check == False):
+                    possible_moves.append(new_square)
+                    break
+                else: break
 
 
     square_index = squares_list.index(initial_square)
@@ -421,21 +618,33 @@ def move_bishop(color, initial_square, squares_list, board_status):
         square_index -= 9
         new_square = squares_list[square_index]
         if board_status[new_square] == "empty":
-            possible_moves.append(new_square)
-            moves_down_left -= 1
+            potential_board_status[initial_square] = "empty"
+            potential_board_status[new_square] = f"{color}_Bishop"
+            move_causes_check = look_for_check(potential_board_status, color, squares_list, previous_board_status, king_has_moved, h_file_rook_has_moved, a_file_rook_has_moved)
+            potential_board_status = deepcopy(board_status)
+            if (move_causes_check == False):
+                possible_moves.append(new_square)
+                moves_down_left -= 1
         elif board_status[new_square] != "empty":
             if color in board_status[new_square]:
                 break
             else:
-                possible_moves.append(new_square)
-                break
+                potential_board_status[initial_square] = "empty"
+                potential_board_status[new_square] = f"{color}_Bishop"
+                move_causes_check = look_for_check(potential_board_status, color, squares_list, previous_board_status, king_has_moved, h_file_rook_has_moved, a_file_rook_has_moved)
+                potential_board_status = deepcopy(board_status)
+                if (move_causes_check == False):
+                    possible_moves.append(new_square)
+                    break
+                else: break
 
 
     return possible_moves
 
 
-def move_king(color, initial_square, squares_list, board_status, king_has_moved, h_file_rook_has_moved, a_file_rook_has_moved):
+def move_king(color, initial_square, squares_list, board_status, previous_board_status, king_has_moved, h_file_rook_has_moved, a_file_rook_has_moved):
     possible_moves = []
+    potential_board_status = deepcopy(board_status)
 
     # horizontal and vertical king moves
     square_index = squares_list.index(initial_square)
@@ -448,9 +657,15 @@ def move_king(color, initial_square, squares_list, board_status, king_has_moved,
             if color in board_status[new_square]:
                 break
             else:
-                possible_moves.append(new_square)
-                print(0)
-                break
+                potential_board_status[initial_square] = "empty"
+                potential_board_status[new_square] = f"{color}_King"
+                move_causes_check = look_for_check(potential_board_status, color, squares_list, previous_board_status, king_has_moved, h_file_rook_has_moved, a_file_rook_has_moved)
+                potential_board_status = deepcopy(board_status)
+                if (move_causes_check == False):
+                    possible_moves.append(new_square)
+                    print(0)
+                    break
+                else: break
         else: break
 
 
@@ -463,9 +678,15 @@ def move_king(color, initial_square, squares_list, board_status, king_has_moved,
             if color in board_status[new_square]:
                 break
             else:
-                possible_moves.append(new_square)
-                print(1)
-                break
+                potential_board_status[initial_square] = "empty"
+                potential_board_status[new_square] = f"{color}_King"
+                move_causes_check = look_for_check(potential_board_status, color, squares_list, previous_board_status, king_has_moved, h_file_rook_has_moved, a_file_rook_has_moved)
+                potential_board_status = deepcopy(board_status)
+                if (move_causes_check == False):
+                    possible_moves.append(new_square)
+                    print(1)
+                    break
+                else: break
         else: break
 
 
@@ -478,9 +699,15 @@ def move_king(color, initial_square, squares_list, board_status, king_has_moved,
             if color in board_status[new_square]:
                 break
             else:
-                possible_moves.append(new_square)
-                print(2)
-                break
+                potential_board_status[initial_square] = "empty"
+                potential_board_status[new_square] = f"{color}_King"
+                move_causes_check = look_for_check(potential_board_status, color, squares_list, previous_board_status, king_has_moved, h_file_rook_has_moved, a_file_rook_has_moved)
+                potential_board_status = deepcopy(board_status)
+                if (move_causes_check == False):
+                    possible_moves.append(new_square)
+                    print(2)
+                    break
+                else: break
         else: break
 
 
@@ -493,9 +720,15 @@ def move_king(color, initial_square, squares_list, board_status, king_has_moved,
             if color in board_status[new_square]:
                 break
             else:
-                possible_moves.append(new_square)
-                print(3)
-                break
+                potential_board_status[initial_square] = "empty"
+                potential_board_status[new_square] = f"{color}_King"
+                move_causes_check = look_for_check(potential_board_status, color, squares_list, previous_board_status, king_has_moved, h_file_rook_has_moved, a_file_rook_has_moved)
+                potential_board_status = deepcopy(board_status)
+                if (move_causes_check == False):
+                    possible_moves.append(new_square)
+                    print(3)
+                    break
+                else: break
         else: break
 
 
@@ -509,9 +742,15 @@ def move_king(color, initial_square, squares_list, board_status, king_has_moved,
             if color in board_status[new_square]:
                 break
             else:
-                possible_moves.append(new_square)
-                print(4)
-                break
+                potential_board_status[initial_square] = "empty"
+                potential_board_status[new_square] = f"{color}_King"
+                move_causes_check = look_for_check(potential_board_status, color, squares_list, previous_board_status, king_has_moved, h_file_rook_has_moved, a_file_rook_has_moved)
+                potential_board_status = deepcopy(board_status)
+                if (move_causes_check == False):
+                    possible_moves.append(new_square)
+                    print(4)
+                    break
+                else: break
         else: break
 
     
@@ -524,9 +763,15 @@ def move_king(color, initial_square, squares_list, board_status, king_has_moved,
             if color in board_status[new_square]:
                 break
             else:
-                possible_moves.append(new_square)
-                print(5)
-                break
+                potential_board_status[initial_square] = "empty"
+                potential_board_status[new_square] = f"{color}_King"
+                move_causes_check = look_for_check(potential_board_status, color, squares_list, previous_board_status, king_has_moved, h_file_rook_has_moved, a_file_rook_has_moved)
+                potential_board_status = deepcopy(board_status)
+                if (move_causes_check == False):
+                    possible_moves.append(new_square)
+                    print(5)
+                    break
+                else: break
         else: break
 
 
@@ -540,9 +785,15 @@ def move_king(color, initial_square, squares_list, board_status, king_has_moved,
             if color in board_status[new_square]:
                 break
             else:
-                possible_moves.append(new_square)
-                print(6)
-                break
+                potential_board_status[initial_square] = "empty"
+                potential_board_status[new_square] = f"{color}_King"
+                move_causes_check = look_for_check(potential_board_status, color, squares_list, previous_board_status, king_has_moved, h_file_rook_has_moved, a_file_rook_has_moved)
+                potential_board_status = deepcopy(board_status)
+                if (move_causes_check == False):
+                    possible_moves.append(new_square)
+                    print(6)
+                    break
+                else: break
         else: break
 
 
@@ -555,9 +806,15 @@ def move_king(color, initial_square, squares_list, board_status, king_has_moved,
             if color in board_status[new_square]:
                 break
             else:
-                possible_moves.append(new_square)
-                print(7)
-                break
+                potential_board_status[initial_square] = "empty"
+                potential_board_status[new_square] = f"{color}_King"
+                move_causes_check = look_for_check(potential_board_status, color, squares_list, previous_board_status, king_has_moved, h_file_rook_has_moved, a_file_rook_has_moved)
+                potential_board_status = deepcopy(board_status)
+                if (move_causes_check == False):
+                    possible_moves.append(new_square)
+                    print(7)
+                    break
+                else: break
         else: break
 
     square_index = squares_list.index(initial_square)
@@ -570,30 +827,54 @@ def move_king(color, initial_square, squares_list, board_status, king_has_moved,
     if color == "White":
         if king_has_moved == False & h_file_rook_has_moved == False:
             if board_status["F1"] == "empty" and board_status["G1"] == "empty":
+                if look_for_check(board_status, color, squares_list, previous_board_status, king_has_moved, h_file_rook_has_moved, a_file_rook_has_moved) == False:
                     white_can_castle_right = True
 
             if king_has_moved == False and a_file_rook_has_moved == False:
                 if board_status["D1"] == "empty" and board_status["C1"] == "empty" and board_status["B1"] == "empty":
-                    white_can_castle_left = True
+                    if look_for_check(board_status, color, squares_list, previous_board_status, king_has_moved, h_file_rook_has_moved, a_file_rook_has_moved) == False:
+                        white_can_castle_left = True
 
     elif color == "Black":
         if king_has_moved == False & h_file_rook_has_moved == False:
             if board_status["F8"] == "empty" and board_status["G8"] == "empty":
-                    black_can_castle_right = True
+                    if look_for_check(board_status, color, squares_list, previous_board_status, king_has_moved, h_file_rook_has_moved, a_file_rook_has_moved) == False:
+                        black_can_castle_right = True
 
             if king_has_moved == False and a_file_rook_has_moved == False:
                 if board_status["D8"] == "empty" and board_status["C8"] == "empty" and board_status["B8"] == "empty":
-                    black_can_castle_left = True
+                    if look_for_check(board_status, color, squares_list, previous_board_status, king_has_moved, h_file_rook_has_moved, a_file_rook_has_moved) == False:
+                        black_can_castle_left = True
 
 
     if white_can_castle_right == True:
-        possible_moves.append(squares_list[square_index + 2])
+        potential_board_status[initial_square] = "empty"
+        potential_board_status[squares_list[square_index + 2]] = f"{color}_King"
+        move_causes_check = look_for_check(potential_board_status, color, squares_list, previous_board_status, king_has_moved, h_file_rook_has_moved, a_file_rook_has_moved)
+        potential_board_status = deepcopy(board_status)
+        if (move_causes_check == False):
+            possible_moves.append(squares_list[square_index + 2])
     if white_can_castle_left == True:
-        possible_moves.append(squares_list[square_index - 2])
+        potential_board_status[initial_square] = "empty"
+        potential_board_status[squares_list[square_index - 2]] = f"{color}_King"
+        move_causes_check = look_for_check(potential_board_status, color, squares_list, previous_board_status, king_has_moved, h_file_rook_has_moved, a_file_rook_has_moved)
+        potential_board_status = deepcopy(board_status)
+        if (move_causes_check == False):
+            possible_moves.append(squares_list[square_index - 2])
     if black_can_castle_right == True:
-        possible_moves.append(squares_list[square_index + 2])
+        potential_board_status[initial_square] = "empty"
+        potential_board_status[squares_list[square_index + 2]] = f"{color}_King"
+        move_causes_check = look_for_check(potential_board_status, color, squares_list, previous_board_status, king_has_moved, h_file_rook_has_moved, a_file_rook_has_moved)
+        potential_board_status = deepcopy(board_status)
+        if (move_causes_check == False):
+            possible_moves.append(squares_list[square_index + 2])
     if black_can_castle_left == True:
-        possible_moves.append(squares_list[square_index - 2])
+        potential_board_status[initial_square] = "empty"
+        potential_board_status[squares_list[square_index - 2]] = f"{color}_King"
+        move_causes_check = look_for_check(potential_board_status, color, squares_list, previous_board_status, king_has_moved, h_file_rook_has_moved, a_file_rook_has_moved)
+        potential_board_status = deepcopy(board_status)
+        if (move_causes_check == False):
+            possible_moves.append(squares_list[square_index - 2])
     
             
     return possible_moves
@@ -602,8 +883,9 @@ def move_king(color, initial_square, squares_list, board_status, king_has_moved,
 
 
 
-def move_queen(color, initial_square, squares_list, board_status):
+def move_queen(color, initial_square, squares_list, board_status, previous_board_status, king_has_moved, h_file_rook_has_moved, a_file_rook_has_moved):
     possible_moves = []
+    potential_board_status = deepcopy(board_status)
 
     # horizontal and vertical queen moves
     square_index = squares_list.index(initial_square)
@@ -612,14 +894,25 @@ def move_queen(color, initial_square, squares_list, board_status):
         square_index += 8
         new_square = squares_list[square_index]
         if board_status[new_square] == "empty":
-            possible_moves.append(new_square)
-            moves_up -= 1
+            potential_board_status[square_index] = "empty"
+            potential_board_status[new_square] = f"{color}_Queen"
+            move_causes_check = look_for_check(potential_board_status, color, squares_list, previous_board_status, king_has_moved, h_file_rook_has_moved, a_file_rook_has_moved)
+            potential_board_status = deepcopy(board_status)
+            if move_causes_check == False:
+                possible_moves.append(new_square)
+                moves_up -= 1
         elif board_status[new_square] != "empty":
             if color in board_status[new_square]:
                 break
             else:
-                possible_moves.append(new_square)
-                break
+                potential_board_status[square_index] = "empty"
+                potential_board_status[new_square] = f"{color}_Queen"
+                move_causes_check = look_for_check(potential_board_status, color, squares_list, previous_board_status, king_has_moved, h_file_rook_has_moved, a_file_rook_has_moved)
+                potential_board_status = deepcopy(board_status)
+                if move_causes_check == False:
+                    possible_moves.append(new_square)
+                    break
+                else: break
 
 
     square_index = squares_list.index(initial_square)
@@ -628,14 +921,25 @@ def move_queen(color, initial_square, squares_list, board_status):
         square_index -= 8
         new_square = squares_list[square_index]
         if board_status[new_square] == "empty":
-            possible_moves.append(new_square)
-            moves_down -= 1
+            potential_board_status[square_index] = "empty"
+            potential_board_status[new_square] = f"{color}_Queen"
+            move_causes_check = look_for_check(potential_board_status, color, squares_list, previous_board_status, king_has_moved, h_file_rook_has_moved, a_file_rook_has_moved)
+            potential_board_status = deepcopy(board_status)
+            if move_causes_check == False:
+                possible_moves.append(new_square)
+                moves_down -= 1
         elif board_status[new_square] != "empty":
             if color in board_status[new_square]:
                 break
             else:
-                possible_moves.append(new_square)
-                break
+                potential_board_status[square_index] = "empty"
+                potential_board_status[new_square] = f"{color}_Queen"
+                move_causes_check = look_for_check(potential_board_status, color, squares_list, previous_board_status, king_has_moved, h_file_rook_has_moved, a_file_rook_has_moved)
+                potential_board_status = deepcopy(board_status)
+                if move_causes_check == False:
+                    possible_moves.append(new_square)
+                    break
+                else: break
 
 
     square_index = squares_list.index(initial_square)
@@ -644,14 +948,25 @@ def move_queen(color, initial_square, squares_list, board_status):
         square_index += 1
         new_square = squares_list[square_index]
         if board_status[new_square] == "empty":
-            possible_moves.append(new_square)
-            moves_right -= 1
+            potential_board_status[square_index] = "empty"
+            potential_board_status[new_square] = f"{color}_Queen"
+            move_causes_check = look_for_check(potential_board_status, color, squares_list, previous_board_status, king_has_moved, h_file_rook_has_moved, a_file_rook_has_moved)
+            potential_board_status = deepcopy(board_status)
+            if move_causes_check == False:
+                possible_moves.append(new_square)
+                moves_right -= 1
         elif board_status[new_square] != "empty":
             if color in board_status[new_square]:
                 break
             else:
-                possible_moves.append(new_square)
-                break
+                potential_board_status[square_index] = "empty"
+                potential_board_status[new_square] = f"{color}_Queen"
+                move_causes_check = look_for_check(potential_board_status, color, squares_list, previous_board_status, king_has_moved, h_file_rook_has_moved, a_file_rook_has_moved)
+                potential_board_status = deepcopy(board_status)
+                if move_causes_check == False:
+                    possible_moves.append(new_square)
+                    break
+                else: break
 
 
     square_index = squares_list.index(initial_square)
@@ -660,14 +975,25 @@ def move_queen(color, initial_square, squares_list, board_status):
         square_index -= 1
         new_square = squares_list[square_index]
         if board_status[new_square] == "empty":
-            possible_moves.append(new_square)
-            moves_left -= 1
+            potential_board_status[square_index] = "empty"
+            potential_board_status[new_square] = f"{color}_Queen"
+            move_causes_check = look_for_check(potential_board_status, color, squares_list, previous_board_status, king_has_moved, h_file_rook_has_moved, a_file_rook_has_moved)
+            potential_board_status = deepcopy(board_status)
+            if move_causes_check == False:
+                possible_moves.append(new_square)
+                moves_left -= 1
         elif board_status[new_square] != "empty":
             if color in board_status[new_square]:
                 break
             else:
-                possible_moves.append(new_square)
-                break
+                potential_board_status[square_index] = "empty"
+                potential_board_status[new_square] = f"{color}_Queen"
+                move_causes_check = look_for_check(potential_board_status, color, squares_list, previous_board_status, king_has_moved, h_file_rook_has_moved, a_file_rook_has_moved)
+                potential_board_status = deepcopy(board_status)
+                if move_causes_check == False:
+                    possible_moves.append(new_square)
+                    break
+                else: break
 
     # diagonal queen moves
     square_index = squares_list.index(initial_square)
@@ -676,14 +1002,25 @@ def move_queen(color, initial_square, squares_list, board_status):
         square_index += 9
         new_square = squares_list[square_index]
         if board_status[new_square] == "empty":
-            possible_moves.append(new_square)
-            moves_up_right -= 1
+            potential_board_status[square_index] = "empty"
+            potential_board_status[new_square] = f"{color}_Queen"
+            move_causes_check = look_for_check(potential_board_status, color, squares_list, previous_board_status, king_has_moved, h_file_rook_has_moved, a_file_rook_has_moved)
+            potential_board_status = deepcopy(board_status)
+            if move_causes_check == False:
+                possible_moves.append(new_square)
+                moves_up_right -= 1
         elif board_status[new_square] != "empty":
             if color in board_status[new_square]:
                 break
             else:
-                possible_moves.append(new_square)
-                break
+                potential_board_status[square_index] = "empty"
+                potential_board_status[new_square] = f"{color}_Queen"
+                move_causes_check = look_for_check(potential_board_status, color, squares_list, previous_board_status, king_has_moved, h_file_rook_has_moved, a_file_rook_has_moved)
+                potential_board_status = deepcopy(board_status)
+                if move_causes_check == False:
+                    possible_moves.append(new_square)
+                    break
+                else: break
 
     
     square_index = squares_list.index(initial_square)
@@ -692,15 +1029,25 @@ def move_queen(color, initial_square, squares_list, board_status):
         square_index += 7
         new_square = squares_list[square_index]
         if board_status[new_square] == "empty":
-            possible_moves.append(new_square)
-            moves_up_left -= 1
+            potential_board_status[square_index] = "empty"
+            potential_board_status[new_square] = f"{color}_Queen"
+            move_causes_check = look_for_check(potential_board_status, color, squares_list, previous_board_status, king_has_moved, h_file_rook_has_moved, a_file_rook_has_moved)
+            potential_board_status = deepcopy(board_status)
+            if move_causes_check == False:
+                possible_moves.append(new_square)
+                moves_up_left -= 1
         elif board_status[new_square] != "empty":
             if color in board_status[new_square]:
                 break
             else:
-                possible_moves.append(new_square)
-                break
-
+                potential_board_status[square_index] = "empty"
+                potential_board_status[new_square] = f"{color}_Queen"
+                move_causes_check = look_for_check(potential_board_status, color, squares_list, previous_board_status, king_has_moved, h_file_rook_has_moved, a_file_rook_has_moved)
+                potential_board_status = deepcopy(board_status)
+                if move_causes_check == False:
+                    possible_moves.append(new_square)
+                    break
+                else: break
 
     square_index = squares_list.index(initial_square)
     moves_down_right = squares_to_edge(squares_list, initial_square, "down", "right")
@@ -708,14 +1055,25 @@ def move_queen(color, initial_square, squares_list, board_status):
         square_index -= 7
         new_square = squares_list[square_index]
         if board_status[new_square] == "empty":
-            possible_moves.append(new_square)
-            moves_down_right -= 1
+            potential_board_status[square_index] = "empty"
+            potential_board_status[new_square] = f"{color}_Queen"
+            move_causes_check = look_for_check(potential_board_status, color, squares_list, previous_board_status, king_has_moved, h_file_rook_has_moved, a_file_rook_has_moved)
+            potential_board_status = deepcopy(board_status)
+            if move_causes_check == False:
+                possible_moves.append(new_square)
+                moves_down_right -= 1
         elif board_status[new_square] != "empty":
             if color in board_status[new_square]:
                 break
             else:
-                possible_moves.append(new_square)
-                break
+                potential_board_status[square_index] = "empty"
+                potential_board_status[new_square] = f"{color}_Queen"
+                move_causes_check = look_for_check(potential_board_status, color, squares_list, previous_board_status, king_has_moved, h_file_rook_has_moved, a_file_rook_has_moved)
+                potential_board_status = deepcopy(board_status)
+                if move_causes_check == False:
+                    possible_moves.append(new_square)
+                    break
+                else: break
 
 
     square_index = squares_list.index(initial_square)
@@ -724,14 +1082,25 @@ def move_queen(color, initial_square, squares_list, board_status):
         square_index -= 9
         new_square = squares_list[square_index]
         if board_status[new_square] == "empty":
-            possible_moves.append(new_square)
-            moves_down_left -= 1
+            potential_board_status[square_index] = "empty"
+            potential_board_status[new_square] = f"{color}_Queen"
+            move_causes_check = look_for_check(potential_board_status, color, squares_list, previous_board_status, king_has_moved, h_file_rook_has_moved, a_file_rook_has_moved)
+            potential_board_status = deepcopy(board_status)
+            if move_causes_check == False:
+                possible_moves.append(new_square)
+                moves_down_left -= 1
         elif board_status[new_square] != "empty":
             if color in board_status[new_square]:
                 break
             else:
-                possible_moves.append(new_square)
-                break
+                potential_board_status[square_index] = "empty"
+                potential_board_status[new_square] = f"{color}_Queen"
+                move_causes_check = look_for_check(potential_board_status, color, squares_list, previous_board_status, king_has_moved, h_file_rook_has_moved, a_file_rook_has_moved)
+                potential_board_status = deepcopy(board_status)
+                if move_causes_check == False:
+                    possible_moves.append(new_square)
+                    break
+                else: break
 
 
     return possible_moves
