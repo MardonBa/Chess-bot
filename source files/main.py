@@ -301,7 +301,8 @@ while True:
             p.quit()
             exit()
         elif event.type == p.MOUSEBUTTONDOWN:
-
+            print(board_status)
+            print(len(board_status))
             if selected_piece == None:
                 selected_piece = mp.select_piece(pieces_dict)
                 if selected_piece == None:

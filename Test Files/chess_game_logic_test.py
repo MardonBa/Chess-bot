@@ -137,6 +137,7 @@ def move_pawn(color, initial_square, squares_list, board_status, previous_board_
                             break
                         else: break
 
+            square_index = squares_list.index(initial_square)
             if "5" in initial_square:
                 if board_status[squares_list[square_index - 8]] == "Black_Pawn":
                     if previous_board_status[squares_list[square_index + 8]] == "Black_Pawn":
@@ -231,6 +232,7 @@ def move_pawn(color, initial_square, squares_list, board_status, previous_board_
                             break
                         else: break
             
+            square_index = squares_list.index(initial_square)
             if "4" in initial_square:
                 if board_status[squares_list[square_index + 8]] == "White_Pawn":
                     if previous_board_status[squares_list[square_index - 8]] == "White_Pawn":
@@ -240,7 +242,10 @@ def move_pawn(color, initial_square, squares_list, board_status, previous_board_
                                 possible_moves.append(new_square)
                                 en_passant = "left"
                             
-
+        print(f"first move: {first_move}")
+        print(f"square above status: {board_status[squares_list[square_index - 8]]}")
+        print(f"square above name: {squares_list[square_index - 8]}")
+        print(f"initial square: {initial_square}")
         if first_move == True and board_status[squares_list[square_index - 8]] == "empty":
             if board_status[squares_list[initial_square_index - 16]] == "empty":
                 potential_board_status[initial_square] = "empty"
@@ -651,7 +656,6 @@ def move_king(color, initial_square, squares_list, board_status, previous_board_
     moves_up = squares_to_edge(squares_list, initial_square, "up")
     while True:
         if moves_up != 0:
-            print("moves_up: ", moves_up)
             square_index += 8
             new_square = squares_list[square_index]
             if color in board_status[new_square]:
@@ -663,7 +667,6 @@ def move_king(color, initial_square, squares_list, board_status, previous_board_
                 potential_board_status = deepcopy(board_status)
                 if (move_causes_check == False):
                     possible_moves.append(new_square)
-                    print(0)
                     break
                 else: break
         else: break
@@ -684,7 +687,6 @@ def move_king(color, initial_square, squares_list, board_status, previous_board_
                 potential_board_status = deepcopy(board_status)
                 if (move_causes_check == False):
                     possible_moves.append(new_square)
-                    print(1)
                     break
                 else: break
         else: break
@@ -705,7 +707,6 @@ def move_king(color, initial_square, squares_list, board_status, previous_board_
                 potential_board_status = deepcopy(board_status)
                 if (move_causes_check == False):
                     possible_moves.append(new_square)
-                    print(2)
                     break
                 else: break
         else: break
@@ -726,7 +727,6 @@ def move_king(color, initial_square, squares_list, board_status, previous_board_
                 potential_board_status = deepcopy(board_status)
                 if (move_causes_check == False):
                     possible_moves.append(new_square)
-                    print(3)
                     break
                 else: break
         else: break
@@ -748,7 +748,6 @@ def move_king(color, initial_square, squares_list, board_status, previous_board_
                 potential_board_status = deepcopy(board_status)
                 if (move_causes_check == False):
                     possible_moves.append(new_square)
-                    print(4)
                     break
                 else: break
         else: break
@@ -769,7 +768,6 @@ def move_king(color, initial_square, squares_list, board_status, previous_board_
                 potential_board_status = deepcopy(board_status)
                 if (move_causes_check == False):
                     possible_moves.append(new_square)
-                    print(5)
                     break
                 else: break
         else: break
@@ -777,7 +775,6 @@ def move_king(color, initial_square, squares_list, board_status, previous_board_
 
     square_index = squares_list.index(initial_square)
     moves_down_right = squares_to_edge(squares_list, initial_square, "down", "right")
-    print(moves_down_right, "down_right")
     while True:
         if moves_down_right != 0:
             square_index -= 7
@@ -791,7 +788,6 @@ def move_king(color, initial_square, squares_list, board_status, previous_board_
                 potential_board_status = deepcopy(board_status)
                 if (move_causes_check == False):
                     possible_moves.append(new_square)
-                    print(6)
                     break
                 else: break
         else: break
@@ -812,7 +808,6 @@ def move_king(color, initial_square, squares_list, board_status, previous_board_
                 potential_board_status = deepcopy(board_status)
                 if (move_causes_check == False):
                     possible_moves.append(new_square)
-                    print(7)
                     break
                 else: break
         else: break

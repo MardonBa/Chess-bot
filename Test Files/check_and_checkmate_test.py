@@ -445,14 +445,12 @@ def move_king(color, initial_square, squares_list, board_status, king_has_moved,
     moves_up = squares_to_edge(squares_list, initial_square, "up")
     while True:
         if moves_up != 0:
-            print("moves_up: ", moves_up)
             square_index += 8
             new_square = squares_list[square_index]
             if color in board_status[new_square]:
                 break
             else:
                 possible_moves.append(new_square)
-                print(0)
                 break
         else: break
 
@@ -467,7 +465,6 @@ def move_king(color, initial_square, squares_list, board_status, king_has_moved,
                 break
             else:
                 possible_moves.append(new_square)
-                print(1)
                 break
         else: break
 
@@ -482,7 +479,6 @@ def move_king(color, initial_square, squares_list, board_status, king_has_moved,
                 break
             else:
                 possible_moves.append(new_square)
-                print(2)
                 break
         else: break
 
@@ -497,7 +493,6 @@ def move_king(color, initial_square, squares_list, board_status, king_has_moved,
                 break
             else:
                 possible_moves.append(new_square)
-                print(3)
                 break
         else: break
 
@@ -513,7 +508,6 @@ def move_king(color, initial_square, squares_list, board_status, king_has_moved,
                 break
             else:
                 possible_moves.append(new_square)
-                print(4)
                 break
         else: break
 
@@ -528,14 +522,12 @@ def move_king(color, initial_square, squares_list, board_status, king_has_moved,
                 break
             else:
                 possible_moves.append(new_square)
-                print(5)
                 break
         else: break
 
 
     square_index = squares_list.index(initial_square)
     moves_down_right = squares_to_edge(squares_list, initial_square, "down", "right")
-    print(moves_down_right, "down_right")
     while True:
         if moves_down_right != 0:
             square_index -= 7
@@ -544,7 +536,6 @@ def move_king(color, initial_square, squares_list, board_status, king_has_moved,
                 break
             else:
                 possible_moves.append(new_square)
-                print(6)
                 break
         else: break
 
@@ -559,7 +550,6 @@ def move_king(color, initial_square, squares_list, board_status, king_has_moved,
                 break
             else:
                 possible_moves.append(new_square)
-                print(7)
                 break
         else: break
 
@@ -755,7 +745,6 @@ def look_for_check (board_status, color_to_move, squares_list, previous_board_st
     king = 'White_King' if color_to_move == 'White' else 'Black_King'
 
     king_square = get_key(king, board_status)
-    print(f"King square is {king_square}")
 
     def find_pieces_opposite_color(piece, board_status):
         squares = []
@@ -767,39 +756,30 @@ def look_for_check (board_status, color_to_move, squares_list, previous_board_st
     ## Code to find possible moves for each piece of the opposite color. If the king_square is in the returned list for any piece, return true, ending the function
     ## Start with pieces with higher probabilities of giving checks first
     queen_squares = find_pieces_opposite_color(f"{opposite_color}_Queen", board_status)
-    print(f"Queen Squares: {queen_squares}")
     for square in queen_squares:        ## In case there are queens added to the board via promotion
         queen_moves = move_queen(opposite_color, square, squares_list, board_status)
-        print(f"Queen moves: {queen_moves}")
         for move in queen_moves:
-            print(f"Move being checked: {move}")
             if king_square == move:
                 return True
         
     rook_squares = find_pieces_opposite_color(f"{opposite_color}_Rook", board_status)
     for square in rook_squares:
         rook_moves = move_rook(opposite_color, square, squares_list, board_status)
-        print(f"Rook moves: {rook_moves}")
         for move in rook_moves:
-            print(f"Move being checked: {move}")
             if king_square == move:
                 return True
             
     bishop_squares = find_pieces_opposite_color(f"{opposite_color}_Bishop", board_status)
     for square in bishop_squares:
         bishop_moves = move_bishop(opposite_color, square, squares_list, board_status)
-        print(f"Bishop moves: {bishop_moves}")
         for move in bishop_moves:
-            print(f"Move being checked: {move}")
             if king_square == move:
                 return True
             
     knight_squares = find_pieces_opposite_color(f"{opposite_color}_Knight", board_status)
     for square in knight_squares:
         knight_moves = move_knight(opposite_color, square, squares_list, board_status)
-        print(f"Knight moves: {knight_moves}")
         for move in knight_moves:
-            print(f"Move being checked: {move}")
             if king_square == move:
                 return True
             
@@ -810,18 +790,14 @@ def look_for_check (board_status, color_to_move, squares_list, previous_board_st
         elif opposite_color == 'White':
             is_first_move = True if '2' in square else False
         pawn_moves, en_passant = move_pawn(opposite_color, square, squares_list, board_status, previous_board_status, king_has_moved, h_file_rook_has_moved, a_file_rook_has_moved,first_move=is_first_move)
-        print(f"Pawn moves: {pawn_moves}")
         for move in pawn_moves:
-            print(f"Move being checked: {move}")
             if king_square == move:
                 return True
             
     king_squares = find_pieces_opposite_color(f"{opposite_color}_King", board_status)
     for square in king_squares:
         king_moves = move_king(opposite_color, square, squares_list, board_status, king_has_moved, h_file_rook_has_moved, a_file_rook_has_moved)
-        print(f"King moves: {king_moves}")
         for move in king_moves:
-            print(f"Move being checked: {move}")
             if king_square == move:
                 return True
             
