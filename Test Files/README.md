@@ -1,1 +1,0 @@
-This folder is for testing ideas to be used in the main project
