@@ -11,6 +11,7 @@ from copy import deepcopy
 board = bd_pc.GameState()
 board_squares = board.create_board()
 board_status = board.piece_position(board=board_squares, pieces=board.square_status)
+print(board_status)
 screen_width = 1400
 screen_height = 800
 board_width = 73

@@ -59,7 +59,7 @@ def squares_to_edge(squares_list, initial_square, direction, diagonal=None):    
 
     
 
-def move_pawn(color, initial_square, squares_list, board_status, previous_board_status,  king_has_moved, h_file_rook_has_moved, a_file_rook_has_moved, first_move=True):
+def move_pawn(color, initial_square, squares_list, board_status, previous_board_status, king_has_moved, h_file_rook_has_moved, a_file_rook_has_moved, first_move=True):
     initial_square_index = squares_list.index(initial_square)
     possible_moves = []
     en_passant = None
